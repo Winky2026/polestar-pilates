@@ -1,8 +1,8 @@
 {
-  "version": "1.0.13",
-  "tag": "v1.0.13",
-  "asset": "Polestar-Pilates-1.0.13.dmg",
-  "sha256": "67e4cb0d89ca7be9998b99692c405aa4540c78d996c804d3b8133490f6060cfc",
+  "version": "1.0.14",
+  "tag": "v1.0.14",
+  "asset": "Polestar-Pilates-1.0.14.dmg",
+  "sha256": "fc2671aaf30000f7b84752318693209f359dcb22c67f49dd984d2d34ff311ef5",
   "minimumMacOS": "12.0",
   "architecture": [
     "arm64",
