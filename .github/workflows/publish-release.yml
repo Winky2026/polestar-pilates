@@ -1,0 +1,29 @@
+name: Publish macOS installer
+on:
+  push:
+    branches: [main]
+    paths: [version.json, release-notes.md, 'packages/**', '.github/workflows/publish-release.yml']
+  workflow_dispatch:
+permissions:
+  contents: write
+concurrency:
+  group: publish-macos-installer
+  cancel-in-progress: false
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out installer files
+        uses: actions/checkout@v4
+      - name: Verify installer and publish GitHub Release
+        env:
+          GH_TOKEN: ${{ github.token }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          version=$(python3 -c 'import json; print(json.load(open("version.json"))["tag"])')
+          asset=$(python3 -c 'import json; print(json.load(open("version.json"))["asset"])')
+          cd packages
+          sha256sum --check "$asset.sha256"
+          cd ..
+          gh release create "$version" "packages/$asset" "packages/$asset.sha256" --repo "$GITHUB_REPOSITORY" --target "$GITHUB_SHA" --title "普拉提动作库 $version" --notes-file release-notes.md --latest
