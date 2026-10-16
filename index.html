@@ -471,7 +471,8 @@ window.addEventListener('pagehide',()=>{if(!window.polestarCloud?.active&&diskEn
 // 浏览器缓存即时保存；电脑文件异步写入，页面显示确认后的保存结果。
 </script><script>// Supabase Auth + RLS. Only the public publishable key may be embedded in the app.
 (()=>{
- const config={"url": "https://ooolucqmsuxyycjcbjss.supabase.co", "publicKey": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im9vb2x1Y3Ftc3V4eXljamNianNzIiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTIxMzU5NzAsImV4cCI6MjEwNzcxMTk3MH0.qAsz2fEnip7putKRMlL_Fa23QEDim04eXF8gpDpZY88"};
+ const config={"url": "https://ooolucqmsuxyycjcbjss.supabase.co", "publicKey": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im9vb2x1Y3Ftc3V4eXljamNianNzIiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTIxMzU5NzAsImV4cCI6MjEwNzcxMTk3MH0.qAsz2fEnip7putKRMlL_Fa23QEDim04eXF8gpDpZY88", "gatewayURL": "https://cloud1-d0gjfditsc94a6299.service.tcloudbase.com/polestar-api"};
+ const apiBase=config.gatewayURL||config.url,requestTimeout=config.gatewayURL?30000:20000;
  const el=id=>document.getElementById(id);
  const panel=document.createElement('dialog');panel.id='cloudDialog';
  panel.innerHTML=`<div class="dialog-top"><h2>账号与云端存档</h2><button id="cloudClose" aria-label="关闭">×</button></div>
@@ -489,13 +490,13 @@ window.addEventListener('pagehide',()=>{if(!window.polestarCloud?.active&&diskEn
  const empty=()=>({schema:SCHEMA,generation:'base',study:{attempts:0,correct:0},records:{},current:CARDS[0].id,updatedAt:''});
  const status=(text,error=false)=>{el('cloudStatus').textContent=text;el('cloudStatus').classList.toggle('error',error);};
  const savedStatus=text=>{el('saveState').textContent=text;el('saveState').classList.toggle('error',/失败|尚未同步|冲突/.test(text));button.textContent=user?'☁ '+user.email:hostedMode?'登录':'登录／云端存档';};
- const configured=()=>/^https:\/\/[a-z0-9-]+\.supabase\.co$/.test(config.url)&&!!config.publicKey;
+ const configured=()=>/^https:\/\/[a-z0-9-]+\.supabase\.co$/.test(config.url)&&!!config.publicKey&&(!config.gatewayURL||/^https:\/\/[a-z0-9.-]+\/polestar-api$/.test(config.gatewayURL));
  async function request(path,options={},authenticate=true){
   if(!configured())throw Error('云端尚未配置，完成免费平台账号连接后启用。');
   if(authenticate&&session&&session.expires_at<Date.now()/1000+60)await refresh();
   let response;
-  try{response=await fetch(config.url+path,{...options,headers:{apikey:config.publicKey,'Content-Type':'application/json',...(authenticate&&session?{Authorization:'Bearer '+session.access_token}:{}),...options.headers},signal:AbortSignal.timeout(20000)});}
-  catch(error){throw Error(error.name==='TimeoutError'||error.name==='AbortError'?'连接海外云端超时，请检查网络后重试。':'无法连接海外云端服务，当前网络可能无法直连。请稍后重试或更换网络。');}
+  try{response=await fetch(apiBase+path,{...options,headers:{...(config.gatewayURL?{}:{apikey:config.publicKey}),'Content-Type':'application/json',...(authenticate&&session?{Authorization:'Bearer '+session.access_token}:{}),...options.headers},signal:AbortSignal.timeout(requestTimeout)});}
+  catch(error){const target=config.gatewayURL?'国内云端入口':'海外云端服务';throw Error(error.name==='TimeoutError'||error.name==='AbortError'?'连接'+target+'超时，请检查网络后重试。':'无法连接'+target+'，当前网络可能无法直连。请稍后重试或更换网络。');}
   const text=await response.text();let data;try{data=text?JSON.parse(text):null;}catch{throw Error('云端响应无法读取');}
   if(!response.ok)throw Error(data?.error_description||data?.msg||data?.message||data?.error||'云端请求失败');return data;
  }
@@ -515,13 +516,13 @@ window.addEventListener('pagehide',()=>{if(!window.polestarCloud?.active&&diskEn
  }
  async function prepareExit(){
   if(!controller.active)return JSON.stringify(state);
-  try{const deadline=Date.now()+22000;while(busy&&Date.now()<deadline)await new Promise(resolve=>setTimeout(resolve,50));if(busy)throw Error('云端仍在保存，请稍后重试退出。');if(conflict)throw Error('请先选择同步冲突的版本。');await sync();if(dirty)throw Error('还有记录未同步，请保持应用打开。');return JSON.stringify(original||empty());}catch(e){report(e);throw e;}
+  try{const deadline=Date.now()+requestTimeout+2000;while(busy&&Date.now()<deadline)await new Promise(resolve=>setTimeout(resolve,50));if(busy)throw Error('云端仍在保存，请稍后重试退出。');if(conflict)throw Error('请先选择同步冲突的版本。');await sync();if(dirty)throw Error('还有记录未同步，请保持应用打开。');return JSON.stringify(original||empty());}catch(e){report(e);throw e;}
  }
  // Manual archives are immutable snapshots, separate from the rolling synced progress.
  async function withArchiveOperation(action){
   if(!controller.active)throw Error('请先登录账号。');
   if(conflict)throw Error('请先在账号面板选择同步冲突的版本。');
-  const deadline=Date.now()+22000;
+  const deadline=Date.now()+requestTimeout+2000;
   while(busy&&Date.now()<deadline)await new Promise(resolve=>setTimeout(resolve,50));
   if(busy)throw Error('云端仍在同步，请稍后重试。');
   if(!controller.active)throw Error('账号已退出，请重新登录。');
