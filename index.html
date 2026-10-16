@@ -493,7 +493,9 @@ window.addEventListener('pagehide',()=>{if(!window.polestarCloud?.active&&diskEn
  async function request(path,options={},authenticate=true){
   if(!configured())throw Error('云端尚未配置，完成免费平台账号连接后启用。');
   if(authenticate&&session&&session.expires_at<Date.now()/1000+60)await refresh();
-  const response=await fetch(config.url+path,{...options,headers:{apikey:config.publicKey,'Content-Type':'application/json',...(authenticate&&session?{Authorization:'Bearer '+session.access_token}:{}),...options.headers},signal:AbortSignal.timeout(20000)});
+  let response;
+  try{response=await fetch(config.url+path,{...options,headers:{apikey:config.publicKey,'Content-Type':'application/json',...(authenticate&&session?{Authorization:'Bearer '+session.access_token}:{}),...options.headers},signal:AbortSignal.timeout(20000)});}
+  catch(error){throw Error(error.name==='TimeoutError'||error.name==='AbortError'?'连接海外云端超时，请检查网络后重试。':'无法连接海外云端服务，当前网络可能无法直连。请稍后重试或更换网络。');}
   const text=await response.text();let data;try{data=text?JSON.parse(text):null;}catch{throw Error('云端响应无法读取');}
   if(!response.ok)throw Error(data?.error_description||data?.msg||data?.message||data?.error||'云端请求失败');return data;
  }
