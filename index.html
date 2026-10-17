@@ -553,6 +553,11 @@ window.addEventListener('pagehide',()=>{if(!window.polestarCloud?.active&&diskEn
  document.body.append(panel);
  const style=document.createElement('style');style.textContent='#cloudDialog{width:min(640px,calc(100% - 24px));max-height:90vh}#cloudDialog input{display:block;width:100%;margin:5px 0 12px;padding:10px;border:1px solid #ddd;border-radius:8px}#cloudDialog label{display:block}#cloudStatus{padding:10px 0;overflow-wrap:anywhere}#cloudStatus.error{color:#b22c23}#cloudAdmin{margin-top:24px;border-top:1px solid #ddd}#cloudUsers>div{padding:12px 0;border-bottom:1px solid #eee;display:flex;gap:8px;align-items:center;flex-wrap:wrap}#cloudUsers span{flex:1;overflow-wrap:anywhere}';document.head.append(style);
  const button=document.createElement('button');button.id='cloudOpen';button.textContent=hostedMode?'登录':'登录／云端存档';el('helpOpen').before(button);
+ const authKey=KEY+'-auth-'+new URL(config.url).hostname;
+ let authBusy=false;
+ function rememberSession(){if(!hostedMode||!session)return;try{localStorage.setItem(authKey,JSON.stringify({access_token:session.access_token,refresh_token:session.refresh_token,expires_at:session.expires_at}));}catch{status('此浏览器未能保存登录状态，下次可能需要重新登录。',true);}}
+ function forgetSession(){if(hostedMode)try{localStorage.removeItem(authKey);}catch{}}
+ function rememberedSession(){if(!hostedMode)return null;try{const value=JSON.parse(localStorage.getItem(authKey)||'null');if(!value)return null;if(typeof value.access_token!=='string'||typeof value.refresh_token!=='string'||!value.refresh_token||!Number.isFinite(value.expires_at)){forgetSession();return null;}return value;}catch{forgetSession();return null;}}
  let migrated=false;
  let user=null,session=null,revision=0,timer,busy=false,dirty=false,conflict=false,original=null,oldDiskEnabled=false,resetId=null,refreshPromise=null;
  const controller={active:false,storageKey:null,schedule,prepareExit,archive,listArchives,restoreArchive};window.polestarCloud=controller;
@@ -567,9 +572,9 @@ window.addEventListener('pagehide',()=>{if(!window.polestarCloud?.active&&diskEn
   try{response=await fetch(apiBase+path,{...options,headers:{...(config.gatewayURL?{}:{apikey:config.publicKey}),'Content-Type':'application/json',...(authenticate&&session?{Authorization:'Bearer '+session.access_token}:{}),...options.headers},signal:AbortSignal.timeout(requestTimeout)});}
   catch(error){const target=config.gatewayURL?'国内云端入口':'海外云端服务';throw Error(error.name==='TimeoutError'||error.name==='AbortError'?'连接'+target+'超时，请检查网络后重试。':'无法连接'+target+'，当前网络可能无法直连。请稍后重试或更换网络。');}
   const text=await response.text();let data;try{data=text?JSON.parse(text):null;}catch{throw Error('云端响应无法读取');}
-  if(!response.ok)throw Error(data?.error_description||data?.msg||data?.message||data?.error||'云端请求失败');return data;
+  if(!response.ok){const error=Error(data?.error_description||data?.msg||data?.message||data?.error||'云端请求失败');error.httpStatus=response.status;throw error;}return data;
  }
- async function refresh(){if(refreshPromise)return refreshPromise;refreshPromise=(async()=>{const next=await request('/auth/v1/token?grant_type=refresh_token',{method:'POST',body:JSON.stringify({refresh_token:session.refresh_token})},false);session={...next,expires_at:Date.now()/1000+next.expires_in};})();try{await refreshPromise;}finally{refreshPromise=null;}}
+ async function refresh(){if(refreshPromise)return refreshPromise;refreshPromise=(async()=>{const next=await request('/auth/v1/token?grant_type=refresh_token',{method:'POST',body:JSON.stringify({refresh_token:session.refresh_token})},false);session={...next,expires_at:Date.now()/1000+next.expires_in};rememberSession();})();try{await refreshPromise;}finally{refreshPromise=null;}}
  const read=async()=>{const rows=await request('/rest/v1/learning_progress?select=payload,revision&user_id=eq.'+user.id);return rows[0]||null;};
  function cache(){try{localStorage.setItem(controller.storageKey,JSON.stringify({payload:state,revision,pending:dirty}));return true;}catch{status('此设备缓存失败，请立即同步或导出 JSON 备份。',true);return false;}}
  function redraw(){applyHostedAccess();refreshProgress();renderCard();practiceQuestion=null;renderPracticeStats();tab('play');}
@@ -635,33 +640,51 @@ window.addEventListener('pagehide',()=>{if(!window.polestarCloud?.active&&diskEn
  }
  button.onclick=()=>{el('cloudDialog').showModal();if(!configured())status('云端尚未上线。已准备好账号与存档功能，等待连接你自己的免费项目。');};
  el('cloudClose').onclick=()=>panel.close();
- el('cloudLogin').onsubmit=async event=>{
-  event.preventDefault();const submit=event.submitter||event.currentTarget.querySelector('button');submit.disabled=true;status('正在登录…');
-  try{
-   if(diskSaving||diskConnecting||checkpointBusy)throw Error('本机正在读写进度，请稍后再登录。');
-   const result=await request('/auth/v1/token?grant_type=password',{method:'POST',body:JSON.stringify({email:el('cloudEmail').value.trim(),password:el('cloudPassword').value})},false);
-   session={...result,expires_at:Date.now()/1000+result.expires_in};user=result.user;
-   const flags=await request('/rest/v1/account_access?select=enabled,is_admin&user_id=eq.'+user.id);if(!flags[0]?.enabled)throw Error('账号尚未启用，请联系分配账号的人。');
+ async function activateSession(result){
+   session={...result,expires_at:result.expires_at||Date.now()/1000+result.expires_in};user=result.user;
+   const flags=await request('/rest/v1/account_access?select=enabled,is_admin&user_id=eq.'+user.id);if(!flags[0]?.enabled){const error=Error('账号尚未启用，请联系分配账号的人。');error.httpStatus=403;throw error;}
    const remote=await read();const next=remote?validateState(remote.payload):empty();
    if(diskSaving||diskConnecting||checkpointBusy)throw Error('本机正在读写进度，请稍后重新登录。');
    original=JSON.parse(JSON.stringify(state));oldDiskEnabled=diskEnabled;diskEnabled=false;diskPending=false;
    controller.storageKey=KEY+'-cloud-'+user.id;controller.active=true;revision=remote?.revision||0;state=next;dirty=false;conflict=false;
    try{const cached=JSON.parse(localStorage.getItem(controller.storageKey)||'null');if(cached?.pending){state=validateState(cached.payload);dirty=true;if(cached.revision!==revision)setConflict();}}catch{status('此账号的设备缓存无法读取，已使用云端记录。',true);}
-   el('cloudLogin').hidden=true;el('cloudAccount').hidden=false;el('cloudAdmin').hidden=!flags[0].is_admin;el('cloudIdentity').textContent=user.email;el('cloudPassword').value='';redraw();cache();savedStatus(dirty?'☁ 此设备有待同步记录':'☁ 已连接 '+user.email);if(!conflict)status('已登录；学习记录按账号独立保存。');if(dirty&&!conflict)await sync();if(flags[0].is_admin)await listUsers();
-  }catch(e){if(!controller.active){session=null;user=null;}report(e);}finally{submit.disabled=false;}
+   el('cloudLogin').hidden=true;el('cloudAccount').hidden=false;el('cloudAdmin').hidden=!flags[0].is_admin;el('cloudIdentity').textContent=user.email;el('cloudPassword').value='';redraw();cache();rememberSession();savedStatus(dirty?'☁ 此设备有待同步记录':'☁ 已连接 '+user.email);if(!conflict)status('已登录；学习记录按账号独立保存。');if(dirty&&!conflict)await sync();if(flags[0].is_admin)listUsers().catch(report);
+ }
+ async function restoreSession(){
+  if(authBusy||controller.active)return;
+  const saved=rememberedSession();if(!saved)return;
+  authBusy=true;controller.restoring=true;el('cloudLogin').querySelector('button').disabled=true;status('正在恢复登录…');
+  try{
+   if(diskSaving||diskConnecting||checkpointBusy)throw Error('正在读取本机进度，请稍后重试。');
+   session=saved;
+   const verified=await request('/auth/v1/user');
+   if(!verified||typeof verified.id!=='string'){const error=Error('登录状态已失效，请重新登录。');error.httpStatus=401;throw error;}
+   await activateSession({...session,user:verified});
+  }catch(e){
+   if(!controller.active){session=null;user=null;if([400,401,403].includes(e.httpStatus)){forgetSession();status('登录状态已失效或账号不可用，请重新登录。',true);}else status('暂时无法恢复登录，联网后会重试。',true);}else report(e);
+  }finally{authBusy=false;controller.restoring=false;el('cloudLogin').querySelector('button').disabled=false;}
+ }
+ el('cloudLogin').onsubmit=async event=>{
+  event.preventDefault();if(authBusy||controller.active)return;authBusy=true;const submit=event.submitter||event.currentTarget.querySelector('button');submit.disabled=true;status('正在登录…');
+  try{
+   if(diskSaving||diskConnecting||checkpointBusy)throw Error('本机正在读写进度，请稍后再登录。');
+   const result=await request('/auth/v1/token?grant_type=password',{method:'POST',body:JSON.stringify({email:el('cloudEmail').value.trim(),password:el('cloudPassword').value})},false);
+   await activateSession(result);
+  }catch(e){if(!controller.active){session=null;user=null;}report(e);}finally{authBusy=false;submit.disabled=false;}
  };
  el('cloudSync').onclick=async()=>{try{if(dirty){await sync();return;}if(busy)return;busy=true;try{const stamp=state.updatedAt;const remote=await read();if(dirty||stamp!==state.updatedAt){setConflict();return;}if(remote){state=validateState(remote.payload);revision=remote.revision;cache();redraw();}status('已读取云端最新记录。');savedStatus('☁ 已同步到 '+user.email);}finally{busy=false;}}catch(e){report(e);}};
  el('cloudUseRemote').onclick=async()=>{try{if(busy)return;const remote=await read();localStorage.setItem(controller.storageKey+'-冲突备份',JSON.stringify(state));state=remote?validateState(remote.payload):empty();revision=remote?.revision||0;dirty=false;conflict=false;el('cloudConflict').hidden=true;cache();redraw();status('已使用云端记录，此设备旧记录保留为冲突备份。');}catch(e){report(e);}};
  el('cloudUseLocal').onclick=async()=>{try{if(busy)return;const remote=await read();revision=remote?.revision||0;conflict=false;el('cloudConflict').hidden=true;dirty=true;cache();await sync();}catch(e){report(e);}};
  el('cloudMigrate').onclick=async()=>{if(!original||migrated)return;if(!confirm('把登录前本机记录导入当前账号？同名动作以本机为准，练习统计保留作答次数较多的一份。'))return;const stamp=editStamp();state.records={...state.records,...Object.fromEntries(Object.entries(original.records).map(([id,r])=>[id,{...r,updatedAt:stamp}]))};if(original.study.attempts>state.study.attempts)state.study=studyCore.normalizeStudy(original.study);migrated=true;el('cloudMigrate').disabled=true;persist();redraw();try{await sync();}catch(e){report(e);}};
- el('cloudLogout').onclick=async()=>{try{if(busy)throw Error('正在同步，请稍后退出。');if(conflict)throw Error('请先选择冲突版本再退出。');await sync();if(dirty)throw Error('仍有记录待同步，请先保存或导出备份。');await request('/auth/v1/logout',{method:'POST'});clearTimeout(timer);controller.active=false;controller.storageKey=null;user=null;session=null;revision=0;state=original||empty();original=null;migrated=false;el('cloudMigrate').disabled=false;diskEnabled=oldDiskEnabled;diskPending=false;el('cloudAccount').hidden=true;el('cloudAdmin').hidden=true;el('cloudLogin').hidden=false;el('cloudUsers').replaceChildren();redraw();savedStatus('已退出云端，恢复本机记录');status('已退出。');}catch(e){report(e);}};
+ el('cloudLogout').onclick=async()=>{try{if(busy)throw Error('正在同步，请稍后退出。');if(conflict)throw Error('请先选择冲突版本再退出。');await sync();if(dirty)throw Error('仍有记录待同步，请先保存或导出备份。');await request('/auth/v1/logout',{method:'POST'});forgetSession();clearTimeout(timer);controller.active=false;controller.storageKey=null;user=null;session=null;revision=0;state=original||empty();original=null;migrated=false;el('cloudMigrate').disabled=false;diskEnabled=oldDiskEnabled;diskPending=false;el('cloudAccount').hidden=true;el('cloudAdmin').hidden=true;el('cloudLogin').hidden=false;el('cloudUsers').replaceChildren();redraw();savedStatus('已退出云端，恢复本机记录');status('已退出。');}catch(e){report(e);}};
  el('cloudChangePassword').onsubmit=async event=>{event.preventDefault();try{await request('/auth/v1/user',{method:'PUT',body:JSON.stringify({password:el('cloudNewPassword').value})});el('cloudNewPassword').value='';status('密码已修改。');}catch(e){report(e);}};
  async function manage(body){return request('/functions/v1/manage-accounts',{method:'POST',body:JSON.stringify(body)});}
  async function listUsers(){const {users}=await manage({action:'list'});el('cloudUsers').replaceChildren();for(const u of users){const row=document.createElement('div');const label=document.createElement('span');label.textContent=u.email+(u.is_admin?' · 管理员':u.enabled?' · 已启用':' · 已停用');row.append(label);if(u.id!==user.id){const toggle=document.createElement('button');toggle.textContent=u.enabled?'停用':'启用';toggle.onclick=async()=>{try{await manage({action:'set-enabled',id:u.id,enabled:!u.enabled});await listUsers();}catch(e){report(e);}};row.append(toggle);const reset=document.createElement('button');reset.textContent='重置密码';reset.onclick=()=>{resetId=u.id;el('cloudResetLabel').textContent='重置 '+u.email+' 的密码';el('cloudReset').hidden=false;el('cloudResetPassword').focus();};row.append(reset);}el('cloudUsers').append(row);}}
  el('cloudRefreshUsers').onclick=()=>listUsers().catch(report);
  el('cloudCreate').onsubmit=async event=>{event.preventDefault();const submit=event.submitter||event.currentTarget.querySelector('button');submit.disabled=true;try{await manage({action:'create',email:el('cloudCreateEmail').value.trim(),password:el('cloudCreatePassword').value});el('cloudCreatePassword').value='';el('cloudCreateEmail').value='';status('账号已创建，可以把账号和初始密码交给使用者。');await listUsers();}catch(e){report(e);}finally{submit.disabled=false;}};
  el('cloudReset').onsubmit=async event=>{event.preventDefault();try{await manage({action:'reset-password',id:resetId,password:el('cloudResetPassword').value});el('cloudResetPassword').value='';el('cloudReset').hidden=true;status('密码已重置。');}catch(e){report(e);}};
- window.addEventListener('online',()=>{if(user&&dirty)sync().catch(report);});
+ window.addEventListener('online',()=>{if(user&&dirty)sync().catch(report);else if(!controller.active)restoreSession();});
+ if(hostedMode&&rememberedSession()){controller.restoring=true;setTimeout(restoreSession,0);}
  window.addEventListener('beforeunload',event=>{if(user&&(dirty||busy)){event.preventDefault();event.returnValue='';}});
 })();
 </script><script src="./web-app.js" defer></script></body></html>
