@@ -883,7 +883,15 @@ function processHighlights(text){
  const ranges=[];for(let i=0;i<colors.length;){if(!colors[i]){i++;continue;}const start=i,color=colors[i];while(i<colors.length&&colors[i]===color)i++;ranges.push([start,i,color===2?'breath':'position']);}
  return ranges;
 }
-return {normalize,hasAnswer,grade,gradeExam,filter,validSaved,processHighlights};
+
+// Visual break positions; leave every source character and existing newline intact.
+function stepBreaks(text){
+ if(typeof text!=='string'||!text)return [];
+ const number='(?:[1-9]|1[0-9]|20|[一二三四五六七八九十]{1,3})';
+ const marker=new RegExp('[①-⑳]|[（(]'+number+'[）)]|'+number+'[、.．）)](?![0-9])','g');
+ return [...text.matchAll(marker)].map(m=>m.index).filter(index=>index>0&&!/(?:^|\n)[\t ]*$/.test(text.slice(0,index))&&!(/[0-9]/.test(text[index])&&(/[0-9]/.test(text[index-1])||(/[.．]/.test(text[index-1])&&/[0-9]/.test(text[index-2]||'')))));
+}
+return {normalize,hasAnswer,grade,gradeExam,filter,validSaved,processHighlights,stepBreaks};
 });
 
 (function(root,factory){if(typeof module==='object'&&module.exports)module.exports=factory();else root.PolestarNotesNarration=factory();})(typeof globalThis!=='undefined'?globalThis:this,function(){
@@ -991,8 +999,10 @@ function highlightNotes(node,text,field,entry){
  const displayRanges=field==='process'?core.processHighlights(text):merged;
  let cursor=0;for(const [start,end,kind] of displayRanges){const mark=make('mark',text.slice(start,end),'notes-highlight');if(kind)mark.dataset.kind=kind;node.append(document.createTextNode(text.slice(cursor,start)),mark);cursor=end;}node.append(document.createTextNode(text.slice(cursor)));
  // Use visual breaks so source wording, evidence quotes and copying stay unchanged.
+ const breaks=field==='process'?core.stepBreaks(text):[...text.matchAll(/[①-⑳]/gu)].map(m=>m.index).filter(i=>i>0&&!["\n", "\r"].includes(text[i-1]));
  const walker=document.createTreeWalker(node,NodeFilter.SHOW_TEXT),nodes=[];while(walker.nextNode())nodes.push(walker.currentNode);let offset=0;
- for(const original of nodes){const value=original.textContent,fragment=document.createDocumentFragment();let start=0;for(const match of value.matchAll(/[①-⑳]/gu)){fragment.append(document.createTextNode(value.slice(start,match.index)));if(offset+match.index>0&&!/[\n\r]/.test(text[offset+match.index-1]))fragment.append(document.createElement('br'));start=match.index;}fragment.append(document.createTextNode(value.slice(start)));original.replaceWith(fragment);offset+=value.length;}
+ for(const original of nodes){const value=original.textContent,fragment=document.createDocumentFragment();let start=0;for(const absolute of breaks){const at=absolute-offset;if(at<0||at>=value.length)continue;fragment.append(document.createTextNode(value.slice(start,at)),document.createElement('br'));start=at;}fragment.append(document.createTextNode(value.slice(start)));original.replaceWith(fragment);offset+=value.length;}
+
 }
 function renderCategory(entry,block){
  const categories=entry.suggestedCategories||[];const suggestion=make('div',undefined,'notes-category');suggestion.append(make('strong','建议分类'));
