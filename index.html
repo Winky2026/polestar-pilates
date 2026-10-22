@@ -872,18 +872,14 @@ function validSaved(source,entries){
  return result;
 }
 
-// Literal ranges only: positions/actions in yellow, breathing in blue.
+// Highlight key verbs/states rather than whole sentences; breathing stays separate.
 function processHighlights(text){
  if(typeof text!=='string'||!text)return [];
  const colors=new Uint8Array(text.length);
- const body=/中立位|仰卧|俯卧|侧卧|跪姿|坐姿|站姿|长坐|桌面|骨盆|髂前上棘|骶骨|坐骨|脊柱|颈椎|胸椎|腰椎|肋骨|胸廓|锁骨|肩胛|肩膀|肩带|腹部|小腹|躯干|上半身|下半身|头顶|下巴|后脑|头颈|颈部|后背|背部|腰部|腰线|髋|膝|脚|足|腿|双手|双臂|手臂|手掌|手肘|肘部|肘|手指|眼睛|目光|余光/;
- const action=/中立|仰卧|俯卧|侧卧|跪|坐|站|桌面|保持|稳定|不变|避免|不要|不动|不耸|不超伸|并拢|打开|弯|屈|伸|直|收|放|贴|抬|沉|撑|推|拉|转|卷|倾|对齐|平行|垂直|水平|同宽|距离|一拳|一颗|一指|夹|移|压|抵|踩|看|带|朝|向|在|离|靠|越过|绕过|长|宽|高|低|前|后|左|右|上|下|内|外/;
- for(const match of text.matchAll(/[^，,；;。！？\n①-⑳]+/g)){
-  const clause=match[0],prefix=clause.match(/^\s*(?:\d+[、.．）)]\s*)?/)?.[0].length||0;
-  if(body.test(clause)&&action.test(clause))for(let i=match.index+prefix;i<match.index+clause.trimEnd().length;i++)colors[i]=1;
- }
- const breathing=/(?:吸气|吐气|呼气)(?:(?:吸到|到|进入|向)(?:左侧|右侧|两侧|双侧|左|右|前侧|后侧)?(?:肋骨|胸廓|背后|后背|背部|胸腔|肺部|肺))?|呼吸|屏息|憋气/g;
- for(const match of text.matchAll(breathing))for(let i=match.index;i<match.index+match[0].length;i++)colors[i]=2;
+ const words=['中立位','不变','不动','稳定','垂直','平行','水平','等长','缓慢','匀速','均匀','轻轻','轻微','缓缓','平稳','协调','卷起','卷下','卷回','卷高','卷动','点头','内收','外展','后倾','前倾','收拢','并拢','打开','伸直','屈曲','伸展','延伸','拉长','拉伸','旋转','侧屈','后伸','前屈','抬起','抬高','抬离','抬升','落下','落回','下沉','上提','下压','推开','拉回','靠拢','撑起','放松','收紧','内旋','外旋','对齐','贴住','贴垫','收住','伸长','固定','分节','展开','控制','弯曲','微屈','微弯','屈膝','伸膝','屈髋','伸髋','屈肘','伸肘','屈腕','背屈','跖屈','耸肩','超伸','离开'];
+ const cues=new RegExp('(?:不要|避免|不可|不能|不应|切勿|不|勿)?(?:'+words.sort((a,b)=>b.length-a.length).join('|')+')|不要|避免|不可|不能|不应|切勿','g');
+ for(const match of text.matchAll(cues))for(let i=match.index;i<match.index+match[0].length;i++)colors[i]=1;
+ for(const match of text.matchAll(/吸气|吐气|呼气|呼吸|屏息|憋气/g))for(let i=match.index;i<match.index+match[0].length;i++)colors[i]=2;
  const ranges=[];for(let i=0;i<colors.length;){if(!colors[i]){i++;continue;}const start=i,color=colors[i];while(i<colors.length&&colors[i]===color)i++;ranges.push([start,i,color===2?'breath':'position']);}
  return ranges;
 }
@@ -1004,7 +1000,7 @@ function renderCategory(entry,block){
  const level=make('div',undefined,'notes-level-suggestion');level.append(make('strong','建议等级'),make('p',entry.suggestedLevel||'待核对'));level.append(make('p','书本等级：'+(entry.levelSourceLabel||entry.level),'notes-book-level'));suggestion.append(level);
  block.append(suggestion);
 }
-function renderNotes(entry,article){const grid=make('div',undefined,'notes-info');for(const [key,title] of fields){const block=make('section',undefined,'notes-block');block.dataset.field=key;const heading=make('h4',title);if(key==='process'){const key=make('span',undefined,'notes-process-key');key.append(make('span','身体位置·动作','notes-key-position'),make('span','呼吸','notes-key-breath'));heading.append(key);}block.append(heading);if(key==='pattern')renderCategory(entry,block);const paragraph=make('p',undefined,entry.sections[key]?'':'missing');highlightNotes(paragraph,entry.studySections[key]||'未记录',key,entry);block.append(paragraph);grid.append(block);}article.append(grid);renderSource(entry,article);}
+function renderNotes(entry,article){const grid=make('div',undefined,'notes-info');for(const [key,title] of fields){const block=make('section',undefined,'notes-block');block.dataset.field=key;const heading=make('h4',title);if(key==='process'){const key=make('span',undefined,'notes-process-key');key.append(make('span','动作·状态','notes-key-position'),make('span','呼吸','notes-key-breath'));heading.append(key);}block.append(heading);if(key==='pattern')renderCategory(entry,block);const paragraph=make('p',undefined,entry.sections[key]?'':'missing');highlightNotes(paragraph,entry.studySections[key]||'未记录',key,entry);block.append(paragraph);grid.append(block);}article.append(grid);renderSource(entry,article);}
 function renderSource(entry,article){
  const source=make('section',undefined,'notes-source');
  for(const pageNumber of entry.pages){const page=data.pages[entry.book+'-'+pageNumber];if(!page)continue;
