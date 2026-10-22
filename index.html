@@ -811,6 +811,9 @@ function highlightNotes(node,text,field,entry){
  const ranges=[];for(const term of terms){let at=0;while((at=text.indexOf(term,at))!==-1){ranges.push([at,at+term.length]);at+=term.length;}}
  ranges.sort((a,b)=>a[0]-b[0]||b[1]-a[1]);const merged=[];for(const range of ranges){const last=merged[merged.length-1];if(last&&range[0]<=last[1])last[1]=Math.max(last[1],range[1]);else merged.push([...range]);}
  let cursor=0;for(const [start,end] of merged){node.append(document.createTextNode(text.slice(cursor,start)),make('mark',text.slice(start,end),'notes-highlight'));cursor=end;}node.append(document.createTextNode(text.slice(cursor)));
+ // Use visual breaks so source wording, evidence quotes and copying stay unchanged.
+ const walker=document.createTreeWalker(node,NodeFilter.SHOW_TEXT),nodes=[];while(walker.nextNode())nodes.push(walker.currentNode);let offset=0;
+ for(const original of nodes){const value=original.textContent,fragment=document.createDocumentFragment();let start=0;for(const match of value.matchAll(/[①-⑳]/gu)){fragment.append(document.createTextNode(value.slice(start,match.index)));if(offset+match.index>0&&!/[\n\r]/.test(text[offset+match.index-1]))fragment.append(document.createElement('br'));start=match.index;}fragment.append(document.createTextNode(value.slice(start)));original.replaceWith(fragment);offset+=value.length;}
 }
 function renderCategory(entry,block){
  const categories=entry.suggestedCategories||[];const suggestion=make('div',undefined,'notes-category');suggestion.append(make('strong','建议分类'));
