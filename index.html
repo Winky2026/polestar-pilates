@@ -837,6 +837,11 @@ window.addEventListener('pagehide',()=>{if(!window.polestarCloud?.active&&diskEn
 @media(max-width:900px){.notes-xhs-logo{min-height:44px;min-width:52px}}
 
 .notes-xhs-logo{gap:8px;min-height:44px;padding:6px 9px;border:1px solid #ececec;border-radius:9px;background:#fff;color:#666!important;letter-spacing:normal}.notes-xhs-logo:hover{background:#fafafa;border-color:#ddd}
+
+#notesStudy [data-field=process] mark[data-kind=position],.notes-key-position{background-image:linear-gradient(transparent 28%,#f5f975 28%,#f5f975 92%,transparent 92%)}
+#notesStudy [data-field=process] mark[data-kind=breath],.notes-key-breath{background-image:linear-gradient(transparent 28%,#a9e5ff 28%,#a9e5ff 92%,transparent 92%)}
+.notes-process-key{display:inline-flex;gap:10px;margin-left:12px;font-size:12px;font-weight:400;white-space:nowrap}.notes-process-key>span{padding:1px 2px;box-decoration-break:clone;-webkit-box-decoration-break:clone}
+#notesStudy [data-field=process] h4{display:flex;align-items:center;justify-content:space-between;gap:8px;flex-wrap:wrap}.notes-process-key{margin-left:0}
 </style><script data-notes-build id="notesDataset" type="application/json">{"url": "./assets/56bb714a2b8c5aca8930724b.json"}</script><script data-notes-build>(function(root,factory){if(typeof module==='object'&&module.exports)module.exports=factory();else root.PolestarNotesCore=factory();})(typeof globalThis!=='undefined'?globalThis:this,function(){
 'use strict';
 const normalize=value=>String(value??'').normalize('NFKC').toLowerCase().replace(/[–—]/g,'-').replace(/⁄/g,'/').replace(/(\d)\.(?=\d)/g,'$1\u0001').replace(/-(?=\d)/g,'\u0002').replace(/[\s，,。.!！?？:：;；、()（）\-]/g,'').replace(/\u0001/g,'.').replace(/\u0002/g,'-');
@@ -864,7 +869,23 @@ function validSaved(source,entries){
  }
  return result;
 }
-return {normalize,hasAnswer,grade,gradeExam,filter,validSaved};
+
+// Literal ranges only: positions/actions in yellow, breathing in blue.
+function processHighlights(text){
+ if(typeof text!=='string'||!text)return [];
+ const colors=new Uint8Array(text.length);
+ const body=/中立位|仰卧|俯卧|侧卧|跪姿|坐姿|站姿|长坐|桌面|骨盆|髂前上棘|骶骨|坐骨|脊柱|颈椎|胸椎|腰椎|肋骨|胸廓|锁骨|肩胛|肩膀|肩带|腹部|小腹|躯干|上半身|下半身|头顶|下巴|后脑|头颈|颈部|后背|背部|腰部|腰线|髋|膝|脚|足|腿|双手|双臂|手臂|手掌|手肘|肘部|肘|手指|眼睛|目光|余光/;
+ const action=/中立|仰卧|俯卧|侧卧|跪|坐|站|桌面|保持|稳定|不变|避免|不要|不动|不耸|不超伸|并拢|打开|弯|屈|伸|直|收|放|贴|抬|沉|撑|推|拉|转|卷|倾|对齐|平行|垂直|水平|同宽|距离|一拳|一颗|一指|夹|移|压|抵|踩|看|带|朝|向|在|离|靠|越过|绕过|长|宽|高|低|前|后|左|右|上|下|内|外/;
+ for(const match of text.matchAll(/[^，,；;。！？\n①-⑳]+/g)){
+  const clause=match[0],prefix=clause.match(/^\s*(?:\d+[、.．）)]\s*)?/)?.[0].length||0;
+  if(body.test(clause)&&action.test(clause))for(let i=match.index+prefix;i<match.index+clause.trimEnd().length;i++)colors[i]=1;
+ }
+ const breathing=/(?:吸气|吐气|呼气)(?:(?:吸到|到|进入|向)(?:左侧|右侧|两侧|双侧|左|右|前侧|后侧)?(?:肋骨|胸廓|背后|后背|背部|胸腔|肺部|肺))?|呼吸|屏息|憋气/g;
+ for(const match of text.matchAll(breathing))for(let i=match.index;i<match.index+match[0].length;i++)colors[i]=2;
+ const ranges=[];for(let i=0;i<colors.length;){if(!colors[i]){i++;continue;}const start=i,color=colors[i];while(i<colors.length&&colors[i]===color)i++;ranges.push([start,i,color===2?'breath':'position']);}
+ return ranges;
+}
+return {normalize,hasAnswer,grade,gradeExam,filter,validSaved,processHighlights};
 });
 
 (function(root,factory){if(typeof module==='object'&&module.exports)module.exports=factory();else root.PolestarNotesNarration=factory();})(typeof globalThis!=='undefined'?globalThis:this,function(){
@@ -969,7 +990,8 @@ function highlightNotes(node,text,field,entry){
  if(['precautions','cues','related'].includes(field))for(const part of text.split(/[，,；;、。\n]/)){const term=part.replace(/^(?:原笔记禁忌栏|禁忌症|图中提示)[：:]?/,'').trim();if(term.length>=3&&term.length<=32)terms.add(term);}
  const ranges=[];for(const term of terms){let at=0;while((at=text.indexOf(term,at))!==-1){ranges.push([at,at+term.length]);at+=term.length;}}
  ranges.sort((a,b)=>a[0]-b[0]||b[1]-a[1]);const merged=[];for(const range of ranges){const last=merged[merged.length-1];if(last&&range[0]<=last[1])last[1]=Math.max(last[1],range[1]);else merged.push([...range]);}
- let cursor=0;for(const [start,end] of merged){node.append(document.createTextNode(text.slice(cursor,start)),make('mark',text.slice(start,end),'notes-highlight'));cursor=end;}node.append(document.createTextNode(text.slice(cursor)));
+ const displayRanges=field==='process'?core.processHighlights(text):merged;
+ let cursor=0;for(const [start,end,kind] of displayRanges){const mark=make('mark',text.slice(start,end),'notes-highlight');if(kind)mark.dataset.kind=kind;node.append(document.createTextNode(text.slice(cursor,start)),mark);cursor=end;}node.append(document.createTextNode(text.slice(cursor)));
  // Use visual breaks so source wording, evidence quotes and copying stay unchanged.
  const walker=document.createTreeWalker(node,NodeFilter.SHOW_TEXT),nodes=[];while(walker.nextNode())nodes.push(walker.currentNode);let offset=0;
  for(const original of nodes){const value=original.textContent,fragment=document.createDocumentFragment();let start=0;for(const match of value.matchAll(/[①-⑳]/gu)){fragment.append(document.createTextNode(value.slice(start,match.index)));if(offset+match.index>0&&!/[\n\r]/.test(text[offset+match.index-1]))fragment.append(document.createElement('br'));start=match.index;}fragment.append(document.createTextNode(value.slice(start)));original.replaceWith(fragment);offset+=value.length;}
@@ -980,7 +1002,7 @@ function renderCategory(entry,block){
  const level=make('div',undefined,'notes-level-suggestion');level.append(make('strong','建议等级'),make('p',entry.suggestedLevel||'待核对'));level.append(make('p','书本等级：'+(entry.levelSourceLabel||entry.level),'notes-book-level'));suggestion.append(level);
  block.append(suggestion);
 }
-function renderNotes(entry,article){const grid=make('div',undefined,'notes-info');for(const [key,title] of fields){const block=make('section',undefined,'notes-block');block.dataset.field=key;block.append(make('h4',title));if(key==='pattern')renderCategory(entry,block);const paragraph=make('p',undefined,entry.sections[key]?'':'missing');highlightNotes(paragraph,entry.studySections[key]||'未记录',key,entry);block.append(paragraph);grid.append(block);}article.append(grid);renderSource(entry,article);}
+function renderNotes(entry,article){const grid=make('div',undefined,'notes-info');for(const [key,title] of fields){const block=make('section',undefined,'notes-block');block.dataset.field=key;const heading=make('h4',title);if(key==='process'){const key=make('span',undefined,'notes-process-key');key.append(make('span','身体位置·动作','notes-key-position'),make('span','呼吸','notes-key-breath'));heading.append(key);}block.append(heading);if(key==='pattern')renderCategory(entry,block);const paragraph=make('p',undefined,entry.sections[key]?'':'missing');highlightNotes(paragraph,entry.studySections[key]||'未记录',key,entry);block.append(paragraph);grid.append(block);}article.append(grid);renderSource(entry,article);}
 function renderSource(entry,article){
  const source=make('section',undefined,'notes-source');
  for(const pageNumber of entry.pages){const page=data.pages[entry.book+'-'+pageNumber];if(!page)continue;
