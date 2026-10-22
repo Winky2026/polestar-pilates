@@ -105,7 +105,7 @@ body.web-guest #play,body.web-guest #library,body.web-guest #matrix,body.web-gue
 
 .card-subnav{display:flex;gap:6px;align-items:center;max-width:100%;overflow-x:auto;white-space:nowrap;margin:-8px 0 18px;padding:0 0 3px;scrollbar-width:none}.card-subnav::-webkit-scrollbar{display:none}.card-subnav button{flex:0 0 auto;min-height:44px;padding:8px 12px;background:#fff;border:1px solid transparent;border-radius:9px;color:#777;font-size:13px}.card-subnav button.active{background:#fff7e6;border-color:#ffcc66;color:#805000;font-weight:600}.web-guest #cardNav{display:none!important}@media(max-width:700px){.card-subnav{gap:4px}.card-subnav button{font-size:12px;padding:8px}}
 
-.classification-supplement{margin-top:12px;font-size:13px;line-height:1.7;overflow-wrap:anywhere}.classification-supplement ul{padding-left:19px;margin:5px 0 10px}.classification-reference-all{margin-top:10px}.classification-reference-all>summary,.classification-reference-principles>summary{cursor:pointer;min-height:44px;display:list-item;padding:10px 0}.classification-reference-filters{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px;margin:10px 0}.classification-reference-filters input,.classification-reference-filters select{min-width:0;width:100%;font-size:16px;min-height:44px;border:1px solid var(--line);border-radius:8px;padding:7px;background:#fff}.classification-reference-filters input{grid-column:1/-1}.classification-reference-table{overflow:auto;max-height:420px;border:1px solid var(--line);border-radius:8px}.classification-reference-table table{border-collapse:collapse;width:100%;min-width:420px;font-size:12px}.classification-reference-table th,.classification-reference-table td{border-bottom:1px solid var(--line);padding:8px;text-align:left;vertical-align:top}.classification-reference-table th{position:sticky;top:0;background:#fff}.classification-reference-table td:nth-child(4){min-width:180px}.classification-reference-table td:last-child{white-space:nowrap}.classification-reference-count{margin:8px 0}.classification-reference-principles strong{display:block;margin-top:10px}.classification-reference-principles p{font-size:13px;line-height:1.7}
+.classification-references{margin-top:6px}.category-suggestion .classification-reference-line{margin:0 0 6px;font-size:13px;line-height:1.7;font-weight:400;color:var(--muted);overflow-wrap:anywhere}
 </style><style>.category-suggestion{margin-top:12px;padding:10px 12px;background:#fff9e9;border-radius:8px;font-size:13px;line-height:1.65}.category-suggestion summary{cursor:pointer}.category-suggestion p{white-space:pre-wrap;color:#777;font-size:12px;margin:10px 0 0}</style><meta name="theme-color" content="#ffffff"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-status-bar-style" content="default"><link rel="manifest" href="./manifest.webmanifest"><link rel="apple-touch-icon" href="./icon-180.png"></head><body class="web-guest"><div class="wrap">
 <header><div class="brand">普拉提动作库 <small>POLESTAR PILATES</small></div><div class="tools"><button id="soundToggle" class="sound-toggle" aria-label="静音" title="静音"></button><button id="saveGame" class="primary">存档</button><button id="loadGame">读档</button><button id="toolsToggle" aria-label="更多功能" aria-expanded="false">⋯</button><button id="portable" class="mobile-secondary">保存随身 HTML</button><button id="checkUpdate" class="mobile-secondary" hidden>检查更新</button><button id="helpOpen" class="mobile-secondary" aria-label="使用说明">?</button></div></header><div id="updateStatus" hidden role="status" aria-live="polite"><div class="inline"><strong id="updateMessage"></strong><span id="updateDetail"></span></div><progress id="updateProgress" max="100" aria-label="更新下载进度"></progress></div><p id="exportDestination" class="muted" style="font-size:11px;text-align:right;margin-top:6px" hidden></p>
 <div class="intro"><div><h1>动作练习</h1></div><div class="progress"><p><span>已整理 <strong id="doneCount">0</strong> / 149</span><span id="percent">0%</span></p><div class="track" id="overallProgress" role="progressbar" aria-label="总体整理进度" aria-valuemin="0" aria-valuemax="149" aria-valuenow="0"><div class="fill" id="progressFill"></div></div><div class="progress-meta"><span id="remainingCount">未完成 149 张</span><span id="laterCount">稍后再想 0 张</span></div></div></div>
@@ -397,32 +397,20 @@ function makeButton(text,click,cls=''){const b=document.createElement('button');
 function refreshProgress(){const n=CARDS.filter(a=>record(a.id).status==='done').length;$('doneCount').textContent=n;$('percent').textContent=Math.round(n/CARDS.length*100)+'%';$('progressFill').style.width=n/CARDS.length*100+'%';$('overallProgress').setAttribute('aria-valuenow',n);$('remainingCount').textContent=`未完成 ${CARDS.length-n} 张`;$('laterCount').textContent=`稍后再想 ${CARDS.filter(a=>record(a.id).status==='later').length} 张`;renderTracking();}
 function renderStatus(){const r=record(state.current);$('cardStatus').textContent=r.status==='done'?'✓ 已整理':r.status==='later'?'稍后再想':'待整理';}
 function renderSupplementaryReferences(host,references=[]){
- host.replaceChildren();host.className='classification-supplement';
- const create=(tag,text,cls)=>{const node=document.createElement(tag);if(text!==undefined)node.textContent=text;if(cls)node.className=cls;return node;};
- const categoryLabel=code=>code+' · '+(CATS.find(c=>c[0]===code)?.[1]||code);
- const apparatusNames={Mat:'垫上',Reformer:'核心床',Trapeze:'凯迪拉克床',Chair:'万能椅',Ladder:'梯桶',SpineCorrector:'脊柱矫正器'};
- if(references.length){host.append(create('strong','补充参考'));const list=create('ul');const shown=new Set();for(const ref of references){const text=categoryLabel(ref.category)+' · '+ref.level+' · '+ref.term;if(shown.has(text))continue;shown.add(text);list.append(create('li',text));}host.append(list);}
- const supplement=DATA.classificationSupplement;if(!supplement?.records?.length)return;
- const details=create('details',undefined,'classification-reference-all');details.append(create('summary','查看完整补充分类参考'));
- details.addEventListener('toggle',()=>{if(!details.open||details.dataset.loaded)return;details.dataset.loaded='true';
-  const filters=create('div',undefined,'classification-reference-filters'),search=create('input');search.type='search';search.placeholder='搜索英文动作';search.setAttribute('aria-label','搜索补充参考');filters.append(search);
-  const select=(label,options)=>{const node=create('select');node.setAttribute('aria-label',label);for(const [value,text] of [['','全部'+label],...options]){const option=create('option',text);option.value=value;node.append(option);}filters.append(node);return node;};
-  const category=select('分类',CATS.map(([code,label])=>[code,code+' · '+label])),apparatus=select('器械',Object.entries(apparatusNames)),level=select('等级',['初级','中级','高级'].map(v=>[v,v]));details.append(filters);
-  const count=create('p',undefined,'classification-reference-count'),wrap=create('div',undefined,'classification-reference-table'),table=create('table'),head=create('thead'),heading=create('tr');for(const title of ['分类','器械','等级','动作','卡片对应'])heading.append(create('th',title));head.append(heading);const body=create('tbody');table.append(head,body);wrap.append(table);details.append(count,wrap);
-  const principles=create('details',undefined,'classification-reference-principles');principles.append(create('summary','分类原则'));for(const item of supplement.principles||[]){principles.append(create('strong',categoryLabel(item.category)),create('p',item.text));}details.append(principles);
-  const render=()=>{const query=search.value.trim().toLowerCase();const rows=supplement.records.filter(ref=>(!category.value||ref.category===category.value)&&(!apparatus.value||ref.apparatus===apparatus.value)&&(!level.value||ref.level===level.value)&&(!query||ref.term.toLowerCase().includes(query)));body.replaceChildren();for(const ref of rows){const row=create('tr');row.dataset.referenceId=ref.id;for(const text of [ref.category,apparatusNames[ref.apparatus]||ref.apparatus,ref.level,ref.term,ref.actionIds.length?'已关联':'待核对'])row.append(create('td',text));body.append(row);}count.textContent='显示 '+rows.length+' / '+supplement.records.length+' 条';};
-  for(const control of [search,category,apparatus,level])control.addEventListener(control===search?'input':'change',render);render();
- });host.append(details);
+ host.replaceChildren();host.className='classification-references';
+ const values=[];for(const ref of references){const text=ref.category+' · '+(CATS.find(c=>c[0]===ref.category)?.[1]||ref.category)+' · '+ref.level;const item=text+'（'+ref.term+'）';if(!values.includes(item))values.push(item);}
+ if(values.length){const row=document.createElement('p');row.className='classification-reference-line';row.textContent='参考2：'+values.join('；');host.append(row);}
 }
 window.PolestarReferences={render:renderSupplementaryReferences};
 
 function renderChoices(){
  const r=record(state.current),action=CARDS.find(a=>a.id===state.current);
- $('categorySuggestionTitle').textContent='建议分类：'+(action.suggestedCategories?.length?action.suggestedCategories.map(c=>c+' · '+(CATS.find(x=>x[0]===c)?.[1]||c)).join(' / '):'待核对');
+ $('categorySuggestionTitle').className='classification-reference-line';
+ $('categorySuggestionTitle').textContent='参考1：'+(action.suggestedCategories?.length?action.suggestedCategories.map(c=>c+' · '+(CATS.find(x=>x[0]===c)?.[1]||c)).join(' / '):'待核对')+' · '+(action.suggestedLevel||'待核对')+(action.levelSourceLabel?'（'+action.levelSourceLabel+'）':'');
  renderSupplementaryReferences($('categorySupplementary'),action.supplementaryReferences||[]);
  const revealSuggestions=r.categories.length>0&&!!r.level;
  $('categorySuggestion').hidden=!revealSuggestions;
- $('levelSuggestion').hidden=!revealSuggestions;
+ $('levelSuggestion').hidden=true;
  $('categorySuggestion').open=false;
  $('levelSuggestionTitle').textContent='建议等级：'+(action.suggestedLevel||'待核对');
  $('levelSuggestionSource').textContent=action.levelSourceLabel?'书本等级：'+action.levelSourceLabel:'';
@@ -867,6 +855,8 @@ window.addEventListener('pagehide',()=>{if(!window.polestarCloud?.active&&diskEn
 #notesStudy [data-field=process] mark[data-kind=breath],.notes-key-breath{background-image:linear-gradient(transparent 28%,#a9e5ff 28%,#a9e5ff 92%,transparent 92%)}
 .notes-process-key{display:inline-flex;gap:10px;margin-left:12px;font-size:12px;font-weight:400;white-space:nowrap}.notes-process-key>span{padding:1px 2px;box-decoration-break:clone;-webkit-box-decoration-break:clone}
 #notesStudy [data-field=process] h4{display:flex;align-items:center;justify-content:space-between;gap:8px;flex-wrap:wrap}.notes-process-key{margin-left:0}
+
+.notes-category .classification-reference-line{font-weight:400;font-size:14px;line-height:1.85;color:var(--muted);margin:5px 0!important}
 </style><script data-notes-build id="notesDataset" type="application/json">{"url": "./assets/5b331c5357a29176220c8de6.json"}</script><script data-notes-build>(function(root,factory){if(typeof module==='object'&&module.exports)module.exports=factory();else root.PolestarNotesCore=factory();})(typeof globalThis!=='undefined'?globalThis:this,function(){
 'use strict';
 const normalize=value=>String(value??'').normalize('NFKC').toLowerCase().replace(/[–—]/g,'-').replace(/⁄/g,'/').replace(/(\d)\.(?=\d)/g,'$1\u0001').replace(/-(?=\d)/g,'\u0002').replace(/[\s，,。.!！?？:：;；、()（）\-]/g,'').replace(/\u0001/g,'.').replace(/\u0002/g,'-');
@@ -1028,11 +1018,9 @@ function highlightNotes(node,text,field,entry){
 
 }
 function renderCategory(entry,block){
- const categories=entry.suggestedCategories||[];const suggestion=make('div',undefined,'notes-category');suggestion.append(make('strong','建议分类'));
- suggestion.append(make('p',categories.length?categories.map(c=>c+' · '+(categoryNames[c]||c)).join(' / '):'待核对'));
- const level=make('div',undefined,'notes-level-suggestion');level.append(make('strong','建议等级'),make('p',entry.suggestedLevel||'待核对'));level.append(make('p','书本等级：'+(entry.levelSourceLabel||entry.level),'notes-book-level'));suggestion.append(level);
- const extra=make('div');if(window.PolestarReferences)window.PolestarReferences.render(extra,entry.supplementaryReferences||[]);suggestion.append(extra);
- block.append(suggestion);
+ const categories=entry.suggestedCategories||[],suggestion=make('div',undefined,'notes-category');
+ suggestion.append(make('p','参考1：'+(categories.length?categories.map(c=>c+' · '+(categoryNames[c]||c)).join(' / '):'待核对')+' · '+(entry.suggestedLevel||'待核对')+'（'+(entry.levelSourceLabel||entry.level)+'）','classification-reference-line'));
+ const extra=make('div');if(window.PolestarReferences)window.PolestarReferences.render(extra,entry.supplementaryReferences||[]);suggestion.append(extra);block.append(suggestion);
 }
 function renderNotes(entry,article){const grid=make('div',undefined,'notes-info');for(const [key,title] of fields){const block=make('section',undefined,'notes-block');block.dataset.field=key;const heading=make('h4',title);if(key==='process'){const key=make('span',undefined,'notes-process-key');key.append(make('span','动作·状态','notes-key-position'),make('span','呼吸','notes-key-breath'));heading.append(key);}block.append(heading);if(key==='pattern')renderCategory(entry,block);const paragraph=make('p',undefined,entry.sections[key]?'':'missing');highlightNotes(paragraph,entry.studySections[key]||'未记录',key,entry);block.append(paragraph);grid.append(block);}article.append(grid);renderSource(entry,article);}
 function renderSource(entry,article){
