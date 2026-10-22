@@ -574,13 +574,20 @@ window.addEventListener('pagehide',()=>{if(!window.polestarCloud?.active&&diskEn
  const panel=document.createElement('dialog');panel.id='cloudDialog';
  panel.innerHTML=`<div class="dialog-top"><h2>账号与云端存档</h2><button id="cloudClose" aria-label="关闭">×</button></div>
  <p id="cloudStatus" role="status"></p>
- <form id="cloudLogin"><p>账号由管理员分配，不开放自行注册。</p><label>账号邮箱<input id="cloudEmail" type="email" autocomplete="username" required></label><label>密码<input id="cloudPassword" type="password" autocomplete="current-password" required></label><label class="remember-login"><input id="cloudRemember" type="checkbox" checked>记住登录状态</label><p class="remember-note">下次自动登录；公用设备可取消勾选。</p><button class="primary" type="submit">登录</button></form>
+ <form id="cloudLogin" novalidate><p>账号由管理员分配，不开放自行注册。</p><label>账号邮箱<input id="cloudEmail" type="email" autocomplete="username" required></label><label>密码<input id="cloudPassword" type="password" autocomplete="current-password" required></label><label class="remember-login"><input id="cloudRemember" type="checkbox" checked>记住登录状态</label><p class="remember-note">下次自动登录；公用设备可取消勾选。</p><button class="primary" type="submit">登录</button><p id="cloudLoginFeedback" role="status" aria-live="polite"></p></form>
  <div id="cloudAccount" hidden><p id="cloudIdentity"></p><div class="inline"><button id="cloudSync">同步进度</button><button id="cloudMigrate">导入登录前的本机记录</button><button id="cloudLogout">退出账号</button></div><details><summary>修改我的密码</summary><form id="cloudChangePassword"><label>新密码（至少12位）<input id="cloudNewPassword" type="password" minlength="12" maxlength="128" autocomplete="new-password" required></label><button>保存新密码</button></form></details></div>
  <div id="cloudConflict" hidden class="notice"><p>另一台设备也修改了进度。此设备的记录已保留，请选择要继续使用的版本。</p><button id="cloudUseRemote">使用云端版本</button><button id="cloudUseLocal">用此设备版本覆盖云端</button></div>
  <section id="cloudAdmin" hidden><h3>分配账号</h3><form id="cloudCreate"><label>新账号邮箱<input id="cloudCreateEmail" type="email" autocomplete="off" required></label><label>初始密码（至少12位）<input id="cloudCreatePassword" type="password" minlength="12" maxlength="128" autocomplete="new-password" required></label><button class="primary">创建账号</button></form><p>账号密码由你交给使用者。停用后立即禁止读取和保存学习数据。</p><button id="cloudRefreshUsers">刷新账号列表</button><div id="cloudUsers"></div><form id="cloudReset" hidden><p id="cloudResetLabel"></p><label>新密码<input id="cloudResetPassword" type="password" minlength="12" maxlength="128" autocomplete="new-password" required></label><button>重置此账号密码</button></form></section>`;
- document.body.append(panel);
- const style=document.createElement('style');style.textContent='#cloudDialog{width:min(640px,calc(100% - 24px));max-height:90vh}#cloudDialog input{display:block;width:100%;margin:5px 0 12px;padding:10px;border:1px solid #ddd;border-radius:8px}#cloudDialog label{display:block}#cloudDialog .remember-login{display:flex;align-items:center;gap:8px;min-height:44px}#cloudDialog .remember-login input{display:inline-block;width:20px;height:20px;margin:0}#cloudDialog .remember-note{color:#777;font-size:13px}#cloudStatus{padding:10px 0;overflow-wrap:anywhere}#cloudStatus.error{color:#b22c23}#cloudAdmin{margin-top:24px;border-top:1px solid #ddd}#cloudUsers>div{padding:12px 0;border-bottom:1px solid #eee;display:flex;gap:8px;align-items:center;flex-wrap:wrap}#cloudUsers span{flex:1;overflow-wrap:anywhere}';document.head.append(style);
- const button=document.createElement('button');button.id='cloudOpen';button.textContent=hostedMode?'登录':'登录／云端存档';el('helpOpen').before(button);
+ const backdrop=document.createElement('div');backdrop.id='cloudBackdrop';backdrop.hidden=true;document.body.append(backdrop,panel);
+ function openCloud(){
+  try{if(typeof panel.showModal!=='function')throw Error('dialog unavailable');panel.showModal();}
+  catch{panel.classList.add('cloud-fallback');panel.setAttribute('open','');panel.setAttribute('role','dialog');panel.setAttribute('aria-modal','true');backdrop.hidden=false;el('cloudClose').focus();}
+ }
+ function closeCloud(){if(panel.classList.contains('cloud-fallback'))panel.removeAttribute('open');else if(typeof panel.close==='function')panel.close();panel.classList.remove('cloud-fallback');backdrop.hidden=true;button.focus();}
+ backdrop.onclick=closeCloud;panel.addEventListener('keydown',event=>{if(event.key==='Escape'&&panel.classList.contains('cloud-fallback')){event.preventDefault();closeCloud();}});
+
+ const style=document.createElement('style');style.textContent='#cloudDialog:not([open]){display:none}#cloudBackdrop{position:fixed;inset:0;background:#0006;z-index:2147483645}#cloudBackdrop[hidden]{display:none}#cloudDialog.cloud-fallback[open]{display:block;position:fixed;left:50%;top:50%;transform:translate(-50%,-50%);margin:0;z-index:2147483646;background:#fff;overflow:auto;border:1px solid #ddd;border-radius:16px;padding:18px}#cloudDialog{width:min(640px,calc(100% - 24px));max-height:90vh}#cloudDialog input{display:block;width:100%;margin:5px 0 12px;padding:10px;border:1px solid #ddd;border-radius:8px}#cloudDialog label{display:block}#cloudDialog .remember-login{display:flex;align-items:center;gap:8px;min-height:44px}#cloudDialog .remember-login input{display:inline-block;width:20px;height:20px;margin:0}#cloudDialog .remember-note{color:#777;font-size:13px}#cloudStatus{padding:10px 0;overflow-wrap:anywhere}#cloudStatus.error,#cloudLoginFeedback.error{color:#b22c23}#cloudLoginFeedback{margin:10px 0 0;min-height:24px;overflow-wrap:anywhere}#cloudAdmin{margin-top:24px;border-top:1px solid #ddd}#cloudUsers>div{padding:12px 0;border-bottom:1px solid #eee;display:flex;gap:8px;align-items:center;flex-wrap:wrap}#cloudUsers span{flex:1;overflow-wrap:anywhere}';document.head.append(style);
+ const button=document.createElement('button');button.id='cloudOpen';button.type='button';button.textContent=hostedMode?'登录':'登录／云端存档';el('helpOpen').before(button);
  const authKey=KEY+'-auth-'+new URL(config.url).hostname;
  let authBusy=false;
  function rememberSession(){if(!session)return;if(!el('cloudRemember').checked){forgetSession();return;}try{localStorage.setItem(authKey,JSON.stringify({access_token:session.access_token,refresh_token:session.refresh_token,expires_at:session.expires_at}));}catch{status('此浏览器未能保存登录状态，下次可能需要重新登录。',true);}}
@@ -590,16 +597,18 @@ window.addEventListener('pagehide',()=>{if(!window.polestarCloud?.active&&diskEn
  let user=null,session=null,revision=0,timer,busy=false,dirty=false,conflict=false,original=null,oldDiskEnabled=false,resetId=null,refreshPromise=null;
  const controller={active:false,storageKey:null,schedule,prepareExit,archive,listArchives,restoreArchive};window.polestarCloud=controller;
  const empty=()=>({schema:SCHEMA,generation:'base',study:{attempts:0,correct:0},records:{},current:CARDS[0].id,updatedAt:''});
- const status=(text,error=false)=>{el('cloudStatus').textContent=text;el('cloudStatus').classList.toggle('error',error);};
+ const status=(text,error=false)=>{for(const id of ['cloudStatus','cloudLoginFeedback']){el(id).textContent=text;el(id).classList.toggle('error',error);}};
  const savedStatus=text=>{el('saveState').textContent=text;el('saveState').classList.toggle('error',/失败|尚未同步|冲突/.test(text));button.textContent=user?'☁ '+user.email:hostedMode?'登录':'登录／云端存档';};
  const configured=()=>/^https:\/\/[a-z0-9-]+\.supabase\.co$/.test(config.url)&&!!config.publicKey&&(!config.gatewayURL||/^https:\/\/[a-z0-9.-]+\/polestar-api$/.test(config.gatewayURL));
  async function request(path,options={},authenticate=true){
   if(!configured())throw Error('云端尚未配置，完成免费平台账号连接后启用。');
   if(authenticate&&session&&session.expires_at<Date.now()/1000+60)await refresh();
-  let response;
-  try{response=await fetch(apiBase+path,{...options,headers:{...(config.gatewayURL?{}:{apikey:config.publicKey}),'Content-Type':'application/json',...(authenticate&&session?{Authorization:'Bearer '+session.access_token}:{}),...options.headers},signal:AbortSignal.timeout(requestTimeout)});}
+  let response,text;
+  const abort=new AbortController(),timeout=setTimeout(()=>abort.abort(),requestTimeout);
+  try{response=await fetch(apiBase+path,{...options,headers:{...(config.gatewayURL?{}:{apikey:config.publicKey}),'Content-Type':'application/json',...(authenticate&&session?{Authorization:'Bearer '+session.access_token}:{}),...options.headers},signal:abort.signal});text=await response.text();}
   catch(error){const target=config.gatewayURL?'国内云端入口':'海外云端服务';throw Error(error.name==='TimeoutError'||error.name==='AbortError'?'连接'+target+'超时，请检查网络后重试。':'无法连接'+target+'，当前网络可能无法直连。请稍后重试或更换网络。');}
-  const text=await response.text();let data;try{data=text?JSON.parse(text):null;}catch{throw Error('云端响应无法读取');}
+  finally{clearTimeout(timeout);}
+  let data;try{data=text?JSON.parse(text):null;}catch{throw Error('云端响应无法读取');}
   if(!response.ok){const error=Error(data?.error_description||data?.msg||data?.message||data?.error||'云端请求失败');error.httpStatus=response.status;throw error;}return data;
  }
  async function refresh(){if(refreshPromise)return refreshPromise;refreshPromise=(async()=>{const next=await request('/auth/v1/token?grant_type=refresh_token',{method:'POST',body:JSON.stringify({refresh_token:session.refresh_token})},false);session={...next,expires_at:Date.now()/1000+next.expires_in};rememberSession();})();try{await refreshPromise;}finally{refreshPromise=null;}}
@@ -666,8 +675,8 @@ window.addEventListener('pagehide',()=>{if(!window.polestarCloud?.active&&diskEn
    savedStatus('☁ 已读档并同步到 '+user.email);status('已读档，之前的进度已保留为云端备份。');
   });
  }
- button.onclick=()=>{el('cloudDialog').showModal();if(!configured())status('云端尚未上线。已准备好账号与存档功能，等待连接你自己的免费项目。');};
- el('cloudClose').onclick=()=>panel.close();
+ button.onclick=()=>{openCloud();if(!configured())status('云端尚未上线。已准备好账号与存档功能，等待连接你自己的免费项目。');};
+ el('cloudClose').onclick=closeCloud;
  async function activateSession(result){
    session={...result,expires_at:result.expires_at||Date.now()/1000+result.expires_in};user=result.user;
    const flags=await request('/rest/v1/account_access?select=enabled,is_admin&user_id=eq.'+user.id);if(!flags[0]?.enabled){const error=Error('账号尚未启用，请联系分配账号的人。');error.httpStatus=403;throw error;}
@@ -681,7 +690,7 @@ window.addEventListener('pagehide',()=>{if(!window.polestarCloud?.active&&diskEn
  async function restoreSession(){
   if(authBusy||controller.active)return;
   const saved=rememberedSession();if(!saved)return;
-  authBusy=true;controller.restoring=true;el('cloudLogin').querySelector('button').disabled=true;status('正在恢复登录…');
+  authBusy=true;controller.restoring=true;el('cloudLogin').querySelector('button').disabled=true;el('cloudLogin').querySelector('button').textContent='正在恢复登录…';status('正在恢复登录…');
   try{
    const deadline=Date.now()+requestTimeout;while((diskSaving||diskConnecting||checkpointBusy)&&Date.now()<deadline)await new Promise(resolve=>setTimeout(resolve,50));if(diskSaving||diskConnecting||checkpointBusy)throw Error('正在读取本机进度，请稍后重试。');
    session=saved;
@@ -690,16 +699,19 @@ window.addEventListener('pagehide',()=>{if(!window.polestarCloud?.active&&diskEn
    await activateSession({...session,user:verified});
   }catch(e){
    if(!controller.active){session=null;user=null;if([400,401,403].includes(e.httpStatus)){forgetSession();status('登录状态已失效或账号不可用，请重新登录。',true);}else status('暂时无法恢复登录，联网后会重试。',true);}else report(e);
-  }finally{authBusy=false;controller.restoring=false;el('cloudLogin').querySelector('button').disabled=false;}
+  }finally{authBusy=false;controller.restoring=false;el('cloudLogin').querySelector('button').disabled=false;el('cloudLogin').querySelector('button').textContent='登录';}
  }
  el('cloudLogin').onsubmit=async event=>{
-  event.preventDefault();if(authBusy||controller.active)return;authBusy=true;const submit=event.submitter||event.currentTarget.querySelector('button');submit.disabled=true;status('正在登录…');
+  event.preventDefault();if(authBusy||controller.active)return;authBusy=true;const submit=event.submitter||event.currentTarget.querySelector('button');submit.disabled=true;submit.textContent='正在登录…';status('正在登录…');
   try{
    if(diskSaving||diskConnecting||checkpointBusy)throw Error('本机正在读写进度，请稍后再登录。');
+   const email=el('cloudEmail').value.trim().replace(/＠/g,'@').replace(/．/g,'.');el('cloudEmail').value=email;
+   if(!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)){el('cloudEmail').focus();throw Error('请输入完整的账号邮箱，例如 name@example.com。');}
+   if(!el('cloudPassword').value){el('cloudPassword').focus();throw Error('请输入密码。');}
    forgetSession();
-   const result=await request('/auth/v1/token?grant_type=password',{method:'POST',body:JSON.stringify({email:el('cloudEmail').value.trim(),password:el('cloudPassword').value})},false);
+   const result=await request('/auth/v1/token?grant_type=password',{method:'POST',body:JSON.stringify({email,password:el('cloudPassword').value})},false);
    await activateSession(result);
-  }catch(e){if(!controller.active){session=null;user=null;}report(e);}finally{authBusy=false;submit.disabled=false;}
+  }catch(e){if(!controller.active){session=null;user=null;}if(e.message==='Invalid login credentials')e.message='账号或密码不正确，请检查后重试。';report(e);}finally{authBusy=false;submit.disabled=false;submit.textContent='登录';}
  };
  el('cloudSync').onclick=async()=>{try{if(dirty){await sync();return;}if(busy)return;busy=true;try{const stamp=state.updatedAt;const remote=await read();if(dirty||stamp!==state.updatedAt){setConflict();return;}if(remote){state=validateState(remote.payload);revision=remote.revision;cache();redraw();}status('已读取云端最新记录。');savedStatus('☁ 已同步到 '+user.email);}finally{busy=false;}}catch(e){report(e);}};
  el('cloudUseRemote').onclick=async()=>{try{if(busy)return;const remote=await read();localStorage.setItem(controller.storageKey+'-冲突备份',JSON.stringify(state));state=remote?validateState(remote.payload):empty();revision=remote?.revision||0;dirty=false;conflict=false;el('cloudConflict').hidden=true;cache();redraw();status('已使用云端记录，此设备旧记录保留为冲突备份。');}catch(e){report(e);}};
