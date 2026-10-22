@@ -24,6 +24,13 @@ jobs:
           version=$(python3 -c 'import json; print(json.load(open("version.json"))["tag"])')
           asset=$(python3 -c 'import json; print(json.load(open("version.json"))["asset"])')
           cd packages
+          # Larger installers are stored in sub-100MiB source parts; Releases serve one DMG.
+          if [[ ! -f "$asset" ]]; then
+            shopt -s nullglob
+            parts=("$asset".part-*)
+            [[ ${#parts[@]} -gt 0 ]]
+            cat "${parts[@]}" > "$asset"
+          fi
           sha256sum --check "$asset.sha256"
           cd ..
           gh release create "$version" "packages/$asset" "packages/$asset.sha256" --repo "$GITHUB_REPOSITORY" --target "$GITHUB_SHA" --title "普拉提动作库 $version" --notes-file release-notes.md --latest
