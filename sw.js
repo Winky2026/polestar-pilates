@@ -1,6 +1,7 @@
-const SHELL='polestar-web-shell-d1278cf6058f',MEDIA='polestar-public-media-v1';
+const SHELL='polestar-web-shell-d0b2fb44902f',MEDIA='polestar-public-media-v1';
 const shellFiles=['./','./index.html','./web-app.js','./manifest.webmanifest','./offline-assets.json','./icon-180.png','./icon-192.png','./icon-512.png'];
-self.addEventListener('install',event=>event.waitUntil((async()=>{await (await caches.open(SHELL)).addAll(shellFiles);await self.skipWaiting();})()));
+self.addEventListener('install',event=>event.waitUntil((async()=>{await (await caches.open(SHELL)).addAll(shellFiles.map(path=>new Request(path,{cache:'reload'})));await self.skipWaiting();})()));
+self.addEventListener('message',event=>{if(event.data?.type==='SKIP_WAITING')self.skipWaiting();});
 self.addEventListener('activate',event=>event.waitUntil((async()=>{for(const name of await caches.keys())if(name.startsWith('polestar-web-shell-')&&name!==SHELL)await caches.delete(name);await self.clients.claim();})()));
 async function partial(response,range){
  const bytes=await response.arrayBuffer(),match=/^bytes=(\d*)-(\d*)$/.exec(range);
@@ -15,7 +16,10 @@ self.addEventListener('fetch',event=>{
  const request=event.request,url=new URL(request.url),base=new URL('./',self.location.href);
  if(request.method!=='GET'||url.origin!==base.origin||!url.pathname.startsWith(base.pathname)||url.pathname.includes('/api/'))return;
  if(request.mode==='navigate'){
-  event.respondWith((async()=>{try{const response=await fetch(request);if(response.ok){const cache=await caches.open(SHELL);await cache.put(new URL('./',base),response.clone());}return response;}catch{const response=await caches.match(new URL('./',base));return response||new Response('请先联网打开一次动作库。',{status:503});}})());return;
+  event.respondWith((async()=>{try{const response=await fetch(request,{cache:'no-store'});if(response.ok){const cache=await caches.open(SHELL);await cache.put(new URL('./',base),response.clone());}return response;}catch{const response=await caches.match(new URL('./',base));return response||new Response('请先联网打开一次动作库。',{status:503});}})());return;
+ }
+ if(['web-app.js','build-info.json'].some(name=>url.pathname===base.pathname+name)){
+  event.respondWith((async()=>{const cache=await caches.open(SHELL);try{const response=await fetch(request,{cache:'no-store'});if(!response.ok)throw Error('Update unavailable');await cache.put(url.href,response.clone());return response;}catch(error){if(request.cache==='no-store')throw error;const cached=await cache.match(url.href)||(url.pathname===base.pathname+'web-app.js'?await cache.match(new URL('web-app.js',base)):null);if(cached)return cached;throw error;}})());return;
  }
  const isMedia=url.pathname.startsWith(base.pathname+'assets/');
  event.respondWith((async()=>{
