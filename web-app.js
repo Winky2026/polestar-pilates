@@ -24,7 +24,7 @@
 
 // An explicit refresh for home-screen web apps; never clear progress or downloaded media.
 (()=>{
- const checkpointKey='polestar-refresh-view-v1',allowedTabs=['play','library','matrix','tracking','practice','notesStudy'];
+ const checkpointKey='polestar-refresh-view-v1',allowedTabs=['play','library','matrix','tracking','practice','notesStudy','learningPlans'];
  const indicator=document.createElement('div');indicator.id='pullRefresh';indicator.hidden=true;indicator.setAttribute('role','status');indicator.setAttribute('aria-live','polite');indicator.innerHTML='<span class="pull-refresh-icon" aria-hidden="true">↓</span><span class="pull-refresh-label">下拉刷新</span>';document.body.append(indicator);
  const style=document.createElement('style');style.textContent='html{overscroll-behavior-y:none}#pullRefresh{position:fixed;left:50%;top:calc(10px + env(safe-area-inset-top));z-index:9999;display:flex;align-items:center;gap:9px;max-width:calc(100vw - 32px);padding:10px 17px;border:1px solid #eee;border-radius:24px;background:#fff;box-shadow:0 4px 18px #00000012;color:#555;font-size:14px;pointer-events:none;transform:translate(-50%,-80px)}#pullRefresh[hidden]{display:none}#pullRefresh .pull-refresh-icon{color:#d68b00;font-size:20px;line-height:1}#pullRefresh[data-busy=true] .pull-refresh-icon{display:block;animation:polestar-refresh-spin 1s linear infinite}@keyframes polestar-refresh-spin{to{transform:rotate(360deg)}}@media(prefers-reduced-motion:reduce){#pullRefresh[data-busy=true] .pull-refresh-icon{animation:none}}';document.head.append(style);
  let start=null,pulling=false,armed=false,busy=false,hideTimer;
