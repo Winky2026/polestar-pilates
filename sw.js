@@ -1,4 +1,4 @@
-const SHELL='polestar-web-shell-b4c7643ece71',MEDIA='polestar-public-media-v1';
+const SHELL='polestar-web-shell-45cbcc9d4319',MEDIA='polestar-public-media-v1';
 const shellFiles=['./','./index.html','./web-app.js','./manifest.webmanifest','./offline-assets.json','./icon-180.png','./icon-192.png','./icon-512.png'];
 self.addEventListener('install',event=>event.waitUntil((async()=>{await (await caches.open(SHELL)).addAll(shellFiles.map(path=>new Request(path,{cache:'reload'})));await self.skipWaiting();})()));
 self.addEventListener('message',event=>{if(event.data?.type==='SKIP_WAITING')self.skipWaiting();});
