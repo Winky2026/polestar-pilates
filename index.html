@@ -111,7 +111,7 @@ body.web-guest #play,body.web-guest #library,body.web-guest #matrix,body.web-gue
 @media(max-width:600px){.practice-filters{grid-template-columns:1fr 1fr}.practice-filter-reset{grid-column:1/-1;justify-self:end;min-height:40px;font-size:12px;padding:6px 10px}.practice-filter summary{font-size:13px}.practice-filter-options label{font-size:13px}}
 
 .intro[hidden]{display:none!important}#tracking .progress{width:100%;max-width:600px;margin:16px 0 24px}
-</style><style>.category-suggestion{margin-top:12px;padding:10px 12px;background:#fff9e9;border-radius:8px;font-size:13px;line-height:1.65}.category-suggestion summary{cursor:pointer}.category-suggestion p{white-space:pre-wrap;color:#777;font-size:12px;margin:10px 0 0}</style><meta name="theme-color" content="#ffffff"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-status-bar-style" content="default"><link rel="manifest" href="./manifest.webmanifest"><link rel="apple-touch-icon" href="./icon-180.png"><meta name="polestar-build" content="2992ab2ad304"></head><body class="web-guest"><div class="wrap">
+</style><style>.category-suggestion{margin-top:12px;padding:10px 12px;background:#fff9e9;border-radius:8px;font-size:13px;line-height:1.65}.category-suggestion summary{cursor:pointer}.category-suggestion p{white-space:pre-wrap;color:#777;font-size:12px;margin:10px 0 0}</style><meta name="theme-color" content="#ffffff"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-status-bar-style" content="default"><link rel="manifest" href="./manifest.webmanifest"><link rel="apple-touch-icon" href="./icon-180.png"><meta name="polestar-build" content="52e67330fe03"></head><body class="web-guest"><div class="wrap">
 <header><div class="brand">普拉提动作库 <small>POLESTAR PILATES</small></div><div class="tools"><button id="soundToggle" class="sound-toggle" aria-label="静音" title="静音"></button><button id="saveGame" class="primary">存档</button><button id="loadGame">读档</button><button id="toolsToggle" aria-label="更多功能" aria-expanded="false">⋯</button><button id="portable" class="mobile-secondary">保存随身 HTML</button><button id="checkUpdate" class="mobile-secondary" hidden>检查更新</button><button id="helpOpen" class="mobile-secondary" aria-label="使用说明">?</button></div></header><div id="updateStatus" hidden role="status" aria-live="polite"><div class="inline"><strong id="updateMessage"></strong><span id="updateDetail"></span></div><progress id="updateProgress" max="100" aria-label="更新下载进度"></progress></div><p id="exportDestination" class="muted" style="font-size:11px;text-align:right;margin-top:6px" hidden></p>
 <div class="intro"><div><h1>动作练习</h1></div></div>
 <div id="folderBar" class="folder-bar" hidden><span id="folderHint">首次选择桌面的“普拉提动作库备份”文件夹，即可直接读写进度。</span><button id="chooseFolder">连接存档文件夹</button></div><div id="storageWarning" class="notice" hidden></div>
@@ -7083,9 +7083,8 @@ function updateStudyNoteStatus(entry=data?.entries.find(e=>e.id===saved?.current
  const mobile=el('notesFullNotebookMobile');if(mobile){mobile.textContent=summary.count?'笔记 · '+summary.count:'完整笔记';mobile.setAttribute('aria-label',summary.count?'查看完整笔记，已保存 '+summary.count+' 条':'查看完整笔记');}
 }
 function openFullNotebook(entry){
- openNotebookDialog(studyEntryTitle(entry)+' · 完整笔记',body=>{
-  const tabs=make('div',undefined,'notes-full-tabs'),mine=make('button','我的笔记'),study=make('button','学习笔记'),content=make('div');content.id='fullNotebookContent';mine.type=study.type='button';tabs.setAttribute('role','group');tabs.setAttribute('aria-label','完整笔记内容');tabs.append(mine,study);body.append(tabs,content);
-  function select(kind){mine.setAttribute('aria-pressed',String(kind==='mine'));study.setAttribute('aria-pressed',String(kind==='study'));content.replaceChildren();notebookDialog.scrollTop=0;if(kind==='mine')renderMine();else renderStudy();}
+ openNotebookDialog(studyEntryTitle(entry)+' · 我的完整笔记',body=>{
+  const content=make('div');content.id='fullNotebookContent';body.append(content);
   function renderMine(){
    const rows=studyCatalogRows(entry),records=rows.map(row=>({row,record:saved.equipmentLog[row.id]||{spring:'',events:[]}}));
    for(const {row,record}of records){const overview=make('div',undefined,'full-note-overview');if(rows.length>1)overview.append(make('strong',catalogTitle(row)));overview.append(make('p',(appNames[row.apparatus]||row.apparatus)+' · 累计练习 '+record.events.filter(e=>e.practice&&e.active).length+' 次'),make('p','弹簧设置：'+(springTextFor(row,record.spring)||'未设置')));content.append(overview);}
@@ -7096,12 +7095,7 @@ function openFullNotebook(entry){
     }if(!visible.length)tools.append(make('p',notes.length?'没有匹配的笔记':'还没有保存笔记，可以先点击“记笔记”。','notes-quiet'));}
    search.oninput=list;list();const add=make('button','记笔记','primary');add.type='button';add.onclick=()=>openStudyCapture(entry);content.append(add);
   }
-  function renderStudy(){
-   content.append(make('p',[entry.level,appNames[entry.apparatus]||entry.apparatus,'原笔记第 '+entry.pages.join('、')+' 页'].join(' · '),'notes-quiet'));
-   for(const [key,title]of fields){const section=make('section',undefined,'full-study-section'),paragraph=make('p');section.dataset.fullNoteField=key;section.append(make('h4',title));highlightNotes(paragraph,entry.studySections[key]||'未记录',key,entry);section.append(paragraph);if(key==='setup'&&entry.textbookSetup)section.append(make('p','教材弹簧设置：'+entry.textbookSetup.text));content.append(section);}
-   if(entry.textbookVariations?.items.length){const section=make('section',undefined,'full-study-section'),list=make('ul');section.append(make('h4','变式与系列动作'));for(const item of entry.textbookVariations.items)list.append(make('li',item.name));section.append(list);content.append(section);}renderSource(entry,content);
-  }
-  mine.onclick=()=>select('mine');study.onclick=()=>select('study');select('mine');
+  renderMine();
  });
 }
 function openStudyCapture(entry){
