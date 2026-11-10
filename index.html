@@ -113,29 +113,27 @@ body.web-guest #play,body.web-guest #library,body.web-guest #matrix,body.web-gue
 .matrix-apparatus-chips button[aria-pressed="true"]{border-color:currentColor;box-shadow:inset 0 0 0 1px currentColor;font-weight:600}
 #matrixExport{margin:0 0 8px;min-height:40px}
 
-#matrixTable{border-radius:8px;border-color:#d9ded9}
+#matrixTable{border-radius:8px;border-color:#7da0c7}
 #matrixTable table{width:100%;min-width:700px;table-layout:fixed;border-collapse:separate;border-spacing:0;background:white}
-#matrixTable th,#matrixTable td{padding:9px 12px;border:0;border-right:1px solid #d9ded9;border-bottom:1px solid #d9ded9;vertical-align:top}
+#matrixTable th,#matrixTable td{padding:9px 12px;border:0;border-right:1px solid #b2c7de;border-bottom:1px solid #b2c7de;vertical-align:top}
 #matrixTable tr>:last-child{border-right:0}
 #matrixTable tbody tr:last-child>*{border-bottom:0}
-#matrixTable thead th{background:#eaf0eb;text-align:left;font-weight:700}
-#matrixTable tr>:first-child{position:sticky;left:0;width:150px;z-index:1;background:#f1f4f0}
-#matrixTable thead tr>:first-child{background:#eaf0eb}
-#matrixTable tbody tr:nth-child(even) td{background:#f8faf8}
-#matrixTable .matrix-action{display:flex;align-items:flex-start;flex-wrap:wrap;gap:5px 8px;width:100%;margin:0;padding:7px 0;border:0;border-radius:0;background:transparent;text-align:left;white-space:normal;overflow-wrap:anywhere;font-size:13px}
+#matrixTable thead th{background:white;color:#244e79;text-align:left;font-weight:700;border-bottom:2px solid #7da0c7}
+#matrixTable tr>:first-child{position:sticky;left:0;width:150px;z-index:1;background:white;color:#244e79}
+#matrixTable td{background:white}
+#matrixTable .matrix-action{display:flex;align-items:flex-start;flex-wrap:wrap;gap:5px 8px;width:100%;margin:0;padding:7px 8px;border:0;border-radius:6px;background:var(--chip-bg);color:var(--chip-ink);cursor:grab;text-align:left;white-space:normal;overflow-wrap:anywhere;font-size:13px}
 #matrixTable .matrix-action+.matrix-action{border-top:1px solid #e3e8e3}
 #matrixTable .matrix-action:hover{text-decoration:underline;text-underline-offset:3px}
-#matrixTable .matrix-action .matrix-apparatus-chip{font-size:11px;padding:2px 5px}
 @media(max-width:700px){#matrixTable table{min-width:640px}#matrixTable tr>:first-child{width:100px}#matrixTable th,#matrixTable td{padding:8px}}
 
 body.web-guest #relations{display:none!important}
-#matrixTable .matrix-entry{display:grid;grid-template-columns:22px minmax(0,1fr) 28px;align-items:start;gap:3px}
+#matrixTable .matrix-entry{display:grid;grid-template-columns:22px minmax(0,1fr) 28px;align-items:start;gap:4px;padding:3px 0}
 #matrixTable .matrix-entry + .matrix-entry{border-top:1px solid #e3e8e3}
 #matrixTable .matrix-tool{width:100%;min-height:28px;margin:4px 0 0;padding:2px;border:0;background:transparent;text-align:center}
 #matrixTable .matrix-tool[draggable]{cursor:grab}
 #matrixTable .matrix-tool svg{width:16px;height:16px;vertical-align:middle}
 #matrixTable .matrix-tool[aria-pressed="true"]{background:#e2ede6}
-#matrixTable td.matrix-drop-target{background:#d6e8dc;outline:2px inset #537467}
+#matrixTable td.matrix-drop-target{background:#eef5fd;outline:2px inset #537fae}
 #matrixMove{padding:18px}
 #matrixMove label{display:block;margin:12px 0}
 #matrixMove select{max-width:100%}
@@ -159,7 +157,7 @@ body.web-guest #relations{display:none!important}
 @media(max-width:600px){.practice-filters{grid-template-columns:1fr 1fr}.practice-filter-reset{grid-column:1/-1;justify-self:end;min-height:40px;font-size:12px;padding:6px 10px}.practice-filter summary{font-size:13px}.practice-filter-options label{font-size:13px}}
 
 .intro[hidden]{display:none!important}#tracking .progress{width:100%;max-width:600px;margin:16px 0 24px}
-</style><style>.category-suggestion{margin-top:12px;padding:10px 12px;background:#fff9e9;border-radius:8px;font-size:13px;line-height:1.65}.category-suggestion summary{cursor:pointer}.category-suggestion p{white-space:pre-wrap;color:#777;font-size:12px;margin:10px 0 0}</style><meta name="theme-color" content="#ffffff"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-status-bar-style" content="default"><link rel="manifest" href="./manifest.webmanifest"><link rel="apple-touch-icon" href="./icon-180.png"><meta name="polestar-build" content="6ffabd53335a"></head><body class="web-guest"><div class="wrap">
+</style><style>.category-suggestion{margin-top:12px;padding:10px 12px;background:#fff9e9;border-radius:8px;font-size:13px;line-height:1.65}.category-suggestion summary{cursor:pointer}.category-suggestion p{white-space:pre-wrap;color:#777;font-size:12px;margin:10px 0 0}</style><meta name="theme-color" content="#ffffff"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-status-bar-style" content="default"><link rel="manifest" href="./manifest.webmanifest"><link rel="apple-touch-icon" href="./icon-180.png"><meta name="polestar-build" content="9e7651733e67"></head><body class="web-guest"><div class="wrap">
 <header><div class="brand">普拉提动作库 <small>POLESTAR PILATES</small></div><div class="tools"><button id="soundToggle" class="sound-toggle" aria-label="静音" title="静音"></button><button id="saveGame" class="primary">存档</button><button id="loadGame">读档</button><button id="toolsToggle" aria-label="更多功能" aria-expanded="false">⋯</button><button id="portable" class="mobile-secondary">保存随身 HTML</button><button id="checkUpdate" class="mobile-secondary" hidden>检查更新</button><button id="helpOpen" class="mobile-secondary" aria-label="使用说明">?</button></div></header><div id="updateStatus" hidden role="status" aria-live="polite"><div class="inline"><strong id="updateMessage"></strong><span id="updateDetail"></span></div><progress id="updateProgress" max="100" aria-label="更新下载进度"></progress></div><p id="exportDestination" class="muted" style="font-size:11px;text-align:right;margin-top:6px" hidden></p>
 <div class="intro"><div><h1>动作练习</h1></div></div>
 <div id="folderBar" class="folder-bar" hidden><span id="folderHint">首次选择桌面的“普拉提动作库备份”文件夹，即可直接读写进度。</span><button id="chooseFolder">连接存档文件夹</button></div><div id="storageWarning" class="notice" hidden></div>
@@ -665,26 +663,24 @@ function renderMatrix() {
     if (!studyCore.matchesClassification(saved, category, level)) continue;
     displayed.add(action);
     const apparatus = appLabels.get(saved.apparatus) || saved.apparatus;
-    const button = makeButton(actionTitleFor(action), () => edit(action.id), 'matrix-action');
-    const badge = document.createElement('span');
-    badge.className = 'matrix-apparatus-chip';
-    badge.dataset.apparatus = saved.apparatus;
-    badge.textContent = apparatus;
-    button.append(badge);
+    const button = makeButton(actionTitleFor(action), () => edit(action.id), 'matrix-apparatus-chip matrix-action');
+    button.dataset.apparatus = saved.apparatus;
+    button.title = apparatus+' · 拖动换格，点击打开动作';
+    button.setAttribute('aria-label', actionTitleFor(action)+' · '+apparatus);
     const source = {id:action.id,category,level};
     const entry = document.createElement('div');
     entry.className = 'matrix-entry';
     const move = makeButton('⠿', () => showMatrixMove(source,action), 'matrix-tool');
     move.setAttribute('aria-label','移动 '+action.name);
     move.title = '拖动到其他格，或点击选择位置';
-    move.draggable = true;
-    move.ondragstart = event => {
+    move.draggable = button.draggable = true;
+    move.ondragstart = button.ondragstart = event => {
      matrixDrag = source;
      event.dataTransfer.effectAllowed = 'move';
      event.dataTransfer.setData('text/plain',action.name);
      event.dataTransfer.setDragImage(entry,15,15);
     };
-    move.ondragend = () => {
+    move.ondragend = button.ondragend = () => {
      matrixDrag = null;
      $('matrixTable').querySelectorAll('.matrix-drop-target').forEach(cell => cell.classList.remove('matrix-drop-target'));
     };
