@@ -113,7 +113,20 @@ body.web-guest #play,body.web-guest #library,body.web-guest #matrix,body.web-gue
 .matrix-apparatus-chips button[aria-pressed="true"]{border-color:currentColor;box-shadow:inset 0 0 0 1px currentColor;font-weight:600}
 #matrixExport{margin:0 0 8px;min-height:40px}
 
-#matrixTable .matrix-action{display:block;white-space:normal;overflow-wrap:anywhere;text-align:left;border-color:transparent;margin:3px 0}
+#matrixTable{border-radius:8px;border-color:#d9ded9}
+#matrixTable table{width:100%;min-width:700px;table-layout:fixed;border-collapse:separate;border-spacing:0;background:white}
+#matrixTable th,#matrixTable td{padding:9px 12px;border:0;border-right:1px solid #d9ded9;border-bottom:1px solid #d9ded9;vertical-align:top}
+#matrixTable tr>:last-child{border-right:0}
+#matrixTable tbody tr:last-child>*{border-bottom:0}
+#matrixTable thead th{background:#eaf0eb;text-align:left;font-weight:700}
+#matrixTable tr>:first-child{position:sticky;left:0;width:150px;z-index:1;background:#f1f4f0}
+#matrixTable thead tr>:first-child{background:#eaf0eb}
+#matrixTable tbody tr:nth-child(even) td{background:#f8faf8}
+#matrixTable .matrix-action{display:flex;align-items:flex-start;flex-wrap:wrap;gap:5px 8px;width:100%;margin:0;padding:7px 0;border:0;border-radius:0;background:transparent;text-align:left;white-space:normal;overflow-wrap:anywhere;font-size:13px}
+#matrixTable .matrix-action+.matrix-action{border-top:1px solid #e3e8e3}
+#matrixTable .matrix-action:hover{text-decoration:underline;text-underline-offset:3px}
+#matrixTable .matrix-action .matrix-apparatus-chip{font-size:11px;padding:2px 5px}
+@media(max-width:700px){#matrixTable table{min-width:640px}#matrixTable tr>:first-child{width:100px}#matrixTable th,#matrixTable td{padding:8px}}
 
 
 .xhs-search,.notes-xhs-logo{display:inline-flex!important;align-items:center;justify-content:center;gap:8px;min-height:44px;padding:6px 9px;border:1px solid #ececec;border-radius:9px;background:#fff;color:#666!important;line-height:1;text-decoration:none!important;white-space:nowrap;flex:0 0 auto}.xhs-search:hover,.notes-xhs-logo:hover{background:#fafafa;border-color:#ddd}.xhs-mark{display:inline-flex;align-items:center;justify-content:center;min-height:26px;padding:5px 7px;border-radius:6px;background:#ff2442;color:#fff;font-size:12px;font-weight:700;letter-spacing:-1px;line-height:1}.xhs-jump-icon{display:block;flex:0 0 20px;width:20px;height:20px;letter-spacing:normal}
@@ -126,7 +139,7 @@ body.web-guest #play,body.web-guest #library,body.web-guest #matrix,body.web-gue
 @media(max-width:600px){.practice-filters{grid-template-columns:1fr 1fr}.practice-filter-reset{grid-column:1/-1;justify-self:end;min-height:40px;font-size:12px;padding:6px 10px}.practice-filter summary{font-size:13px}.practice-filter-options label{font-size:13px}}
 
 .intro[hidden]{display:none!important}#tracking .progress{width:100%;max-width:600px;margin:16px 0 24px}
-</style><style>.category-suggestion{margin-top:12px;padding:10px 12px;background:#fff9e9;border-radius:8px;font-size:13px;line-height:1.65}.category-suggestion summary{cursor:pointer}.category-suggestion p{white-space:pre-wrap;color:#777;font-size:12px;margin:10px 0 0}</style><meta name="theme-color" content="#ffffff"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-status-bar-style" content="default"><link rel="manifest" href="./manifest.webmanifest"><link rel="apple-touch-icon" href="./icon-180.png"><meta name="polestar-build" content="b08a0b30d2eb"></head><body class="web-guest"><div class="wrap">
+</style><style>.category-suggestion{margin-top:12px;padding:10px 12px;background:#fff9e9;border-radius:8px;font-size:13px;line-height:1.65}.category-suggestion summary{cursor:pointer}.category-suggestion p{white-space:pre-wrap;color:#777;font-size:12px;margin:10px 0 0}</style><meta name="theme-color" content="#ffffff"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-status-bar-style" content="default"><link rel="manifest" href="./manifest.webmanifest"><link rel="apple-touch-icon" href="./icon-180.png"><meta name="polestar-build" content="2c15c79dbf4d"></head><body class="web-guest"><div class="wrap">
 <header><div class="brand">普拉提动作库 <small>POLESTAR PILATES</small></div><div class="tools"><button id="soundToggle" class="sound-toggle" aria-label="静音" title="静音"></button><button id="saveGame" class="primary">存档</button><button id="loadGame">读档</button><button id="toolsToggle" aria-label="更多功能" aria-expanded="false">⋯</button><button id="portable" class="mobile-secondary">保存随身 HTML</button><button id="checkUpdate" class="mobile-secondary" hidden>检查更新</button><button id="helpOpen" class="mobile-secondary" aria-label="使用说明">?</button></div></header><div id="updateStatus" hidden role="status" aria-live="polite"><div class="inline"><strong id="updateMessage"></strong><span id="updateDetail"></span></div><progress id="updateProgress" max="100" aria-label="更新下载进度"></progress></div><p id="exportDestination" class="muted" style="font-size:11px;text-align:right;margin-top:6px" hidden></p>
 <div class="intro"><div><h1>动作练习</h1></div></div>
 <div id="folderBar" class="folder-bar" hidden><span id="folderHint">首次选择桌面的“普拉提动作库备份”文件夹，即可直接读写进度。</span><button id="chooseFolder">连接存档文件夹</button></div><div id="storageWarning" class="notice" hidden></div>
@@ -566,8 +579,12 @@ function renderMatrix() {
     if (!studyCore.matchesClassification(saved, category, level)) continue;
     displayed.add(action);
     const apparatus = appLabels.get(saved.apparatus) || saved.apparatus;
-    const button = makeButton(`${actionTitleFor(action)}〔${apparatus}〕`, () => edit(action.id), 'matrix-apparatus-chip matrix-action');
-    button.dataset.apparatus = saved.apparatus;
+    const button = makeButton(actionTitleFor(action), () => edit(action.id), 'matrix-action');
+    const badge = document.createElement('span');
+    badge.className = 'matrix-apparatus-chip';
+    badge.dataset.apparatus = saved.apparatus;
+    badge.textContent = apparatus;
+    button.append(badge);
     cell.append(button);
    }
    if (!cell.children.length) cell.textContent = '—';
