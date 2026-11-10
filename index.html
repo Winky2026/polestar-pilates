@@ -162,7 +162,7 @@ body.web-guest #relations{display:none!important}
 
 
 .intro[hidden]{display:none!important}#tracking{margin:0 0 14px}#tracking .progress{width:100%;max-width:600px;margin:16px 0 24px}
-</style><style>.category-suggestion{margin-top:12px;padding:10px 12px;background:#fff9e9;border-radius:8px;font-size:13px;line-height:1.65}.category-suggestion summary{cursor:pointer}.category-suggestion p{white-space:pre-wrap;color:#777;font-size:12px;margin:10px 0 0}</style><meta name="theme-color" content="#ffffff"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-status-bar-style" content="default"><link rel="manifest" href="./manifest.webmanifest"><link rel="apple-touch-icon" href="./icon-180.png"><meta name="polestar-build" content="2ac4c85e00f6"></head><body class="web-guest"><div class="wrap">
+</style><style>.category-suggestion{margin-top:12px;padding:10px 12px;background:#fff9e9;border-radius:8px;font-size:13px;line-height:1.65}.category-suggestion summary{cursor:pointer}.category-suggestion p{white-space:pre-wrap;color:#777;font-size:12px;margin:10px 0 0}</style><meta name="theme-color" content="#ffffff"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-status-bar-style" content="default"><link rel="manifest" href="./manifest.webmanifest"><link rel="apple-touch-icon" href="./icon-180.png"><meta name="polestar-build" content="bf14c124e902"></head><body class="web-guest"><div class="wrap">
 <header><div class="brand">普拉提动作库 <small>POLESTAR PILATES</small></div><div class="tools"><button type="button" id="variantToggle" class="variant-toggle" aria-pressed="true">显示变式</button><button id="soundToggle" class="sound-toggle" aria-label="静音" title="静音"></button><button id="saveGame" class="primary">存档</button><button id="loadGame">读档</button><button id="toolsToggle" aria-label="更多功能" aria-expanded="false">⋯</button><button id="portable" class="mobile-secondary">保存随身 HTML</button><button id="checkUpdate" class="mobile-secondary" hidden>检查更新</button><button id="helpOpen" class="mobile-secondary" aria-label="使用说明">?</button></div></header><div id="updateStatus" hidden role="status" aria-live="polite"><div class="inline"><strong id="updateMessage"></strong><span id="updateDetail"></span></div><progress id="updateProgress" max="100" aria-label="更新下载进度"></progress></div><p id="exportDestination" class="muted" style="font-size:11px;text-align:right;margin-top:6px" hidden></p>
 <div class="intro"><div><h1>动作练习</h1></div></div>
 <div id="folderBar" class="folder-bar" hidden><span id="folderHint">首次选择桌面的“普拉提动作库备份”文件夹，即可直接读写进度。</span><button id="chooseFolder">连接存档文件夹</button></div><div id="storageWarning" class="notice" hidden></div>
@@ -7096,6 +7096,22 @@ window.polestarAssessments={close(){if(dialog.open)dialog.close();},preparePorta
 #fullNotebookContent{min-width:0}#fullNotebookContent>input[type=search]{box-sizing:border-box;width:100%;min-height:44px;border:1px solid var(--line);border-radius:8px;font-size:16px;padding:10px;margin:14px 0 4px}.full-note-overview p{margin:5px 0;white-space:pre-wrap;overflow-wrap:anywhere}#fullNotebookContent>.primary{margin-top:14px}.notes-capture-top+#notesFullNotebook{margin-left:8px}.notes-full-tabs button{min-height:44px}
 
 #notesStudy .notes-personal-status{color:#666;background:#f6f5f2;border:1px solid #e9e7e2;font-size:12px}#notesStudy .notes-personal-status.has-notes{color:#805000;background:#fff7e6;border-color:#ffcc66;font-weight:600}
+
+.analysis-open>.notes-top,.analysis-open>.notes-layout,.analysis-open>#notesFiltersHost,.analysis-open>#notesPickerOpen,.analysis-open>#notesLocalStatus{display:none!important}
+.notes-analysis[hidden]{display:none}
+.notes-analysis h3{margin:8px 0 18px}
+.notes-own-classification{border-top:1px solid var(--line);padding-top:12px;margin-top:12px}
+.notes-own-classification .notes-meta{margin:6px 0 0}
+.notes-personal-header{display:flex;align-items:center;justify-content:space-between;gap:10px}
+.notes-personal-header h4{margin:0}
+.notes-inline-note{border-top:1px solid var(--line);padding:10px 0;margin-top:10px}
+.notes-inline-note time,.notes-inline-note small{font-size:12px;color:var(--muted)}
+.notes-inline-note p{margin:6px 0 0}
+#notesDetail .notes-action-art svg{height:clamp(120px,36vw,190px)}
+@media(max-width:900px){#notesStudy .notes-read-controls{grid-template-columns:repeat(3,minmax(0,1fr))}}
+
+.notes-picker-picture[hidden]{display:none}
+@media(min-width:901px){#notesDetail:not(:has(>.notes-study-media))>.notes-info{grid-column:1/-1}}
 </style><script data-notes-build id="notesDataset" type="application/json">{"url": "./assets/0bf5b74b5065ec4ad83e0593.json"}</script><script data-notes-build>(function(root,factory){if(typeof module==='object'&&module.exports)module.exports=factory();else root.PolestarNotesCore=factory();})(typeof globalThis!=='undefined'?globalThis:this,function(){
 'use strict';
 const normalize=value=>String(value??'').normalize('NFKC').toLowerCase().replace(/[–—]/g,'-').replace(/⁄/g,'/').replace(/(\d)\.(?=\d)/g,'$1\u0001').replace(/-(?=\d)/g,'\u0002').replace(/[\s，,。.!！?？:：;；、()（）\-]/g,'').replace(/\u0001/g,'.').replace(/\u0002/g,'-');
@@ -7268,7 +7284,10 @@ const smallScreen=matchMedia('(max-width:900px)');
 const el=id=>document.getElementById(id),make=(tag,text,className)=>{const node=document.createElement(tag);if(text!==undefined)node.textContent=text;if(className)node.className=className;return node;};
 const secondaryNav=make('nav',undefined,'card-subnav notes-secondary-nav');secondaryNav.setAttribute('aria-label','动作学习二级菜单');
 const learnNav=make('button','动作学习');learnNav.id='notesLearnMode';learnNav.type='button';learnNav.setAttribute('aria-current','page');learnNav.classList.add('active');learnNav.onclick=()=>{closeEquipment();render();};
-const notebookNav=document.getElementById('notesEquipmentMode');notebookNav.textContent='动作笔记';notebookNav.setAttribute('aria-current','false');secondaryNav.append(notebookNav,learnNav);root.prepend(secondaryNav);
+const notebookNav=document.getElementById('notesEquipmentMode');notebookNav.textContent='动作笔记';notebookNav.setAttribute('aria-current','false');const analysisNav=make('button','动作分析');analysisNav.id='notesAnalysisMode';analysisNav.type='button';analysisNav.setAttribute('aria-current','false');
+const analysisPanel=make('section',undefined,'notes-analysis');analysisPanel.id='notesAnalysis';analysisPanel.hidden=true;
+analysisPanel.append(make('h3','动作分析'),make('p','暂无动作分析。','notes-empty'));
+secondaryNav.append(notebookNav,learnNav,analysisNav);root.prepend(secondaryNav);root.append(analysisPanel);
 let saved=null,ownerKey='',initialized=false,quizOpen=false,notebookReturn=null;
 const multiFilters=new Map();
 function selectedFilter(id){return [...el(id).selectedOptions].map(o=>o.value).filter(Boolean);}
@@ -7318,10 +7337,37 @@ function persist(){try{localStorage.setItem(ownerKey,JSON.stringify(saved));if(w
 window.addEventListener('polestar-cloud-state',()=>{initialized=false;narration.stop();if(data){try{render();}catch(error){el('notesDetail').textContent=error.message;}}});
 function session(entry){return saved.sessions[entry.id]??(saved.sessions[entry.id]={answers:{},checked:[],submitted:false});}
 function filtered(){const levels=selectedFilter('notesLevel'),apps=selectedFilter('notesApparatus');return core.filter(data.entries.filter(e=>(!levels.length||levels.includes(e.level))&&(!apps.length||apps.includes(e.apparatus))&&(!saved.review||saved.attempts[e.id]?.correct<saved.attempts[e.id]?.total)),{search:el('notesSearch').value});}
-function renderList(){updatePickerLabel();const list=el('notesList');list.replaceChildren();const entries=filtered();if(!entries.length){list.append(make('p','没有匹配的动作','notes-empty'));return;}for(const entry of entries){const button=make('button');button.type='button';const action=DATA.actions.find(a=>a.id===entry.actionId);if(action){const preview=make('div',undefined,'notes-thumb');preview.setAttribute('aria-label',entry.name+' 裁剪动作图');preview.append(artwork(action));button.append(preview);}else{const thumb=make('div',undefined,'notes-thumb'),page=data.pages[entry.book+'-'+entry.pages[0]];if(page){const image=make('img');image.src=page.thumbnail||page.preview||page.image;image.alt=entry.name+' 原笔记图';image.loading='lazy';image.style.cssText='width:100%;height:100%;object-fit:contain';thumb.append(image);}else thumb.textContent='待核对';button.append(thumb);}const label=make('div',undefined,'notes-list-label');label.append(make('strong',studyEntryTitle(entry)));button.append(label);button.setAttribute('aria-current',String(entry.id===saved.current));const attempt=saved.attempts[entry.id];label.append(make('span',[entry.level,appNames[entry.apparatus]||entry.apparatus,saved.read[entry.id]?'已读':'',attempt?`${attempt.correct}/${attempt.total} · 考过${saved.history[entry.id]?.length||1}次 · 错${attempt.total-attempt.correct}题`:''].filter(Boolean).join(' · ')));button.onclick=()=>{saved.current=entry.id;if(saved.review)saved.sessions[entry.id]={answers:{},checked:[],submitted:false};quizOpen=false;if(picker.open)picker.close();persist();render();if(smallScreen.matches)el('notesDetail').scrollIntoView({block:'start',behavior:'smooth'});};list.append(button);}}
-function render(){stopVariationAudio();stopSpeaking();load();if(!notesAssessmentEnabled){saved.mode='memory';saved.review=false;quizOpen=false;}if(equipmentOpen)renderEquipment();if(plansOpen){renderPlans();}el('notesReview').setAttribute('aria-pressed',String(saved.review));localStatus();renderList();el('notesMemory').setAttribute('aria-pressed',String(saved.mode==='memory'));el('notesExam').setAttribute('aria-pressed',String(saved.mode==='exam'));const article=el('notesDetail');article.dataset.mode=saved.mode;article.replaceChildren();if(typeof practiceStudyReturn!=='undefined'&&practiceStudyReturn){const back=make('button','← 返回听力练习');back.id='notesBackPractice';back.onclick=returnToPractice;article.append(back);}if(notebookReturn&&notebookReturn.owner===ownerKey&&!equipmentOpen){const back=make('button','← 返回动作笔记','notes-notebook-back');back.type='button';back.onclick=returnToNotebook;article.append(back);}const entry=data.entries.find(e=>e.id===saved.current);if(!entry){article.append(make('p','暂无动作笔记','notes-empty'));return;}if(saved.plans.some(p=>p.ids.includes(entry.id))){const back=make('button','返回学习计划');back.onclick=()=>el('notesPlanMode').click();article.append(back);}narration.sync(entry.id,saved.mode==='memory');const heading=make('div',undefined,'notes-action-heading');const title=make('h3',studyEntryTitle(entry));title.dataset.baseName=entry.name;heading.append(title);const speak=make('button',undefined,'speak-name');speak.id='notesSpeakName';speak.type='button';speak.innerHTML=speakerIcon;speak.setAttribute('aria-label','朗读 '+studyEntryTitle(entry));speak.title='播放动作名';speak.onclick=()=>{stopVariationAudio();narration.stop();const action=DATA.actions.find(a=>a.id===entry.actionId);if(action)speakActionTitle(action,actionVariantsFor(action),speak);else speakText(entry.name);};heading.append(speak);article.append(heading);if(entry.cn)article.append(make('p',entry.cn,'notes-quiet'));const meta=make('div',undefined,'notes-meta');for(const label of [entry.level,appNames[entry.apparatus]||entry.apparatus,...entry.pages.map(p=>(entry.sourceKind==='textbook'?'教材第 ':'笔记第 ')+p+' 页')])meta.append(make('span',label));const noteStatus=make('span',undefined,'notes-personal-status');noteStatus.id='notesPersonalStatus';noteStatus.setAttribute('role','status');meta.append(noteStatus);article.append(meta);const capture=make('button','记笔记','notes-capture-top primary');capture.id='notesQuickNote';capture.type='button';capture.onclick=()=>openStudyCapture(entry);const full=make('button','查看完整笔记','notes-capture-top');full.id='notesFullNotebook';full.type='button';full.onclick=()=>openFullNotebook(entry);article.append(capture,full);
- if(saved.mode==='memory'){renderStudyMedia(entry,article);renderVariations(entry,article);renderNotes(entry,article);const controls=make('div',undefined,'notes-read-controls');const read=make('button',saved.read[entry.id]?'✓ 已读':'标记已读');read.onclick=()=>{saved.read[entry.id]=true;planMark(entry.id,'read');persist();render();};const quiz=make('button',quizOpen?'收起练习':'已学完，开始练习','primary');quiz.onclick=()=>{if(!quizOpen){saved.read[entry.id]=true;planMark(entry.id,'read');persist();}quizOpen=!quizOpen;render();if(quizOpen)el('notesQuestions')?.scrollIntoView({block:'start',behavior:'smooth'});};const previous=make('button','← 上一个');previous.id='notesPrevious';const next=make('button','下一个 →');next.id='notesNext';const visible=filtered(),nextIndex=visible.findIndex(e=>e.id===entry.id)+1;next.disabled=nextIndex<=0||nextIndex>=visible.length;next.onclick=()=>{saved.current=visible[nextIndex].id;quizOpen=false;persist();render();el('notesDetail').scrollIntoView({block:'start',behavior:'smooth'});};previous.disabled=nextIndex<2;previous.onclick=()=>{saved.current=visible[nextIndex-2].id;quizOpen=false;persist();render();el('notesDetail').scrollIntoView({block:'start',behavior:'smooth'});};const capture=make('button','记笔记','notes-capture-control primary');capture.id='notesQuickNoteMobile';capture.type='button';capture.onclick=()=>openStudyCapture(entry);controls.append(read);if(notesAssessmentEnabled)controls.append(quiz);const captureActions=make('div',undefined,'notes-capture-cell'),full=make('button','完整笔记','notes-capture-control');full.id='notesFullNotebookMobile';full.type='button';full.setAttribute('aria-label','查看完整笔记');full.onclick=()=>openFullNotebook(entry);captureActions.append(capture,full);controls.append(captureActions,previous,next);article.append(controls);if(quizOpen)renderQuestions(entry,article,false);
- }else renderQuestions(entry,article,true);updateStudyNoteStatus(entry);
+function renderList(){updatePickerLabel();const list=el('notesList');list.replaceChildren();const entries=filtered();if(!entries.length){list.append(make('p','没有匹配的动作','notes-empty'));return;}for(const entry of entries){const button=make('button');button.type='button';const action=DATA.actions.find(a=>a.id===entry.actionId);if(action){const preview=make('div',undefined,'notes-thumb');preview.setAttribute('aria-label',entry.name+' 裁剪动作图');preview.append(artwork(action));button.append(preview);}const label=make('div',undefined,'notes-list-label');label.append(make('strong',studyEntryTitle(entry)));button.append(label);button.setAttribute('aria-current',String(entry.id===saved.current));const attempt=saved.attempts[entry.id];label.append(make('span',[entry.level,appNames[entry.apparatus]||entry.apparatus,saved.read[entry.id]?'已读':'',attempt?`${attempt.correct}/${attempt.total} · 考过${saved.history[entry.id]?.length||1}次 · 错${attempt.total-attempt.correct}题`:''].filter(Boolean).join(' · ')));button.onclick=()=>{saved.current=entry.id;if(saved.review)saved.sessions[entry.id]={answers:{},checked:[],submitted:false};quizOpen=false;if(picker.open)picker.close();persist();render();if(smallScreen.matches)el('notesDetail').scrollIntoView({block:'start',behavior:'smooth'});};list.append(button);}}
+function render(){stopVariationAudio();stopSpeaking();load();if(!notesAssessmentEnabled){saved.mode='memory';saved.review=false;quizOpen=false;}if(equipmentOpen)renderEquipment();if(plansOpen){renderPlans();}el('notesReview').setAttribute('aria-pressed',String(saved.review));localStatus();renderList();el('notesMemory').setAttribute('aria-pressed',String(saved.mode==='memory'));el('notesExam').setAttribute('aria-pressed',String(saved.mode==='exam'));const article=el('notesDetail');article.dataset.mode=saved.mode;article.replaceChildren();if(typeof practiceStudyReturn!=='undefined'&&practiceStudyReturn){const back=make('button','← 返回听力练习');back.id='notesBackPractice';back.onclick=returnToPractice;article.append(back);}if(notebookReturn&&notebookReturn.owner===ownerKey&&!equipmentOpen){const back=make('button','← 返回动作笔记','notes-notebook-back');back.type='button';back.onclick=returnToNotebook;article.append(back);}const entry=data.entries.find(e=>e.id===saved.current);if(!entry){article.append(make('p','请选择动作','notes-empty'));return;}if(saved.plans.some(p=>p.ids.includes(entry.id))){const back=make('button','返回学习计划');back.onclick=()=>el('notesPlanMode').click();article.append(back);}narration.sync(entry.id,saved.mode==='memory');const heading=make('div',undefined,'notes-action-heading');const title=make('h3',studyEntryTitle(entry));title.dataset.baseName=entry.name;heading.append(title);const speak=make('button',undefined,'speak-name');speak.id='notesSpeakName';speak.type='button';speak.innerHTML=speakerIcon;speak.setAttribute('aria-label','朗读 '+studyEntryTitle(entry));speak.title='播放动作名';speak.onclick=()=>{stopVariationAudio();narration.stop();const action=DATA.actions.find(a=>a.id===entry.actionId);if(action)speakActionTitle(action,actionVariantsFor(action),speak);else speakText(entry.name);};heading.append(speak);article.append(heading);if(entry.cn)article.append(make('p',entry.cn,'notes-quiet'));const meta=make('div',undefined,'notes-meta');for(const label of [entry.level,appNames[entry.apparatus]||entry.apparatus])meta.append(make('span',label));
+ article.append(meta);
+ if(saved.mode==='memory'){
+  renderStudyMedia(entry,article);
+  const grid=make('div',undefined,'notes-info'),category=make('section',undefined,'notes-block');
+  category.dataset.field='pattern';
+  category.append(make('h4','动作模式与分类'));
+  renderCategory(entry,category);
+  const pattern=entry.studySections.pattern?.trim();
+  if(pattern)category.append(make('p',pattern,'notes-movement-pattern'));
+  grid.append(category);
+  renderTextbookPages(entry,grid);
+  const personal=make('section',undefined,'notes-block notes-inline-personal');
+  personal.id='notesInlinePersonal';
+  grid.append(personal);
+  article.append(grid);
+  const controls=make('div',undefined,'notes-read-controls');
+  const read=make('button',saved.read[entry.id]?'✓ 已读':'标记已读');
+  read.onclick=()=>{saved.read[entry.id]=true;planMark(entry.id,'read');persist();render();};
+  const previous=make('button','← 上一个'),next=make('button','下一个 →');
+  previous.id='notesPrevious';next.id='notesNext';
+  const visible=filtered(),index=visible.findIndex(item=>item.id===entry.id);
+  previous.disabled=index<=0;next.disabled=index<0||index>=visible.length-1;
+  previous.onclick=()=>openAdjacent(visible[index-1]);
+  next.onclick=()=>openAdjacent(visible[index+1]);
+  function openAdjacent(item){saved.current=item.id;quizOpen=false;persist();render();article.scrollIntoView({block:'start',behavior:'smooth'});}
+  controls.append(previous,read,next);
+  article.append(controls);
+ }else renderQuestions(entry,article,true);
+ updateStudyNoteStatus(entry);
 }
 function timeLabel(seconds){const value=Math.max(0,Math.floor(seconds||0));return Math.floor(value/60)+':'+String(value%60).padStart(2,'0');}
 function updateNarrationControls(){
@@ -7337,10 +7383,8 @@ function renderStudyMedia(entry,article){
  const media=make('section',undefined,'notes-study-media'),action=DATA.actions.find(a=>a.id===entry.actionId);
  if(action){const picture=make('button',undefined,'notes-action-art');picture.type='button';picture.id='notesActionPicture';picture.setAttribute('aria-label','放大 '+entry.name+' 动作图');picture.append(artwork(action));picture.onclick=()=>{sourcePage=null;clearTimeout(imageTimer);el('notesImageStatus').hidden=true;el('notesImage').hidden=true;el('notesArtwork').hidden=false;el('notesArtwork').replaceChildren(artwork(action));el('notesImageTitle').textContent=entry.name+' · 动作图';viewer.classList.remove('zoom');el('notesImageZoom').textContent='放大';viewer.showModal();viewer.querySelector('.notes-image-scroll').scrollTo(0,0);};media.append(picture);}
 
- if(!action){const page=data.pages[entry.book+'-'+entry.pages[0]];if(page){const picture=make('button',undefined,'notes-action-art');picture.id='notesSourcePreview';picture.type='button';picture.setAttribute('aria-label','放大 '+entry.name+' 原笔记图');const image=make('img');image.src=page.preview||page.image;image.alt=entry.name+' 原笔记图';image.style.cssText='display:block;width:100%;height:100%;object-fit:contain';picture.append(image);picture.onclick=()=>{el('notesImage').hidden=false;el('notesArtwork').hidden=true;el('notesArtwork').replaceChildren();loadSourceImage(page);el('notesImage').alt=image.alt;el('notesImageTitle').textContent=entry.name+' · '+page.source+' 第 '+entry.pages[0]+' 页';viewer.classList.remove('zoom');el('notesImageZoom').textContent='放大';viewer.showModal();viewer.querySelector('.notes-image-scroll').scrollTo(0,0);};media.append(picture);}}
-
  const search=make('a',undefined,'notes-xhs notes-xhs-logo');search.innerHTML=xhsSearchBadge();search.setAttribute('aria-label','在小红书搜索 '+entry.name);search.id='notesXhsSearch';const links=xhsSearchLinks({name:entry.name});search.href=links.web;search.dataset.appUrl=links.app;search.target='_blank';search.rel='noopener noreferrer';search.referrerPolicy='no-referrer';search.onclick=openXhsSearch;
- article.querySelector('#notesSpeakName').before(search);article.append(media);
+ article.querySelector('#notesSpeakName').before(search);if(action)article.append(media);
 }
 // Highlight only literal source text; never rewrite the original notes or question options.
 function highlightNotes(node,text,field,entry){
@@ -7369,7 +7413,16 @@ function catalogTitle(row){const action=DATA.actions.find(a=>a.id===row.actionId
 function renderCategory(entry,block){
  const categories=entry.suggestedCategories||[],suggestion=make('div',undefined,'notes-category');
  suggestion.append(make('p','参考1：'+(categories.length?categories.map(c=>c+' · '+(categoryNames[c]||c)).join(' / '):'待核对')+' · '+(entry.suggestedLevel||'待核对')+'（'+(entry.levelSourceLabel||entry.level)+'）','classification-reference-line'));
- const extra=make('div');if(window.PolestarReferences)window.PolestarReferences.render(extra,entry.supplementaryReferences||[]);suggestion.append(extra);block.append(suggestion);
+ const extra=make('div');if(window.PolestarReferences)window.PolestarReferences.render(extra,entry.supplementaryReferences||[]);suggestion.append(extra);
+ const action=CARDS.find(item=>item.id===entry.actionId);
+ const pairs=action?studyCore.classifications(record(action.id)).filter(pair=>pair.category||pair.level):[];
+ const mine=make('div',undefined,'notes-own-classification');
+ mine.append(make('strong','我的分类'));
+ const tags=make('div',undefined,'notes-meta');
+ for(const pair of pairs)tags.append(make('span',[pair.category&&[pair.category,categoryNames[pair.category]].filter(Boolean).join(' · '),pair.level].filter(Boolean).join(' · ')));
+ if(!pairs.length)tags.append(make('span','未设置'));
+ mine.append(tags);
+ block.append(suggestion,mine);
 }
 function openRelatedEntry(entry){
  narration.stop();if(relatedPicker.open)relatedPicker.close();if(picker.open)picker.close();clearNotesFilters();saved.current=entry.id;quizOpen=false;persist();render();el('notesDetail').setAttribute('tabindex','-1');el('notesDetail').focus({preventScroll:true});el('notesDetail').scrollIntoView({block:'start',behavior:'smooth'});
@@ -7455,7 +7508,7 @@ for(const modeId of ['notesMemory','notesExam','notesReview'])el(modeId).addEven
 for(const id of ['notesLevel','notesApparatus','notesSearch'])el(id).addEventListener(id==='notesSearch'?'input':'change',()=>{if(multiFilters.has(id))syncMultiFilter(id);const list=filtered();if(list.length&&!list.some(e=>e.id===saved.current)){saved.current=list[0].id;quizOpen=false;persist();}renderList();if(list.length)render();else{narration.stop();el('notesDetail').replaceChildren(make('p','没有匹配的动作，请调整筛选。','notes-empty'));}});
 el('notesRelatedClose').onclick=()=>relatedPicker.close();
 el('notesImageClose').onclick=()=>viewer.close();el('notesImageZoom').onclick=()=>{viewer.classList.toggle('zoom');if(sourcePage&&viewer.classList.contains('zoom')&&el('notesImage').getAttribute('src')!==sourcePage.image)loadSourceImage(sourcePage,true);el('notesImageZoom').textContent=viewer.classList.contains('zoom')?'缩小':'放大';viewer.querySelector('.notes-image-scroll').scrollTo(0,0);};
-function updatePickerLabel(){if(!data||!saved)return;const entry=data.entries.find(e=>e.id===saved.current),entries=filtered();el('notesPickerName').textContent=entry?.name||'选择动作';el('notesPickerCount').textContent=(Math.max(0,entries.findIndex(e=>e.id===saved.current)+1))+' / '+entries.length;const picture=el('notesPickerPicture');picture.replaceChildren();const action=DATA.actions.find(a=>a.id===entry?.actionId);if(action)picture.append(artwork(action));else{const page=data.pages[entry?.book+'-'+entry?.pages[0]];if(page){const image=make('img');image.src=page.thumbnail||page.preview||page.image;image.alt=entry.name+' 原笔记图';image.style.cssText='width:100%;height:100%;object-fit:contain';picture.append(image);}}}
+function updatePickerLabel(){if(!data||!saved)return;const entry=data.entries.find(e=>e.id===saved.current),entries=filtered();el('notesPickerName').textContent=entry?.name||'选择动作';el('notesPickerCount').textContent=(Math.max(0,entries.findIndex(e=>e.id===saved.current)+1))+' / '+entries.length;const picture=el('notesPickerPicture');picture.replaceChildren();const action=DATA.actions.find(a=>a.id===entry?.actionId);if(action)picture.append(artwork(action));picture.hidden=!action;}
 function positionPicker(){if(picker.open)picker.close();(smallScreen.matches?el('notesPickerFilters'):el('notesFiltersHost')).append(el('notesFilters'));(smallScreen.matches?el('notesPickerList'):el('notesListHost')).append(el('notesList'));}
 smallScreen.addEventListener('change',positionPicker);positionPicker();
 el('notesPickerOpen').onclick=()=>{picker.showModal();const current=el('notesList').querySelector('[aria-current=true]');if(current){const list=el('notesList');list.scrollTop+=current.getBoundingClientRect().top-list.getBoundingClientRect().top-(list.clientHeight-current.offsetHeight)/2;}};
@@ -7516,7 +7569,17 @@ root.append(equipmentPanel);
 for(const name of ['Mat','Reformer','Trapeze Table','Chair','Ladder Barrel','Spine Corrector']){const option=make('option',appNames[name]);option.value=name;el('springApparatus').append(option);}
 makeMultiFilter('springApparatus','全部器械');makeMultiFilter('springBook','全部等级');
 const equipmentDetail=document.createElement('dialog');equipmentDetail.id='equipmentExerciseDialog';equipmentDetail.innerHTML='<div class="dialog-top"><strong>动作详情</strong><button type="button">关闭</button></div><div class="equipment-detail-content"></div>';equipmentDetail.querySelector('button').onclick=()=>equipmentDetail.close();document.body.append(equipmentDetail);
-function closeEquipment(){notebookNav.classList.remove('active');learnNav.classList.add('active');learnNav.setAttribute('aria-current','page');notebookNav.setAttribute('aria-current','false');equipmentOpen=false;root.classList.remove('equipment-open');equipmentPanel.hidden=true;el('notesEquipmentMode').setAttribute('aria-pressed','false');}
+function closeAnalysis(){
+ analysisPanel.hidden=true;root.classList.remove('analysis-open');analysisNav.classList.remove('active');analysisNav.setAttribute('aria-current','false');
+}
+analysisNav.onclick=()=>{
+ closeEquipment();
+ stopSpeaking();stopVariationAudio();narration.stop();
+ learnNav.classList.remove('active');learnNav.setAttribute('aria-current','false');
+ analysisNav.classList.add('active');analysisNav.setAttribute('aria-current','page');
+ analysisPanel.hidden=false;root.classList.add('analysis-open');
+};
+function closeEquipment(){closeAnalysis();notebookNav.classList.remove('active');learnNav.classList.add('active');learnNav.setAttribute('aria-current','page');notebookNav.setAttribute('aria-current','false');equipmentOpen=false;root.classList.remove('equipment-open');equipmentPanel.hidden=true;el('notesEquipmentMode').setAttribute('aria-pressed','false');}
 function restoreNotebook(){
  const previous=notebookReturn;if(!previous||previous.owner!==ownerKey)return;if(viewer.open)viewer.close();if(notebookDialog.open)notebookDialog.close();notebookReturn=null;
  el('springSearch').value=previous.search;for(const [id,values] of [['springApparatus',previous.apps],['springBook',previous.books]]){for(const option of el(id).options)option.selected=values.includes(option.value);syncMultiFilter(id);}
@@ -7560,29 +7623,30 @@ function openNotebookDialog(title,build){
  notebookDialog.classList.remove('study-capture-dialog');notebookDialog.replaceChildren();const top=make('div',undefined,'notebook-dialog-top'),heading=make('h3',title),close=make('button','关闭');close.type='button';close.setAttribute('aria-label','关闭笔记弹窗');close.onclick=()=>notebookDialog.close();top.append(heading,close);const body=make('div',undefined,'notebook-dialog-body');notebookDialog.append(top,body);build(body);if(!notebookDialog.open)notebookDialog.showModal();notebookDialog.scrollTop=0;
 }
 function studyCatalogRows(entry){return (data.equipmentCatalog||[]).filter(row=>entry.actionId!=null?row.actionId===entry.actionId:row.book===entry.book&&core.normalize(row.name)===core.normalize(entry.name));}
-function studyNoteSummary(entry){
- const rows=studyCatalogRows(entry),records=rows.map(r=>({row:r,record:saved.equipmentLog[r.id]})).filter(r=>r.record);return {count:records.reduce((sum,{record})=>sum+record.events.filter(e=>!e.deleted&&e.note.trim()).length,0),hasOtherRecords:records.some(({row,record})=>springTextFor(row,record.spring).trim()||record.events.some(e=>e.practice&&e.active))};
-}
-function updateStudyNoteStatus(entry=data?.entries.find(e=>e.id===saved?.current)){
- if(!entry||!saved)return;const summary=studyNoteSummary(entry),status=el('notesPersonalStatus');if(status){status.textContent=summary.count?'已记笔记 · '+summary.count+' 条':summary.hasOtherRecords?'暂无文字笔记 · 已有设置或练习记录':'未记笔记';status.classList.toggle('has-notes',summary.count>0);status.dataset.noteCount=String(summary.count);}
- const full=el('notesFullNotebook');if(full){full.textContent=summary.count?'查看完整笔记（'+summary.count+'）':'查看完整笔记';full.setAttribute('aria-label',summary.count?'查看完整笔记，已保存 '+summary.count+' 条':'查看完整笔记');}
- const mobile=el('notesFullNotebookMobile');if(mobile){mobile.textContent=summary.count?'笔记 · '+summary.count:'完整笔记';mobile.setAttribute('aria-label',summary.count?'查看完整笔记，已保存 '+summary.count+' 条':'查看完整笔记');}
-}
-function openFullNotebook(entry){
- openNotebookDialog(studyEntryTitle(entry)+' · 我的完整笔记',body=>{
-  const content=make('div');content.id='fullNotebookContent';body.append(content);
-  function renderMine(){
-   const rows=studyCatalogRows(entry),records=rows.map(row=>({row,record:saved.equipmentLog[row.id]||{spring:'',events:[]}}));
-   for(const {row,record}of records){const overview=make('div',undefined,'full-note-overview');if(rows.length>1)overview.append(make('strong',catalogTitle(row)));overview.append(make('p',(appNames[row.apparatus]||row.apparatus)+' · 累计练习 '+record.events.filter(e=>e.practice&&e.active).length+' 次'),make('p','弹簧设置：'+(springTextFor(row,record.spring)||'未设置')));content.append(overview);}
-   const notes=records.flatMap(({row,record})=>record.events.filter(event=>!event.deleted&&event.note.trim()).map(event=>({row,event}))).sort((a,b)=>Date.parse(b.event.at)-Date.parse(a.event.at));
-   const tools=make('div',undefined,'notebook-history-list'),search=make('input'),status=make('p',undefined,'notes-quiet');search.type='search';search.placeholder='搜索笔记内容或标签';search.setAttribute('aria-label','搜索我的笔记');content.append(search,status,tools);
-   function list(){tools.replaceChildren();const query=core.normalize(search.value),visible=notes.filter(({event})=>core.normalize(event.note).includes(query));status.textContent='共 '+notes.length+' 条笔记'+(query?' · 找到 '+visible.length+' 条':' · 点击日期查看全文');for(const [index,{row,event}]of visible.entries()){
-     const item=make('details',undefined,'notebook-history-item');item.name='full-notebook-history';item.open=index===0;const summary=make('summary');summary.append(make('small',new Date(event.at).toLocaleString('zh-CN')+(rows.length>1?' · '+catalogTitle(row):'')),make('span',event.note,'notebook-note-excerpt'),make('span',index===0?'收起全文':'展开全文','notebook-note-expand'));const paragraph=make('p',event.note,'equipment-note-text'),full=make('div',undefined,'notebook-note-content');full.append(paragraph);const collapse=make('button','收起');collapse.type='button';collapse.onclick=()=>{item.open=false;summary.focus({preventScroll:true});summary.scrollIntoView({block:'nearest'});};full.append(collapse);item.append(summary,full);let userOpened=false;summary.addEventListener('click',()=>{userOpened=true;});item.addEventListener('toggle',()=>{summary.lastChild.textContent=item.open?'收起全文':'展开全文';if(item.open){for(const other of tools.querySelectorAll('details'))if(other!==item)other.open=false;if(userOpened)requestAnimationFrame(()=>{if(item.open&&item.isConnected)notebookDialog.scrollTop+=item.getBoundingClientRect().top-notebookDialog.getBoundingClientRect().top-notebookDialog.querySelector('.notebook-dialog-top').getBoundingClientRect().height-12;});}userOpened=false;});tools.append(item);
-    }if(!visible.length)tools.append(make('p',notes.length?'没有匹配的笔记':'还没有保存笔记，可以先点击“记笔记”。','notes-quiet'));}
-   search.oninput=list;list();const add=make('button','记笔记','primary');add.type='button';add.onclick=()=>openStudyCapture(entry);content.append(add);
-  }
-  renderMine();
- });
+function updateStudyNoteStatus(entry=data?.entries.find(item=>item.id===saved?.current)){
+ const host=el('notesInlinePersonal');
+ if(!entry||!saved||!host)return;
+ const rows=studyCatalogRows(entry);
+ const notes=rows.flatMap(row=>(saved.equipmentLog[row.id]?.events||[])
+  .filter(event=>!event.deleted&&event.note.trim()).map(event=>({row,event})))
+  .sort((a,b)=>Date.parse(b.event.at)-Date.parse(a.event.at));
+ const action=CARDS.find(item=>item.id===entry.actionId);
+ const legacy=action?record(action.id).notes.trim():'';
+ const header=make('div',undefined,'notes-personal-header'),capture=make('button','记笔记','primary');
+ capture.id='notesQuickNote';capture.type='button';capture.disabled=!rows.length;capture.onclick=()=>openStudyCapture(entry);
+ header.append(make('h4','我的笔记'),capture);host.replaceChildren(header);
+ for(const {row,event} of notes){
+  const item=make('article',undefined,'notes-inline-note');
+  const date=make('time',new Date(event.at).toLocaleString('zh-CN'));date.dateTime=event.at;
+  item.append(date);
+  if(rows.length>1)item.append(make('span',catalogTitle(row),'notes-quiet'));
+  item.append(make('p',event.note,'equipment-note-text'));host.append(item);
+ }
+ if(legacy){
+  const item=make('article',undefined,'notes-inline-note');
+  item.append(make('small','整理动作笔记'),make('p',legacy,'equipment-note-text'));host.append(item);
+ }
+ if(!notes.length&&!legacy)host.append(make('p','暂无笔记。','notes-quiet'));
 }
 function openStudyCapture(entry){
  const candidates=studyCatalogRows(entry);if(!candidates.length){toast('这个动作暂未匹配到笔记条目，请先核对目录。');return;}
@@ -7657,7 +7721,7 @@ function renderEquipment(){
  if(!rows.length)host.append(make('p','没有匹配的动作','notes-empty'));
 }
 for(const id of ['springSearch','springApparatus','springBook'])el(id).addEventListener(id==='springSearch'?'input':'change',()=>{if(multiFilters.has(id))syncMultiFilter(id);renderEquipment();});
-el('notesEquipmentMode').onclick=()=>{if(notebookReturn&&!equipmentOpen){returnToNotebook();return;}equipmentOpen=!equipmentOpen;learnNav.classList.toggle('active',!equipmentOpen);notebookNav.classList.toggle('active',equipmentOpen);learnNav.setAttribute('aria-current',equipmentOpen?'false':'page');notebookNav.setAttribute('aria-current',equipmentOpen?'page':'false');if(equipmentOpen){plansOpen=false;root.classList.remove('plans-open');plansPanel.hidden=true;el('notesPlanMode').setAttribute('aria-pressed','false');stopVariationAudio();narration.stop();}root.classList.toggle('equipment-open',equipmentOpen);equipmentPanel.hidden=!equipmentOpen;el('notesEquipmentMode').setAttribute('aria-pressed',String(equipmentOpen));if(equipmentOpen)renderEquipment();};
+el('notesEquipmentMode').onclick=()=>{closeAnalysis();if(notebookReturn&&!equipmentOpen){returnToNotebook();return;}equipmentOpen=!equipmentOpen;learnNav.classList.toggle('active',!equipmentOpen);notebookNav.classList.toggle('active',equipmentOpen);learnNav.setAttribute('aria-current',equipmentOpen?'false':'page');notebookNav.setAttribute('aria-current',equipmentOpen?'page':'false');if(equipmentOpen){plansOpen=false;root.classList.remove('plans-open');plansPanel.hidden=true;el('notesPlanMode').setAttribute('aria-pressed','false');stopVariationAudio();narration.stop();}root.classList.toggle('equipment-open',equipmentOpen);equipmentPanel.hidden=!equipmentOpen;el('notesEquipmentMode').setAttribute('aria-pressed',String(equipmentOpen));if(equipmentOpen)renderEquipment();};
 for(const id of ['notesMemory','notesExam','notesReview','notesPlanMode'])el(id).addEventListener('click',closeEquipment);
 
 window.polestarNotes={async openPracticeAction(actionId){closeEquipment();if(hostedMode&&!window.polestarCloud?.active)return false;await ensureData();load();const action=DATA.actions.find(a=>a.id===actionId),id=action?.identityAliasOf||actionId;const entry=data.entries.find(e=>e.actionId===id)||data.entries.find(e=>e.actionId===actionId);if(!entry)return false;saved.review=false;saved.mode='memory';tab('notesStudy');openRelatedEntry(entry);return true;},async openEntry(entryId){closeEquipment();if(hostedMode&&!window.polestarCloud?.active)return;await ensureData();load();const entry=data.entries.find(e=>e.id===entryId);if(!entry)throw Error('没有找到对应笔记');saved.review=false;saved.mode='memory';tab('notesStudy');openRelatedEntry(entry);},async openAction(actionId){
@@ -7671,6 +7735,6 @@ window.polestarNotes={async openPracticeAction(actionId){closeEquipment();if(hos
 },async onOpen(){
  const isPlan=document.body.dataset.activeTab==='learningPlans';plansOpen=isPlan;plansPanel.hidden=!isPlan;const target=isPlan?planStatus:el('notesDetail');if(!data)target.textContent='正在载入…';
  try{await ensureData();if(!['notesStudy','learningPlans'].includes(document.body.dataset.activeTab))return;load();planStatus.replaceChildren();plansOpen=document.body.dataset.activeTab==='learningPlans';plansPanel.hidden=!plansOpen;if(plansOpen)renderPlans();else render();}catch(error){const article=target;article.replaceChildren(make('p',error.message,'notes-quiet'));const retry=make('button','重新载入');retry.onclick=()=>window.polestarNotes.onOpen();article.append(retry);}
-},onLeave(){notebookReturn=null;if(notebookDialog.open)notebookDialog.close();if(equipmentDetail.open)equipmentDetail.close();stopVariationAudio();narration.stop();if(planDialog.open)planDialog.close();if(relatedPicker.open)relatedPicker.close();if(picker.open)picker.close();},stopNarration(){stopVariationAudio();narration.stop();},narrationState(){return narration.state();},preparePortable(clone){clone.querySelectorAll('[data-notes-build],#notesStudy,#learningPlans,#notesImageDialog,#notesPickerDialog,#notesRelatedDialog,#notesPlanDialog,#equipmentExerciseDialog,#notebookDialog,[data-tab=notesStudy],[data-tab=learningPlans]').forEach(n=>n.remove());if(['notesStudy','learningPlans'].includes(clone.querySelector('body')?.dataset.activeTab))clone.querySelector('body').dataset.activeTab='play';},data:null,grade:core.grade};
+},onLeave(){if(!analysisPanel.hidden)closeEquipment();notebookReturn=null;if(notebookDialog.open)notebookDialog.close();if(equipmentDetail.open)equipmentDetail.close();stopVariationAudio();narration.stop();if(planDialog.open)planDialog.close();if(relatedPicker.open)relatedPicker.close();if(picker.open)picker.close();},stopNarration(){stopVariationAudio();narration.stop();},narrationState(){return narration.state();},preparePortable(clone){clone.querySelectorAll('[data-notes-build],#notesStudy,#learningPlans,#notesImageDialog,#notesPickerDialog,#notesRelatedDialog,#notesPlanDialog,#equipmentExerciseDialog,#notebookDialog,[data-tab=notesStudy],[data-tab=learningPlans]').forEach(n=>n.remove());if(['notesStudy','learningPlans'].includes(clone.querySelector('body')?.dataset.activeTab))clone.querySelector('body').dataset.activeTab='play';},data:null,grade:core.grade};
 })();
 </script><script src="./web-app.js?v=91e9a7ae54d5" defer></script></body></html>
