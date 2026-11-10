@@ -113,14 +113,12 @@ body.web-guest #play,body.web-guest #library,body.web-guest #matrix,body.web-gue
 .matrix-apparatus-chips button[aria-pressed="true"]{border-color:currentColor;box-shadow:inset 0 0 0 1px currentColor;font-weight:600}
 #matrixExport{margin:0 0 8px;min-height:40px}
 
-#matrixTable{border-radius:8px;border-color:#7da0c7}
+#matrixTable{border:0;border-radius:8px}
 #matrixTable table{width:100%;min-width:700px;table-layout:fixed;border-collapse:separate;border-spacing:0;background:white}
-#matrixTable th,#matrixTable td{padding:9px 12px;border:0;border-right:1px solid #b2c7de;border-bottom:1px solid #b2c7de;vertical-align:top}
-#matrixTable tr>:last-child{border-right:0}
-#matrixTable tbody tr:last-child>*{border-bottom:0}
-#matrixTable thead th{background:white;color:#244e79;text-align:left;font-weight:700;border-bottom:2px solid #7da0c7}
-#matrixTable tr>:first-child{position:sticky;left:0;width:150px;z-index:1;background:white;color:#244e79}
-#matrixTable td{background:white}
+#matrixTable th,#matrixTable td{padding:9px 12px;border:0;border-bottom:1px solid #e6ebf0;vertical-align:top}
+#matrixTable thead th{background:#edf4fb;color:#244e79;text-align:left;font-weight:700}
+#matrixTable tr>:first-child{position:sticky;left:0;width:150px;z-index:1;color:#244e79}
+#matrixTable tbody th,#matrixTable td{background:white}
 #matrixTable .matrix-action{display:flex;align-items:flex-start;flex-wrap:wrap;gap:5px 8px;width:100%;margin:0;padding:7px 8px;border:0;border-radius:6px;background:var(--chip-bg);color:var(--chip-ink);cursor:grab;text-align:left;white-space:normal;overflow-wrap:anywhere;font-size:13px}
 #matrixTable .matrix-action+.matrix-action{border-top:1px solid #e3e8e3}
 #matrixTable .matrix-action:hover{text-decoration:underline;text-underline-offset:3px}
@@ -137,9 +135,14 @@ body.web-guest #relations{display:none!important}
 #matrixMove{padding:18px}
 #matrixMove label{display:block;margin:12px 0}
 #matrixMove select{max-width:100%}
-.related-editor-fields,.related-editor-row,.relation-toolbar{display:flex;flex-wrap:wrap;gap:8px;margin:8px 0}
-.related-editor-fields select:first-child{flex:1 1 190px}
-.related-editor-fields select,.relation-toolbar select{max-width:100%;min-width:0;padding:8px;border:1px solid var(--line);border-radius:8px;background:white}
+.related-editor-row,.relation-toolbar{display:flex;flex-wrap:wrap;gap:8px;margin:8px 0}
+.relation-toolbar select{max-width:100%;min-width:0;padding:8px;border:1px solid var(--line);border-radius:8px;background:white}
+.relation-field{min-width:0;margin:10px 0;padding:8px 10px;border:1px solid var(--line);border-radius:8px}
+.relation-field legend{padding:0 4px;font-weight:600}
+.relation-field input{box-sizing:border-box;width:100%;min-height:42px;padding:8px;border:1px solid var(--line);border-radius:8px;font-size:16px}
+.relation-field-results{max-height:180px;overflow:auto;margin-top:4px}
+.relation-field-results button{display:block;width:100%;text-align:left;min-height:42px;margin-top:4px;overflow-wrap:anywhere}
+.relation-field-empty{margin:6px;color:var(--muted)}
 .related-editor-row button:first-child{text-align:left}
 #relationGraph svg{display:block;max-width:none;background:white}
 .relation-node{cursor:pointer}
@@ -158,22 +161,22 @@ body.web-guest #relations{display:none!important}
 @media(max-width:600px){.practice-filter-tag,.variant-toggle{min-height:42px}}
 
 
-.intro[hidden]{display:none!important}#tracking .progress{width:100%;max-width:600px;margin:16px 0 24px}
-</style><style>.category-suggestion{margin-top:12px;padding:10px 12px;background:#fff9e9;border-radius:8px;font-size:13px;line-height:1.65}.category-suggestion summary{cursor:pointer}.category-suggestion p{white-space:pre-wrap;color:#777;font-size:12px;margin:10px 0 0}</style><meta name="theme-color" content="#ffffff"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-status-bar-style" content="default"><link rel="manifest" href="./manifest.webmanifest"><link rel="apple-touch-icon" href="./icon-180.png"><meta name="polestar-build" content="5dfa62c8e2ee"></head><body class="web-guest"><div class="wrap">
+.intro[hidden]{display:none!important}#tracking{margin:0 0 14px}#tracking .progress{width:100%;max-width:600px;margin:16px 0 24px}
+</style><style>.category-suggestion{margin-top:12px;padding:10px 12px;background:#fff9e9;border-radius:8px;font-size:13px;line-height:1.65}.category-suggestion summary{cursor:pointer}.category-suggestion p{white-space:pre-wrap;color:#777;font-size:12px;margin:10px 0 0}</style><meta name="theme-color" content="#ffffff"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-status-bar-style" content="default"><link rel="manifest" href="./manifest.webmanifest"><link rel="apple-touch-icon" href="./icon-180.png"><meta name="polestar-build" content="2ac4c85e00f6"></head><body class="web-guest"><div class="wrap">
 <header><div class="brand">普拉提动作库 <small>POLESTAR PILATES</small></div><div class="tools"><button type="button" id="variantToggle" class="variant-toggle" aria-pressed="true">显示变式</button><button id="soundToggle" class="sound-toggle" aria-label="静音" title="静音"></button><button id="saveGame" class="primary">存档</button><button id="loadGame">读档</button><button id="toolsToggle" aria-label="更多功能" aria-expanded="false">⋯</button><button id="portable" class="mobile-secondary">保存随身 HTML</button><button id="checkUpdate" class="mobile-secondary" hidden>检查更新</button><button id="helpOpen" class="mobile-secondary" aria-label="使用说明">?</button></div></header><div id="updateStatus" hidden role="status" aria-live="polite"><div class="inline"><strong id="updateMessage"></strong><span id="updateDetail"></span></div><progress id="updateProgress" max="100" aria-label="更新下载进度"></progress></div><p id="exportDestination" class="muted" style="font-size:11px;text-align:right;margin-top:6px" hidden></p>
 <div class="intro"><div><h1>动作练习</h1></div></div>
 <div id="folderBar" class="folder-bar" hidden><span id="folderHint">首次选择桌面的“普拉提动作库备份”文件夹，即可直接读写进度。</span><button id="chooseFolder">连接存档文件夹</button></div><div id="storageWarning" class="notice" hidden></div>
-<nav class="nav" aria-label="主导航"><button data-tab="practice">听力练习</button><button data-tab="play" class="active">动作分类</button></nav><nav id="cardNav" class="card-subnav" aria-label="动作分类二级导航"><button data-card-tab="play" class="active">整理动作</button><button data-tab="relations">关联动作</button><button data-tab="matrix">分类 × 等级</button><button data-tab="tracking">整理进度</button></nav>
-<section id="play"><div class="workspace"><article class="card"><div class="card-head"><div class="inline"><span class="eyebrow" id="cardNumber"></span><span class="badge" id="cardStatus"></span></div><div class="name-row"><button id="nameToggle" class="name-toggle" aria-expanded="false" aria-controls="nameText"><span id="namePrompt">选择动作名称</span><span id="nameText" hidden><span id="cardName" class="name-english"></span><span class="muted name-chinese" id="cardCn"></span></span></button><button id="learnCurrentAction" type="button" class="learn-action">学动作</button><button id="speakName" class="speak-name" aria-label="朗读英文动作名称" aria-pressed="false" title="朗读英文动作名称"><svg width="21" height="21" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M11 5 6 9H3v6h3l5 4z"/><path d="M15 8a6 6 0 0 1 0 8M18 5a10 10 0 0 1 0 14"/></svg></button></div><div id="nameOptions" class="name-options"></div></div><div class="card-pages" role="group" aria-label="卡片图片页面"><button id="actionPage" aria-pressed="true">1 动作图</button><button id="sourcePage" aria-pressed="false">2 完整教材</button></div><div class="image-stage"><button class="image-button" id="imageOpen" aria-label="放大教材图片"><div id="cardQuizArt" class="quiz-art main-art"></div><img id="cardImage" alt=""></button></div><div class="source"><strong id="manualName"></strong><div id="scanPage"></div><div class="image-nav" id="imageNav"></div><a id="xhsSearch" class="xhs-search" target="_blank" rel="noopener noreferrer" referrerpolicy="no-referrer" aria-label="在小红书搜索当前动作"><span class="xhs-mark" aria-hidden="true">小红书</span><svg class="xhs-jump-icon" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="10.5" cy="10.5" r="6.5"/><path d="m16 16 4.5 4.5"/></svg></a></div></article>
+<nav class="nav" aria-label="主导航"><button data-tab="play" class="active">动作分类</button><button data-tab="practice">听力练习</button></nav><nav id="cardNav" class="card-subnav" aria-label="动作分类二级导航"><button data-tab="matrix">分类 × 等级</button><button data-tab="relations">关联动作</button><button data-card-tab="play" class="active">整理动作</button></nav>
+<section id="play"><details id="tracking"><summary>整理进度</summary><div class="progress-detail"><div class="progress"><p><span>已整理 <strong id="doneCount">0</strong> / 149</span><span id="percent">0%</span></p><div class="track" id="overallProgress" role="progressbar" aria-label="总体整理进度" aria-valuemin="0" aria-valuemax="149" aria-valuenow="0"><div class="fill" id="progressFill"></div></div><div class="progress-meta"><span id="remainingCount">未完成 149 张</span><span id="laterCount">稍后再想 0 张</span></div></div><div class="progress-stats"><div class="progress-stat"><span>已完成</span><strong id="statsDone">0</strong></div><div class="progress-stat"><span>待整理</span><strong id="statsPending">149</strong></div><div class="progress-stat"><span>稍后再想</span><strong id="statsLater">0</strong></div></div><h2>各器械整理进度</h2><p class="muted" style="font-size:12px">按原资料器械版本统计，每张卡片只计一次。</p><div class="apparatus-progress" id="apparatusProgress"></div><div class="progress-bottom"><p id="progressSavedAt"></p><button class="primary" id="resumeProgress">继续未完成的卡片 →</button></div></div></details><div class="workspace"><article class="card"><div class="card-head"><div class="inline"><span class="eyebrow" id="cardNumber"></span><span class="badge" id="cardStatus"></span></div><div class="name-row"><button id="nameToggle" class="name-toggle" aria-expanded="false" aria-controls="nameText"><span id="namePrompt">选择动作名称</span><span id="nameText" hidden><span id="cardName" class="name-english"></span><span class="muted name-chinese" id="cardCn"></span></span></button><button id="learnCurrentAction" type="button" class="learn-action">学动作</button><button id="speakName" class="speak-name" aria-label="朗读英文动作名称" aria-pressed="false" title="朗读英文动作名称"><svg width="21" height="21" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M11 5 6 9H3v6h3l5 4z"/><path d="M15 8a6 6 0 0 1 0 8M18 5a10 10 0 0 1 0 14"/></svg></button></div><div id="nameOptions" class="name-options"></div></div><div class="card-pages" role="group" aria-label="卡片图片页面"><button id="actionPage" aria-pressed="true">1 动作图</button><button id="sourcePage" aria-pressed="false">2 完整教材</button></div><div class="image-stage"><button class="image-button" id="imageOpen" aria-label="放大教材图片"><div id="cardQuizArt" class="quiz-art main-art"></div><img id="cardImage" alt=""></button></div><div class="source"><strong id="manualName"></strong><div id="scanPage"></div><div class="image-nav" id="imageNav"></div><a id="xhsSearch" class="xhs-search" target="_blank" rel="noopener noreferrer" referrerpolicy="no-referrer" aria-label="在小红书搜索当前动作"><span class="xhs-mark" aria-hidden="true">小红书</span><svg class="xhs-jump-icon" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="10.5" cy="10.5" r="6.5"/><path d="m16 16 4.5 4.5"/></svg></a></div></article>
 <aside class="panel"><div class="apparatus-readonly"><span>教材器械</span><strong id="apparatusValue"></strong></div><fieldset><legend>分类与等级<span class="hint">可添加多组</span></legend><div id="classificationPairs"></div><button type="button" id="addClassification" class="quiet">＋ 添加组合</button><div id="categorySuggestion" class="category-suggestion"><p id="categorySuggestionTitle"></p><div id="categorySupplementary"></div></div><div id="levelSuggestion" hidden><p id="levelSuggestionTitle"></p><p id="levelSuggestionSource"></p></div></fieldset>
-<details id="relatedDetails"><summary>＋ 关联动作</summary><div id="relatedEditor"></div></details><details id="setupDetails"><summary>＋ 器械设置、印刷页码与笔记</summary><label class="text-label" for="setup">器械设置</label><textarea id="setup" placeholder="例如：弹簧、把杆高度、头枕、绳带、箱子位置……按自己确认的内容填写。"></textarea><div class="two"><div><label class="text-label" for="printedPage">纸质教材印刷页码</label><input id="printedPage" maxlength="100" placeholder="例如：30–31（看图片页脚填写）"></div><div><label class="text-label" for="variation">正式变式／辅助道具</label><input id="variation" maxlength="250" placeholder="动作名（变式名）／with 道具"></div></div><label class="text-label" for="notes">我的笔记</label><textarea id="notes" placeholder="归类理由、待核对的问题、与同家族动作的区别……"></textarea></details>
+<details id="relatedDetails"><summary>＋ 关联动作</summary><div id="relatedEditor"></div></details>
 <details><summary>查看原资料参考</summary><p class="source-meta" id="reference"></p></details>
 <div class="actions"><button id="prev">← 上一张</button><button id="later">稍后再想</button><button class="primary" id="complete">收好，下一张 →</button></div><div class="footer-line"><span id="saveState" role="status">自动保存已开启</span><button class="quiet" id="random" style="font-size:12px;padding:4px 8px">随机抽未完成</button></div></aside></div></section>
 <section id="library" hidden><div class="filters"><input id="search" aria-label="搜索动作" placeholder="搜索动作标题"><select id="statusFilter" aria-label="整理状态"><option value="">所有状态</option><option value="done">已整理</option><option value="pending">未完成</option><option value="later">稍后再想</option></select><select id="catFilter" aria-label="分类筛选"></select><select id="appFilter" aria-label="器械筛选"></select><select id="levelFilter" aria-label="等级筛选"></select></div><p id="libraryCount" class="muted" style="font-size:12px;margin-bottom:13px"></p><div class="library-grid" id="libraryGrid"></div></section>
 <section id="relations" hidden><h2>关联动作网络</h2><div class="relation-toolbar"><select id="relationFocus" aria-label="查看关联动作"><option value="">全部已关联动作</option></select><button type="button" id="relationOpen">打开动作卡</button></div><p id="relationSummary" class="muted"></p><div id="relationGraph" class="table-scroll"></div></section><section id="matrix" hidden><p class="muted" style="font-size:13px;margin-bottom:15px">按你的选择汇总，点击动作继续编辑。多分类动作会出现在多个格子里；未完成卡片不计入。</p><div id="matrixApparatus" class="matrix-apparatus-chips" role="group" aria-label="筛选器械"></div><button type="button" id="matrixExport">导出表格（CSV）</button><div class="table-scroll" id="matrixTable"></div><div id="matrixPending" class="notice"></div></section>
-<section id="practice" hidden><div class="practice-wrap"><div class="practice-toolbar"><div class="practice-modes"><button id="listenMode" aria-pressed="true">听名字</button><button id="readMode" aria-pressed="false">看名字</button></div><div id="practiceStats" class="practice-stats"></div></div><div id="practiceFilters" class="practice-filters" aria-label="听力练习范围"></div><p id="practiceScopeStatus" class="practice-scope-status" role="status"></p><div class="practice-plan"><span id="practiceKind">均衡出题</span><span id="practiceCoverage"></span></div><div class="practice-question"><h2 id="practiceName"></h2><button id="practiceLearn" type="button">学动作</button><button id="practiceSpeak" class="speak-name" aria-label="朗读题目" title="朗读题目"></button></div><div id="pictureOptions" class="picture-options"></div><div class="practice-bottom"><span id="practiceFeedback" role="status"></span><button id="practiceNext" class="primary">下一题 →</button></div></div></section><section id="tracking" hidden><div class="progress-detail"><h2>整理进度</h2><div class="progress"><p><span>已整理 <strong id="doneCount">0</strong> / 149</span><span id="percent">0%</span></p><div class="track" id="overallProgress" role="progressbar" aria-label="总体整理进度" aria-valuemin="0" aria-valuemax="149" aria-valuenow="0"><div class="fill" id="progressFill"></div></div><div class="progress-meta"><span id="remainingCount">未完成 149 张</span><span id="laterCount">稍后再想 0 张</span></div></div><div class="progress-stats"><div class="progress-stat"><span>已完成</span><strong id="statsDone">0</strong></div><div class="progress-stat"><span>待整理</span><strong id="statsPending">149</strong></div><div class="progress-stat"><span>稍后再想</span><strong id="statsLater">0</strong></div></div><h2>各器械整理进度</h2><p class="muted" style="font-size:12px">按原资料器械版本统计，每张卡片只计一次。</p><div class="apparatus-progress" id="apparatusProgress"></div><div class="progress-bottom"><p id="progressSavedAt"></p><button class="primary" id="resumeProgress">继续未完成的卡片 →</button></div></div></section></div>
+<section id="practice" hidden><div class="practice-wrap"><div class="practice-toolbar"><div class="practice-modes"><button id="listenMode" aria-pressed="true">听名字</button><button id="readMode" aria-pressed="false">看名字</button></div><div id="practiceStats" class="practice-stats"></div></div><div id="practiceFilters" class="practice-filters" aria-label="听力练习范围"></div><p id="practiceScopeStatus" class="practice-scope-status" role="status"></p><div class="practice-plan"><span id="practiceKind">均衡出题</span><span id="practiceCoverage"></span></div><div class="practice-question"><h2 id="practiceName"></h2><button id="practiceLearn" type="button">学动作</button><button id="practiceSpeak" class="speak-name" aria-label="朗读题目" title="朗读题目"></button></div><div id="pictureOptions" class="picture-options"></div><div class="practice-bottom"><span id="practiceFeedback" role="status"></span><button id="practiceNext" class="primary">下一题 →</button></div></div></section></div>
 <dialog id="viewer"><div class="dialog-top"><span id="viewerTitle"></span><button id="viewerClose">关闭 ×</button></div><div id="viewerControls" class="viewer-controls" hidden><div id="viewerPages" class="viewer-pages" hidden><button id="viewerPrev" aria-label="上一张教材图片">←</button><span id="viewerPageCount"></span><button id="viewerNext" aria-label="下一张教材图片">→</button></div><button id="viewerZoom" aria-label="放大完整图片">＋</button></div><img id="viewerImage" alt="放大的教材扫描页"><div id="viewerArt" class="quiz-art" hidden></div></dialog>
-<dialog id="matrixEdit" aria-labelledby="matrixEditTitle"><div class="dialog-top"><strong id="matrixEditTitle"></strong><button type="button" id="matrixEditClose">关闭</button></div><h3>分类与等级</h3><div id="matrixEditPairs"></div><div class="matrix-edit-actions"><button type="button" id="matrixEditAdd">＋ 添加分类</button><button type="button" id="matrixEditSave" class="primary">保存分类</button></div><h3>关联动作</h3><div id="matrixEditRelations"></div></dialog><dialog id="matrixMove"><div class="dialog-top"><strong id="matrixMoveTitle">移动动作</strong><button type="button" id="matrixMoveClose">取消</button></div><label>目标分类与等级 <select id="matrixMoveTarget"></select></label><button type="button" id="matrixMoveSave" class="primary">移动</button></dialog><dialog id="help"><div class="dialog-top"><strong>普拉提动作库 · 使用说明</strong><button id="helpClose">关闭 ×</button></div><div class="help"><p>① 看名称和教材图，选择课程分类（可多选）、器械版本和初／中／高级。器械设置、正式变式、印刷页码和笔记都可以补充。</p><p>② 点击“收好，下一张”标记为已整理。拿不准就点“稍后再想”。所有修改都会自动保存，未填完也可以退出。</p><p>③ 从本地服务页面使用时，每次修改自动写入电脑桌面“普拉提动作库备份／自动进度.json”，下次打开自动恢复；不需要互联网，也不需要导入导出。关闭电脑后，下次双击“打开动作库.command”启动即可。手机访问需要和电脑连在同一个局域网，电脑保持开启。独立 HTML 模式仍使用浏览器缓存。</p><p><b>保存随身 HTML：</b>把图片和当前进度一起存进新 HTML，用它在另一台电脑继续整理。本地服务页面会保存到电脑桌面的“普拉提动作库备份”；单独打开 HTML 时仍由浏览器下载。保存完成后再关闭页面。</p><p>“我的动作库”支持筛选和修改；“分类 × 等级”直观看分布。修改已整理卡片后，只要三项完整，仍保留已整理状态。</p><p>等级由你自己判断；教材原有 Gateway／Foundation／Intermediate／Advanced 1／Advanced 2 等级保留在“原资料参考”中。扫描页序不是印刷页码，印刷页码可看图片页脚填写。</p></div></dialog>
+<dialog id="matrixEdit" aria-labelledby="matrixEditTitle"><div class="dialog-top"><strong id="matrixEditTitle"></strong><button type="button" id="matrixEditClose">关闭</button></div><h3>分类与等级</h3><div id="matrixEditPairs"></div><div class="matrix-edit-actions"><button type="button" id="matrixEditAdd">＋ 添加分类</button><button type="button" id="matrixEditSave" class="primary">保存分类</button></div><h3>关联动作</h3><div id="matrixEditRelations"></div></dialog><dialog id="matrixMove"><div class="dialog-top"><strong id="matrixMoveTitle">移动动作</strong><button type="button" id="matrixMoveClose">取消</button></div><label>目标分类与等级 <select id="matrixMoveTarget"></select></label><button type="button" id="matrixMoveSave" class="primary">移动</button></dialog><dialog id="help"><div class="dialog-top"><strong>普拉提动作库 · 使用说明</strong><button id="helpClose">关闭 ×</button></div><div class="help"><p>① 看名称和教材图，选择课程分类（可多选）、器械版本和初／中／高级。</p><p>② 点击“收好，下一张”标记为已整理。拿不准就点“稍后再想”。所有修改都会自动保存，未填完也可以退出。</p><p>③ 从本地服务页面使用时，每次修改自动写入电脑桌面“普拉提动作库备份／自动进度.json”，下次打开自动恢复；不需要互联网，也不需要导入导出。关闭电脑后，下次双击“打开动作库.command”启动即可。手机访问需要和电脑连在同一个局域网，电脑保持开启。独立 HTML 模式仍使用浏览器缓存。</p><p><b>保存随身 HTML：</b>把图片和当前进度一起存进新 HTML，用它在另一台电脑继续整理。本地服务页面会保存到电脑桌面的“普拉提动作库备份”；单独打开 HTML 时仍由浏览器下载。保存完成后再关闭页面。</p><p>“我的动作库”支持筛选和修改；“分类 × 等级”直观看分布。修改已整理卡片后，只要三项完整，仍保留已整理状态。</p><p>等级由你自己判断；教材原有 Gateway／Foundation／Intermediate／Advanced 1／Advanced 2 等级保留在“原资料参考”中。扫描页序不是印刷页码，印刷页码可看图片页脚填写。</p></div></dialog>
 <dialog id="importDialog"><div class="dialog-top"><strong>导入整理进度</strong><button id="importClose">关闭 ×</button></div><p class="muted" style="font-size:13px">选择本工具导出的 JSON。先预览，再决定是否合并；同一动作采用所选文件中的记录，其余本地记录保留。</p><input type="file" id="importFile" accept=".json,application/json" style="margin:16px 0"><p id="importSummary" role="status"></p><div class="actions"><button id="applyImport" class="primary" disabled>确认合并导入</button></div></dialog>
 <dialog id="saveDialog"><div class="dialog-top"><strong id="saveTitle">保存存档</strong><button id="saveClose">关闭 ×</button></div><p id="saveHint" class="muted" style="font-size:12px">每份存档单独保留：安装版存到桌面“普拉提动作库存档”，网页版存到“普拉提动作库备份”。</p><label class="text-label" for="saveLabel">存档名称</label><input id="saveLabel" maxlength="80" placeholder="例如：初级动作整理完成"><p id="saveSummary" class="muted" style="font-size:12px;margin-top:12px"></p><button id="confirmSave" class="primary" style="width:100%;margin-top:16px;min-height:44px">保存存档</button><p id="saveError" role="status"></p></dialog>
 <dialog id="loadDialog"><div class="dialog-top"><strong>读取存档</strong><button id="loadClose">关闭 ×</button></div><p id="loadHint" class="muted" style="font-size:12px">直接读取存档文件夹。读档会恢复当时的完整进度，当前进度先自动另存一份。</p><button id="refreshSaves" style="margin-top:12px">刷新列表</button><div id="saveList"></div><p id="loadError" role="status"></p></dialog>
@@ -519,7 +522,7 @@ function renderChoices(){
 let cardPageMode='action';
 function renderCardPage(){const source=cardPageMode==='source';$('cardImage').hidden=!source;$('cardQuizArt').hidden=source;$('actionPage').setAttribute('aria-pressed',String(!source));$('sourcePage').setAttribute('aria-pressed',String(source));$('imageOpen').setAttribute('aria-label',source?'查看完整教材图片':'放大动作图');}
 function renderImage(){const a=CARDS.find(x=>x.id===state.current),im=a.images[imageIndex];$('cardQuizArt').replaceChildren(artwork(a,imageIndex));renderCardPage();$('cardImage').src=DATA.images[im.key];$('cardImage').alt=`${a.name} 教材扫描页，可能包含同页其他动作`;$('manualName').textContent=`《${im.manual}》`;$('scanPage').textContent=record(state.current).printedPage?`教材 ${record(state.current).printedPage} 页`:im.printedPage?`教材 ${im.printedPage} 页`:`扫描页 ${im.scan}`;$('imageNav').replaceChildren();if(a.images.length>1)a.images.forEach((im,i)=>$('imageNav').append(makeButton('教材图 '+(i+1),()=>{imageIndex=i;renderImage();},i===imageIndex?'active':'')));}
-function renderCard(){renderRelatedEditor();stopSpeaking();cardPageMode='action';setNameVisibility(false);const a=CARDS.find(x=>x.id===state.current),r=record(a.id);imageIndex=0;$('cardNumber').textContent=`CARD ${String(CARDS.indexOf(a)+1).padStart(3,'0')} / ${CARDS.length}`;$('cardName').textContent=actionTitleFor(a);$('cardCn').textContent=a.cn||'';const search=xhsSearchLinks(a);$('xhsSearch').href=search.web;$('xhsSearch').dataset.appUrl=search.app;$('xhsSearch').setAttribute('aria-label','在小红书搜索当前动作');renderStatus();renderChoices();renderImage();for(const k of ['setup','printedPage','variation','notes'])$(k).value=r[k];$('setupDetails').open=!!(r.setup||r.printedPage||r.variation||r.notes);$('reference').textContent=`原资料器械：${a.sourceApparatus}；教材原等级：${a.sourceLevel}。`;$('prev').disabled=CARDS.indexOf(a)===0;renderNameQuestion(a);}
+function renderCard(){renderRelatedEditor();stopSpeaking();cardPageMode='action';setNameVisibility(false);const a=CARDS.find(x=>x.id===state.current);imageIndex=0;$('cardNumber').textContent=`CARD ${String(CARDS.indexOf(a)+1).padStart(3,'0')} / ${CARDS.length}`;$('cardName').textContent=actionTitleFor(a);$('cardCn').textContent=a.cn||'';const search=xhsSearchLinks(a);$('xhsSearch').href=search.web;$('xhsSearch').dataset.appUrl=search.app;$('xhsSearch').setAttribute('aria-label','在小红书搜索当前动作');renderStatus();renderChoices();renderImage();$('reference').textContent=`原资料器械：${a.sourceApparatus}；教材原等级：${a.sourceLevel}。`;$('prev').disabled=CARDS.indexOf(a)===0;renderNameQuestion(a);}
 // Official search deeplink: https://pages.xiaohongshu.com/activity/deeplink
 function xhsSearchBadge(){return '<span class="xhs-mark" aria-hidden="true">小红书</span><svg class="xhs-jump-icon" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="10.5" cy="10.5" r="6.5"/><path d="m16 16 4.5 4.5"/></svg>';}
 function xhsSearchLinks(action){const keyword=encodeURIComponent(action.name);return {web:'https://www.xiaohongshu.com/search_result?keyword='+keyword+'&source=web_explore_feed',app:'xhsdiscover://search/result?keyword='+keyword+'&target_search=notes&source=deeplink'};}
@@ -540,7 +543,7 @@ function openXhsSearch(event){
 function go(id){state.current=id;persist();renderCard();if(matchMedia('(max-width:700px)').matches)window.scrollTo({top:0,behavior:'smooth'});}
 function nextPending(random=false){const currentIndex=CARDS.findIndex(a=>a.id===state.current),other=CARDS.filter(a=>a.id!==state.current&&record(a.id).status!=='done');if(!other.length){toast(record(state.current).status==='done'?'全部整理完成，去总览看看吧！':'只剩当前这一张未完成。');return;}let target=random?other[Math.floor(Math.random()*other.length)]:[...CARDS.slice(currentIndex+1),...CARDS.slice(0,currentIndex)].find(a=>record(a.id).status!=='done');go(target.id);}
 function applyHostedAccess(){if(!hostedMode)return;const guest=!window.polestarCloud?.active;document.body.classList.toggle('web-guest',guest);document.querySelector('.intro h1').textContent=guest?'动作练习':'翻一张，理清一个动作。';if(guest)for(const id of ['saveDialog','loadDialog','importDialog','notesImageDialog','notesPickerDialog','assessmentCardDialog'])if($(id)?.open)$(id).close();}
-function tab(name){window.polestarAssessments?.close();if(hostedMode&&!window.polestarCloud?.active&&name!=='practice')name='practice';if(name!=='notesStudy')window.polestarNotes?.onLeave();const changed=!!document.body.dataset.activeTab&&document.body.dataset.activeTab!==name;document.body.dataset.activeTab=name;closeTools();clearQuizFeedback();for(const n of ['play','library','matrix','relations','tracking','practice','notesStudy','learningPlans','assessments'])if($(n))$(n).hidden=n!==name;const inCards=['play','library','matrix','relations','tracking'].includes(name);$('cardNav').hidden=!inCards;document.querySelector('.intro').hidden=!inCards;document.querySelectorAll('[data-tab],[data-card-tab]').forEach(b=>{const current=(b.dataset.tab||b.dataset.cardTab)===name;const active=current||(b.closest('.nav')&&b.dataset.tab==='play'&&inCards);b.classList.toggle('active',!!active);b.setAttribute('aria-current',current?'page':active?'true':'false');});if(name==='notesStudy'||name==='learningPlans')window.polestarNotes?.onOpen();if(name==='library')renderLibrary();if(name==='matrix')renderMatrix();if(name==='relations')renderActionNetwork();if(name==='tracking')renderTracking();if(name==='practice'){if(!practiceQuestion)newPracticeQuestion();else renderPractice();}else stopSpeaking();if(changed&&matchMedia('(max-width:700px)').matches)window.scrollTo({top:Math.max(0,(inCards?$('cardNav'):$(name)).getBoundingClientRect().top+window.scrollY-document.querySelector('.nav').offsetHeight-14),behavior:'instant'});}
+function tab(name){if(name==='tracking'){name='play';$('tracking').open=true;}window.polestarAssessments?.close();if(hostedMode&&!window.polestarCloud?.active&&name!=='practice')name='practice';if(name!=='notesStudy')window.polestarNotes?.onLeave();const changed=!!document.body.dataset.activeTab&&document.body.dataset.activeTab!==name;document.body.dataset.activeTab=name;closeTools();clearQuizFeedback();for(const n of ['play','library','matrix','relations','practice','notesStudy','learningPlans','assessments'])if($(n))$(n).hidden=n!==name;const inCards=['play','library','matrix','relations'].includes(name);$('cardNav').hidden=!inCards;document.querySelector('.intro').hidden=!inCards;document.querySelectorAll('[data-tab],[data-card-tab]').forEach(b=>{const current=(b.dataset.tab||b.dataset.cardTab)===name;const active=current||(b.closest('.nav')&&b.dataset.tab==='play'&&inCards);b.classList.toggle('active',!!active);b.setAttribute('aria-current',current?'page':active?'true':'false');});if(name==='notesStudy'||name==='learningPlans')window.polestarNotes?.onOpen();if(name==='library')renderLibrary();if(name==='matrix')renderMatrix();if(name==='relations')renderActionNetwork();if(name==='practice'){if(!practiceQuestion)newPracticeQuestion();else renderPractice();}else stopSpeaking();if(changed&&matchMedia('(max-width:700px)').matches)window.scrollTo({top:Math.max(0,(inCards?$('cardNav'):$(name)).getBoundingClientRect().top+window.scrollY-document.querySelector('.nav').offsetHeight-14),behavior:'instant'});}
 function renderTracking(){
  const done=CARDS.filter(a=>record(a.id).status==='done').length,later=CARDS.filter(a=>record(a.id).status==='later').length;
  $('statsDone').textContent=done;$('statsPending').textContent=CARDS.length-done-later;$('statsLater').textContent=later;
@@ -946,41 +949,77 @@ function saveActionRelation(from, to, type) {
 function renderRelatedEditor(id=state.current, host=$('relatedEditor')) {
  const from = canonicalAction(id);
  const inMatrix = host === $('matrixEditRelations');
- const update = (to,type) => { saveActionRelation(from,to,type); renderRelatedEditor(id,host); };
- host.replaceChildren();
- for (const edge of actionEdges().filter(edge => edge.from === from || edge.to === from)) {
-  const forward = edge.from === from;
-  const to = forward ? edge.to : edge.from;
-  const type = forward ? edge.type : reverseRelation[edge.type];
-  const row = document.createElement('div');
-  row.className = 'related-editor-row';
-  const remove = makeButton('移除', () => update(to,null));
-  remove.setAttribute('aria-label', '移除与 '+relationName(to)+' 的关联');
-  const label = relationLabels[type]+' · '+relationName(to);
-  const name = inMatrix ? document.createElement('span') : makeButton(label, () => edit(to));
-  if (inMatrix) { name.className = 'matrix-edit-relation-name'; name.textContent = label; }
-  row.append(name,remove);
-  host.append(row);
- }
- const target = document.createElement('select');
- target.setAttribute('aria-label','关联动作');
- target.add(new Option('选择关联动作',''));
- for (const card of CARDS) {
-  if (card.id === from || card.identityAliasOf) continue;
-  target.add(new Option(card.name+' · '+record(card.id).apparatus,card.id));
- }
- const type = document.createElement('select');
- type.setAttribute('aria-label','关联类型');
- for (const [key,label] of Object.entries(relationLabels)) type.add(new Option(label,key));
- const add = makeButton('保存关联', () => {
-  if (target.value) update(target.value,type.value);
+ const edges = actionEdges().filter(edge => edge.from === from || edge.to === from);
+ const candidates = CARDS.filter(card => card.id !== from && !card.identityAliasOf).map(card => {
+  const apparatus = record(card.id).apparatus;
+  const label = APPS.find(([key]) => key === apparatus)?.[1] || apparatus;
+  return {id:card.id, name:card.name+' · '+label, terms:[card.name,card.cn,apparatus,label].join(' ').toLowerCase()};
  });
- add.disabled = true;
- target.onchange = () => { add.disabled = !target.value; };
- const fields = document.createElement('div');
- fields.className = 'related-editor-fields';
- fields.append(target,type,add);
- host.append(fields);
+ host.replaceChildren();
+ for (const [type,label] of Object.entries(relationLabels)) {
+  const field = document.createElement('fieldset');
+  field.className = 'relation-field';
+  const legend = document.createElement('legend');
+  legend.textContent = label+'动作';
+  field.append(legend);
+  const linked = new Set();
+  for (const edge of edges) {
+   const forward = edge.from === from;
+   if ((forward ? edge.type : reverseRelation[edge.type]) !== type) continue;
+   const to = forward ? edge.to : edge.from;
+   linked.add(to);
+   const row = document.createElement('div');
+   row.className = 'related-editor-row';
+   const remove = makeButton('移除', () => update(to,null));
+   remove.setAttribute('aria-label', '移除与 '+relationName(to)+' 的关联');
+   const name = inMatrix ? document.createElement('span') : makeButton(relationName(to), () => edit(to));
+   if (inMatrix) { name.className = 'matrix-edit-relation-name'; name.textContent = relationName(to); }
+   row.append(name,remove);
+   field.append(row);
+  }
+  const search = document.createElement('input');
+  search.type = 'search';
+  search.placeholder = '搜索并选择动作';
+  search.setAttribute('aria-label','搜索'+label+'动作');
+  const results = document.createElement('div');
+  results.className = 'relation-field-results';
+  results.hidden = true;
+  results.onpointerdown = event => { if (event.target.closest('button')) event.preventDefault(); };
+  function update(to,newType) {
+   saveActionRelation(from,to,newType);
+   renderRelatedEditor(id,host);
+   host.querySelector(`[aria-label="搜索${label}动作"]`)?.focus({preventScroll:true});
+  }
+  function match() {
+   const terms = search.value.trim().toLowerCase().split(/\s+/).filter(Boolean);
+   results.replaceChildren();
+   results.hidden = !terms.length;
+   if (results.hidden) return;
+   const matches = candidates.filter(card => !linked.has(card.id) && terms.every(term => card.terms.includes(term))).slice(0,10);
+   for (const card of matches) results.append(makeButton(card.name, () => update(card.id,type)));
+   if (!matches.length) {
+    const empty = document.createElement('p');
+    empty.className = 'relation-field-empty';
+    empty.textContent = '没有匹配的动作';
+    results.append(empty);
+   }
+  }
+  search.oninput = search.onfocus = match;
+  field.addEventListener('focusout', event => { if (!field.contains(event.relatedTarget)) results.hidden = true; });
+  field.addEventListener('keydown', event => {
+   if (event.key === 'Escape' && !results.hidden) {
+    event.preventDefault();
+    search.focus();
+    results.hidden = true;
+   }
+   if (event.key === 'ArrowDown' && event.target === search && !results.hidden) {
+    event.preventDefault();
+    results.querySelector('button')?.focus();
+   }
+  });
+  field.append(search,results);
+  host.append(field);
+ }
 }
 
 function renderActionNetwork() {
@@ -1061,12 +1100,11 @@ window.addEventListener('polestar-cloud-state', () => {
 
 load();refreshProgress();renderCard();applyHostedAccess();tab('play');
 fillSelect('catFilter','所有分类',CATS.map(([v,l])=>[v,v+' '+l]));fillSelect('appFilter','所有器械',APPS.map(([v,l])=>[v,l]));fillSelect('levelFilter','所有等级',LEVELS.map(v=>[v,v]));
-for(const k of ['setup','printedPage','variation','notes'])$(k).addEventListener('input',()=>mutate(k,$(k).value));
-document.querySelectorAll('[data-tab],[data-card-tab]').forEach(b=>b.addEventListener('click',()=>tab(b.dataset.tab||b.dataset.cardTab)));
+document.querySelectorAll('[data-tab],[data-card-tab]').forEach(b=>b.addEventListener('click',()=>tab(b.matches('.nav [data-tab=play]')?'matrix':b.dataset.tab||b.dataset.cardTab)));
 $('prev').onclick=()=>{const i=CARDS.findIndex(a=>a.id===state.current);if(i>0)go(CARDS[i-1].id);};
 $('later').onclick=()=>{mutate('status','later');nextPending();};$('random').onclick=()=>nextPending(true);
 $('addClassification').onclick=()=>{mutate('classifications',[...studyCore.classifications(record(state.current)),{category:'',level:''}]);$('classificationPairs').lastElementChild?.scrollIntoView({block:'nearest',behavior:'smooth'});};
-$('complete').onclick=()=>{if(!completeRecord(record(state.current))){toast('请把每组分类和等级选完整；设置与笔记可以以后补。');return;}mutate('status','done');toast('收好一张 ✓');nextPending();};
+$('complete').onclick=()=>{if(!completeRecord(record(state.current))){toast('请把每组分类和等级选完整。');return;}mutate('status','done');toast('收好一张 ✓');nextPending();};
 renderAudio();$('soundToggle').onclick=()=>{audioPrefs.enabled=!audioPrefs.enabled;try{localStorage.setItem(KEY+'-audio',JSON.stringify(audioPrefs));}catch(ignore){}if(!audioPrefs.enabled){stopSpeaking();window.polestarNotes?.stopNarration();}renderAudio();};
 $('practiceLearn').onclick=learnPracticeAction;
 $('listenMode').onclick=()=>{practiceMode='listen';if(!practiceQuestion)newPracticeQuestion();else{renderPractice();if(audioPrefs.enabled)speakPracticeQuestion();}};$('readMode').onclick=()=>{practiceMode='read';stopSpeaking();if(!practiceQuestion)newPracticeQuestion();else renderPractice();};$('practiceNext').onclick=newPracticeQuestion;$('practiceSpeak').onclick=()=>{if(activePracticeSpeech)stopSpeaking();else speakPracticeQuestion();};
@@ -6762,7 +6800,7 @@ const root=make('section');root.id='assessments';root.hidden=true;
 const top=make('div',null,'assessment-top');top.append(make('h2','评估动作'));const controls=make('div',null,'assessment-select-controls');const select=make('select');select.id='assessmentSelect';select.setAttribute('aria-label','选择评估动作');for(const entry of source.entries){const option=make('option',String(entry.id).padStart(2,'0')+' '+entry.name+' · '+entry.cn);option.value=String(entry.id);select.append(option);}const previous=make('button','← 上一个');previous.id='assessmentPrevious';const next=make('button','下一个 →');next.id='assessmentNext';controls.append(select,previous,next);top.append(controls);root.append(top);
 
 const grid=make('div',null,'assessment-grid');root.append(grid);document.querySelector('.wrap').append(root);
-const nav=make('button','评估动作');nav.dataset.tab='assessments';nav.onclick=()=>tab('assessments');document.querySelector('.nav [data-tab=practice]').before(nav);
+const nav=make('button','评估动作');nav.dataset.tab='assessments';nav.onclick=()=>tab('assessments');document.querySelector('.nav [data-tab=practice]').after(nav);
 const dialog=make('dialog',null,'assessment-dialog');dialog.id='assessmentCardDialog';const close=make('button','关闭','assessment-close');close.onclick=()=>dialog.close();const content=make('div');dialog.append(close,content);document.body.append(dialog);
 function openCard(id,item){
  if(hostedMode&&!window.polestarCloud?.active)return;
@@ -7429,7 +7467,7 @@ async function ensureData(){
 }
 let plansOpen=false;
 const plansPanel=make('div',undefined,'notes-plans');plansPanel.id='notesPlans';plansPanel.hidden=true;root.append(plansPanel);
-const plansRoot=make('section');plansRoot.id='learningPlans';plansRoot.hidden=true;plansRoot.append(make('h2','学习计划'));const planStatus=make('div',undefined,'notes-quiet');planStatus.id='notesPlanStatus';plansRoot.append(planStatus,plansPanel);document.querySelector('.wrap').append(plansRoot);const planNav=make('button','学习计划');planNav.id='notesPlanMode';planNav.dataset.tab='learningPlans';document.querySelector('.nav [data-tab=practice]').before(planNav);
+const plansRoot=make('section');plansRoot.id='learningPlans';plansRoot.hidden=true;plansRoot.append(make('h2','学习计划'));const planStatus=make('div',undefined,'notes-quiet');planStatus.id='notesPlanStatus';plansRoot.append(planStatus,plansPanel);document.querySelector('.wrap').append(plansRoot);const planNav=make('button','学习计划');planNav.id='notesPlanMode';planNav.dataset.tab='learningPlans';document.querySelector('.nav').append(planNav);
 const planDialog=document.createElement('dialog');planDialog.id='notesPlanDialog';document.body.append(planDialog);
 function planMark(id,kind){for(const plan of saved.plans)if(plan.ids.includes(id)&&!plan[kind][id])plan[kind][id]=new Date().toISOString();}
 function recordAttempt(entry,current,kind){planMark(entry.id,'tested');const score=core.gradeExam(entry.questions,current.answers),attempt={correct:score.correct,total:score.total,at:new Date().toISOString(),kind,wrongIds:entry.questions.filter(q=>!core.grade(q,current.answers[q.id]).correct).map(q=>q.id)};saved.attempts[entry.id]=attempt;(saved.history[entry.id]??=[]).push(attempt);}
