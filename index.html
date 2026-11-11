@@ -180,7 +180,7 @@ body.web-guest #relations{display:none!important}
 
 
 .intro[hidden]{display:none!important}#tracking{margin:0 0 14px}#tracking .progress{width:100%;max-width:600px;margin:16px 0 24px}
-</style><style>.category-suggestion{margin-top:12px;padding:10px 12px;background:#fff9e9;border-radius:8px;font-size:13px;line-height:1.65}.category-suggestion summary{cursor:pointer}.category-suggestion p{white-space:pre-wrap;color:#777;font-size:12px;margin:10px 0 0}</style><meta name="theme-color" content="#ffffff"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-status-bar-style" content="default"><link rel="manifest" href="./manifest.webmanifest"><link rel="apple-touch-icon" href="./icon-180.png"><meta name="polestar-build" content="d98b882b84a4"></head><body class="web-guest"><div class="wrap">
+</style><style>.category-suggestion{margin-top:12px;padding:10px 12px;background:#fff9e9;border-radius:8px;font-size:13px;line-height:1.65}.category-suggestion summary{cursor:pointer}.category-suggestion p{white-space:pre-wrap;color:#777;font-size:12px;margin:10px 0 0}</style><meta name="theme-color" content="#ffffff"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-status-bar-style" content="default"><link rel="manifest" href="./manifest.webmanifest"><link rel="apple-touch-icon" href="./icon-180.png"><meta name="polestar-build" content="66887b7c3963"></head><body class="web-guest"><div class="wrap">
 <header><div class="brand">普拉提动作库 <small>POLESTAR PILATES</small></div><div class="tools"><button type="button" id="variantToggle" class="variant-toggle" aria-pressed="true">显示变式</button><button id="soundToggle" class="sound-toggle" aria-label="静音" title="静音"></button><button id="saveGame" class="primary">存档</button><button id="loadGame">读档</button><button id="toolsToggle" aria-label="更多功能" aria-expanded="false">⋯</button><button id="portable" class="mobile-secondary">保存随身 HTML</button><button id="checkUpdate" class="mobile-secondary" hidden>检查更新</button><button id="helpOpen" class="mobile-secondary" aria-label="使用说明">?</button></div></header><div id="updateStatus" hidden role="status" aria-live="polite"><div class="inline"><strong id="updateMessage"></strong><span id="updateDetail"></span></div><progress id="updateProgress" max="100" aria-label="更新下载进度"></progress></div><p id="exportDestination" class="muted" style="font-size:11px;text-align:right;margin-top:6px" hidden></p>
 <div class="intro"><div><h1>动作练习</h1></div></div>
 <div id="folderBar" class="folder-bar" hidden><span id="folderHint">首次选择桌面的“普拉提动作库备份”文件夹，即可直接读写进度。</span><button id="chooseFolder">连接存档文件夹</button></div><div id="storageWarning" class="notice" hidden></div>
@@ -1273,7 +1273,7 @@ window.addEventListener('pagehide',()=>{if(!window.polestarCloud?.active&&diskEn
 // 浏览器缓存即时保存；电脑文件异步写入，页面显示确认后的保存结果。
 </script><script>// Supabase Auth + RLS. Only the public publishable key may be embedded in the app.
 (()=>{
- const config={"url": "https://ooolucqmsuxyycjcbjss.supabase.co", "publicKey": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im9vb2x1Y3Ftc3V4eXljamNianNzIiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTIxMzU5NzAsImV4cCI6MjEwNzcxMTk3MH0.qAsz2fEnip7putKRMlL_Fa23QEDim04eXF8gpDpZY88", "gatewayURL": "https://cloud1-d0gjfditsc94a6299.service.tcloudbase.com/polestar-api"};
+ const config={"url": "https://ooolucqmsuxyycjcbjss.supabase.co", "publicKey": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im9vb2x1Y3Ftc3V4eXljamNianNzIiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTIxMzU5NzAsImV4cCI6MjEwNzcxMTk3MH0.qAsz2fEnip7putKRMlL_Fa23QEDim04eXF8gpDpZY88"};
  const apiBase=config.gatewayURL||config.url,requestTimeout=config.gatewayURL?30000:20000;
  const el=id=>document.getElementById(id);
  const panel=document.createElement('dialog');panel.id='cloudDialog';
@@ -7425,7 +7425,59 @@ const secondaryNav=make('nav',undefined,'card-subnav notes-secondary-nav');secon
 const learnNav=make('button','动作学习');learnNav.id='notesLearnMode';learnNav.type='button';learnNav.setAttribute('aria-current','page');learnNav.classList.add('active');learnNav.onclick=()=>{closeEquipment();render();};
 const notebookNav=document.getElementById('notesEquipmentMode');notebookNav.textContent='动作笔记';notebookNav.setAttribute('aria-current','false');const analysisNav=make('button','动作分析');analysisNav.id='notesAnalysisMode';analysisNav.type='button';analysisNav.setAttribute('aria-current','false');
 const analysisPanel=make('section',undefined,'notes-analysis');analysisPanel.id='notesAnalysis';analysisPanel.hidden=true;
-analysisPanel.append(make('h3','动作分析'),make('p','暂无动作分析。','notes-empty'));
+analysisPanel.append(make('h3','动作分析'));
+const analysisNote = {
+  "name": "Seated Footwork",
+  "context": "Reformer 核心床 · SEATED",
+  "source": "线上夜总会。Foundation 课本第50页。",
+  "sections": [
+    [
+      "北极星运动原则",
+      "默认原则包括呼吸、中轴延伸与核心控制。★ 中轴延伸与核心控制：坐姿中立，坐骨稳。★ 四肢排列与承重：第二脚趾、髌骨与髋关节对准。基础图中脊柱基本不动；加入前弯或后伸时看脊柱分节，加入手臂移动或承重时看头颈肩排列，加入腿和脊柱协同时看节奏与流畅度。"
+    ],
+    [
+      "运动链",
+      "图一、图二可分析为一脚固定，另一脚随滑车移动。滑车侧可按半封闭链分析。足底有接触面，滑车轨迹固定，可以提供本体感觉反馈。也有将滑车侧归为开放链的观点。观察前脚掌内外侧受力是否均匀、脚跟是否稳、足部是否乱翻。"
+    ],
+    [
+      "抗阻分析",
+      "1. 设置：脚杆一般放最高位，结合小腿长度调整。起始小腿接近垂直、膝约90°，滑车保留一点弹簧张力，每次回到起始位置。单脚动作时，另一脚下可垫小箱或瑜伽砖。\n2. 弹簧：滑车越远，弹簧阻力越大。图一到图二，髋伸、膝伸；前脚掌贴板时有足背伸，单放脚跟时踝动作较少。\n3. 重力：推出时大腿和小腿向下，重力辅助下降并可能使末段加速。推出时保持匀速，避免末段膝盖突然落下。"
+    ],
+    [
+      "眼神指引",
+      "基础图一到图五平视前方，可短暂瞄一下第二脚趾、膝、髋是否对齐。加入脊柱前弯时，视线跟随脊柱分节。"
+    ],
+    [
+      "动作好处",
+      "直接：下肢肌力、排列、膝关节稳定，以及坐姿中立位。\n生活与运动：开车急刹时可联想到腿部的速度与控制。踢球时，出腿要准，身体也要稳。"
+    ],
+    [
+      "禁忌与修正",
+      "腿打着石膏、无法活动时不做这个动作。膝关节受伤、屈膝角度受限时，避免滑车回到底，可调节拉绳限制回程。单脚时若直接踩地导致骨盆一高一低，可垫小箱或瑜伽砖。"
+    ],
+    [
+      "相关联评估",
+      "可帮助提升 Half Squat、Full Squat 和 Heel Raise。Heel Raise 的关联以前脚掌持续贴面为条件，仅放脚跟的版本无法提升这一项。无特定评估分数门槛。"
+    ],
+    [
+      "升阶、降阶与同阶段动作",
+      "对坐姿或下肢排列较差的人，Double Leg Pump 可用作降阶；Stomach Massage 是更直接的升阶；仰卧 Footwork 可与本动作作为同阶段不同类别安排。"
+    ],
+    [
+      "备考打卡",
+      "备考打卡包括每动作约4分钟视频、搭档检查和完成动作分析。"
+    ]
+  ]
+};
+const analysisArticle = make('article',undefined,'notes-detail');
+analysisArticle.append(make('h4',analysisNote.name),make('p',analysisNote.context),make('p',analysisNote.source));
+for(const [title,body] of analysisNote.sections){
+ const section = make('section',undefined,'notes-block');
+ section.append(make('h4',title));
+ for(const paragraph of body.split('\n')) section.append(make('p',paragraph));
+ analysisArticle.append(section);
+}
+analysisPanel.append(analysisArticle);
 secondaryNav.append(notebookNav,learnNav,analysisNav);root.prepend(secondaryNav);root.append(analysisPanel);
 let saved=null,ownerKey='',initialized=false,quizOpen=false,notebookReturn=null;
 const multiFilters=new Map();
