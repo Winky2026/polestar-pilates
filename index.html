@@ -180,7 +180,7 @@ body.web-guest #relations{display:none!important}
 
 
 .intro[hidden]{display:none!important}#tracking{margin:0 0 14px}#tracking .progress{width:100%;max-width:600px;margin:16px 0 24px}
-</style><style>.category-suggestion{margin-top:12px;padding:10px 12px;background:#fff9e9;border-radius:8px;font-size:13px;line-height:1.65}.category-suggestion summary{cursor:pointer}.category-suggestion p{white-space:pre-wrap;color:#777;font-size:12px;margin:10px 0 0}</style><meta name="theme-color" content="#ffffff"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-status-bar-style" content="default"><link rel="manifest" href="./manifest.webmanifest"><link rel="apple-touch-icon" href="./icon-180.png"><meta name="polestar-build" content="d2805bb40457"></head><body class="web-guest"><div class="wrap">
+</style><style>.category-suggestion{margin-top:12px;padding:10px 12px;background:#fff9e9;border-radius:8px;font-size:13px;line-height:1.65}.category-suggestion summary{cursor:pointer}.category-suggestion p{white-space:pre-wrap;color:#777;font-size:12px;margin:10px 0 0}</style><meta name="theme-color" content="#ffffff"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-status-bar-style" content="default"><link rel="manifest" href="./manifest.webmanifest"><link rel="apple-touch-icon" href="./icon-180.png"><meta name="polestar-build" content="968f350d0f9c"></head><body class="web-guest"><div class="wrap">
 <header><div class="brand">普拉提动作库 <small>POLESTAR PILATES</small></div><div class="tools"><button type="button" id="variantToggle" class="variant-toggle" aria-pressed="true">显示变式</button><button id="soundToggle" class="sound-toggle" aria-label="静音" title="静音"></button><button id="saveGame" class="primary">存档</button><button id="loadGame">读档</button><button id="toolsToggle" aria-label="更多功能" aria-expanded="false">⋯</button><button id="portable" class="mobile-secondary">保存随身 HTML</button><button id="checkUpdate" class="mobile-secondary" hidden>检查更新</button><button id="helpOpen" class="mobile-secondary" aria-label="使用说明">?</button></div></header><div id="updateStatus" hidden role="status" aria-live="polite"><div class="inline"><strong id="updateMessage"></strong><span id="updateDetail"></span></div><progress id="updateProgress" max="100" aria-label="更新下载进度"></progress></div><p id="exportDestination" class="muted" style="font-size:11px;text-align:right;margin-top:6px" hidden></p>
 <div class="intro"><div><h1>动作练习</h1></div></div>
 <div id="folderBar" class="folder-bar" hidden><span id="folderHint">首次选择桌面的“普拉提动作库备份”文件夹，即可直接读写进度。</span><button id="chooseFolder">连接存档文件夹</button></div><div id="storageWarning" class="notice" hidden></div>
@@ -1463,6 +1463,38 @@ window.addEventListener('pagehide',()=>{if(!window.polestarCloud?.active&&diskEn
 }
 
 .assessment-photo-dialog.assessment-photo-zoom img{width:max(160%,1000px);max-width:none}
+
+#assessmentLibrary[hidden],#assessmentPurpose[hidden]{display:none}
+.assessment-tabs{display:flex;gap:16px;border-bottom:1px solid var(--line);margin:12px 0 16px}
+.assessment-tabs button{min-height:44px;background:none;border:0;border-bottom:2px solid transparent;border-radius:0}
+.assessment-tabs button[aria-selected=true]{border-bottom-color:#b67512;font-weight:700}
+.assessment-library-list{display:grid;grid-template-columns:repeat(auto-fit,minmax(166px,1fr));gap:8px}
+.assessment-list-item{display:flex;align-items:center;gap:8px;text-align:left;padding:6px;min-width:0}
+.assessment-list-item[aria-current=true]{background:#fff6e1;border-color:#b67512}
+.assessment-list-item img{width:48px;height:44px;object-fit:contain;flex:none}
+.assessment-list-item strong,.assessment-list-item small{display:block;overflow-wrap:anywhere}
+.assessment-list-item small{color:#565656;margin-top:2px}
+.assessment-detail-intro{display:grid;grid-template-columns:minmax(150px,240px) minmax(0,1fr);gap:16px;margin-top:14px;align-items:start}
+.assessment-textbook{display:grid;gap:8px;white-space:normal;text-align:left}
+.assessment-textbook img{width:100%;height:180px;object-fit:contain;background:white}
+.assessment-detail-intro .assessment-goal{margin:0 0 12px}
+.assessment-how h4,.assessment-how p{margin:0 0 5px}
+.assessment-how p{line-height:1.65}
+.assessment-related-heading{margin:22px 0 8px}
+.assessment-purpose-group{min-width:0;margin-bottom:12px}
+.assessment-purpose-group table{width:100%;border-collapse:collapse;font-size:14px}
+.assessment-purpose-group th,.assessment-purpose-group td{padding:7px 8px;text-align:left;border-bottom:1px solid var(--line)}
+.assessment-purpose-group th{background:#faf7ef}
+.assessment-purpose-group td:first-child{width:34%}
+.assessment-purpose-group td button{min-height:44px;margin:2px 4px 2px 0;white-space:normal;text-align:left}
+@media(max-width:620px){
+ .assessment-library-list{grid-template-columns:repeat(2,minmax(0,1fr))}
+ .assessment-detail-intro{grid-template-columns:1fr}
+}
+.assessment-purpose-group table{table-layout:fixed;min-width:0}
+.assessment-purpose-group th:first-child{width:34%}
+.assessment-purpose-group td{overflow-wrap:anywhere}
+.assessment-purpose-group td button{max-width:100%;overflow-wrap:anywhere}
 </style><script id="assessmentData" type="application/json">{
   "source": "初级、中级、高级扫描笔记：相关联评估动作栏",
   "entries": [
@@ -7143,6 +7175,68 @@ window.addEventListener('pagehide',()=>{if(!window.polestarCloud?.active&&diskEn
           ]
         ]
       ]
+    ],
+    "textbook": [
+      {
+        "name": "Half Squat",
+        "how": "站姿脚与髋同宽，手臂前伸；下蹲约45°并保持20–30秒。"
+      },
+      {
+        "name": "Full Squat",
+        "how": "从站姿完全下蹲再顺畅站起，脚跟可自然抬起。"
+      },
+      {
+        "name": "Heel Raise",
+        "how": "双脚热身后单脚提踵5次，另一脚离地。"
+      },
+      {
+        "name": "Goal Post on Wall",
+        "how": "背靠墙，手臂90/90贴墙向上滑动。"
+      },
+      {
+        "name": "Long Sit",
+        "how": "双腿伸直长坐，脊柱自然，从髋关节向前平倾。"
+      },
+      {
+        "name": "Seated Hip Abduction",
+        "how": "双腿伸直向两侧打开，躯干保持直立。"
+      },
+      {
+        "name": "Z-Sitting",
+        "how": "双腿呈Z形，尽量保持两侧坐骨和躯干组织。"
+      },
+      {
+        "name": "Roll Up / Roll Down",
+        "how": "从坐姿开始逐节卷下，再逐节卷回。"
+      },
+      {
+        "name": "Hundred Position",
+        "how": "卷起头颈胸、腿至桌面或伸直，保持肋式呼吸。"
+      },
+      {
+        "name": "Side Lift",
+        "how": "侧卧肘支撑抬髋；可进一步抬上侧腿和手臂。"
+      },
+      {
+        "name": "Push Up",
+        "how": "平板位屈肘下降至离地约2英寸，再推起。"
+      },
+      {
+        "name": "Superman",
+        "how": "俯卧同时抬起手臂和腿，身体拉长。"
+      },
+      {
+        "name": "Prone Shoulder Flexion",
+        "how": "俯卧手臂前伸，保持躯干稳定抬手臂离地。"
+      },
+      {
+        "name": "Prone Press Up",
+        "how": "俯卧手掌在胸侧，推起上身，保持下段肋骨组织。"
+      },
+      {
+        "name": "Prone Knee Bend",
+        "how": "俯卧抓脚，保持骨盆组织并尝试抬大腿。"
+      }
     ]
   }
 }
@@ -7150,9 +7244,73 @@ window.addEventListener('pagehide',()=>{if(!window.polestarCloud?.active&&diskEn
 const source=JSON.parse(document.getElementById('assessmentData').textContent);
 const make=(tag,text,cls)=>{const n=document.createElement(tag);if(text)n.textContent=text;if(cls)n.className=cls;return n;};
 const root=make('section');root.id='assessments';root.hidden=true;
-const top=make('div',null,'assessment-top');top.append(make('h2','评估动作'));const controls=make('div',null,'assessment-select-controls');const select=make('select');select.id='assessmentSelect';select.setAttribute('aria-label','选择评估动作');for(const entry of source.entries){const option=make('option',String(entry.id).padStart(2,'0')+' '+entry.name+' · '+entry.cn);option.value=String(entry.id);select.append(option);}const previous=make('button','← 上一个');previous.id='assessmentPrevious';const next=make('button','下一个 →');next.id='assessmentNext';controls.append(select,previous,next);top.append(controls);root.append(top);
-
-const grid=make('div',null,'assessment-grid');root.append(grid);document.querySelector('.wrap').append(root);
+const top=make('div',null,'assessment-top');
+top.append(make('h2','评估动作'));
+const tabs=make('div',null,'assessment-tabs');
+tabs.setAttribute('role','tablist');
+tabs.setAttribute('aria-label','评估动作');
+const library=make('section');
+library.id='assessmentLibrary';
+const index=make('section',null,'assessment-dimensions');
+index.id='assessmentPurpose';
+const grid=make('div',null,'assessment-grid');
+const list=make('div',null,'assessment-library-list');
+const entries=new Map(source.entries.map(entry=>[entry.id,entry]));
+const assetPrefix=hostedMode?'./assets/':'./assessments/textbook/';
+let selected=1;
+const tabsButtons=['动作列表','评估目的'].map((name,i)=>{
+ const button=make('button',name);
+ const panel=[library,index][i];
+ button.type='button';
+ button.id='assessmentTab'+i;
+ button.setAttribute('role','tab');
+ button.setAttribute('aria-controls',panel.id);
+ panel.setAttribute('role','tabpanel');
+ panel.setAttribute('aria-labelledby',button.id);
+ button.onclick=()=>switchTab(i);
+ button.onkeydown=event=>{
+  if(!['ArrowLeft','ArrowRight','Home','End'].includes(event.key))return;
+  event.preventDefault();
+  const next=event.key==='Home'?0:event.key==='End'?1:1-i;
+  switchTab(next);
+  tabsButtons[next].focus();
+ };
+ return button;
+});
+function switchTab(i){
+ [library,index].forEach((panel,j)=>{
+  panel.hidden=i!==j;
+  tabsButtons[j].setAttribute('aria-selected',String(i===j));
+  tabsButtons[j].tabIndex=i===j?0:-1;
+ });
+}
+function asset(id,kind){return assetPrefix+'assessment-'+String(id).padStart(2,'0')+'-'+kind+'.webp';}
+function openEntry(id){
+ selected=id;
+ switchTab(0);
+ render();
+ grid.scrollIntoView({block:'start'});
+ grid.querySelector('h3').focus({preventScroll:true});
+}
+for(const entry of source.entries){
+ const button=make('button',null,'assessment-list-item');
+ button.type='button';
+ const img=make('img');
+ img.src=asset(entry.id,'thumb');
+ img.alt='';
+ img.loading='lazy';
+ const labels=make('span');
+ labels.append(make('strong',entry.name),make('small',entry.cn));
+ button.append(img,labels);
+ button.dataset.assessmentId=entry.id;
+ button.onclick=()=>openEntry(entry.id);
+ list.append(button);
+}
+tabs.append(...tabsButtons);
+library.append(list,grid);
+root.append(top,tabs,library,index);
+switchTab(0);
+document.querySelector('.wrap').append(root);
 const nav=make('button','评估动作');nav.dataset.tab='assessments';nav.onclick=()=>tab('assessments');document.querySelector('.nav [data-tab=practice]').after(nav);
 const dialog=make('dialog',null,'assessment-dialog');dialog.id='assessmentCardDialog';const close=make('button','关闭','assessment-close');close.onclick=()=>dialog.close();const content=make('div');dialog.append(close,content);document.body.append(dialog);
 function openCard(id,item){
@@ -7179,76 +7337,68 @@ zoom.setAttribute('aria-pressed','false');
 photoDialog.append(photoClose,zoom,fullPhoto);
 document.body.append(photoDialog);
 
-if(source.classroom){
- const reference=make('details',null,'assessment-reference');
- reference.append(make('summary','按维度查动作 · 白板照片'));
- const index=make('div',null,'assessment-dimensions');
- const entries=new Map(source.entries.map(entry=>[entry.id,entry]));
- for(const [dimension, rows] of source.classroom.groups){
-  const group=make('section');
-  group.append(make('h3',dimension));
-  const list=make('ul');
-  for(const [target,ids] of rows){
-   const row=make('li');
-   if(target)row.append(make('span',target,'assessment-dimension-target'));
-   const links=make('div',null,'assessment-dimension-links');
-   for(const id of ids){
-    const button=make('button',entries.get(id).name);
-    button.type='button';
-    button.onclick=()=>{
-     select.value=String(id);
-     render();
-     grid.scrollIntoView({block:'start'});
-     grid.querySelector('h3').focus({preventScroll:true});
-    };
-    links.append(button);
-   }
-   row.append(links);
-   list.append(row);
+for(const [dimension, rows] of source.classroom.groups){
+ const group=make('section',null,'assessment-purpose-group');
+ group.append(make('h3',dimension));
+ const table=make('table');
+ table.setAttribute('aria-label',dimension);
+ const head=table.createTHead().insertRow();
+ for(const label of ['观察重点','评估动作']){
+  const th=make('th',label);
+  th.scope='col';
+  head.append(th);
+ }
+ const body=table.createTBody();
+ for(const [target,ids] of rows){
+  const row=body.insertRow();
+  row.insertCell().textContent=target||dimension;
+  const links=row.insertCell();
+  for(const id of ids){
+   const button=make('button',entries.get(id).name);
+   button.type='button';
+   button.onclick=()=>openEntry(id);
+   links.append(button);
   }
-  group.append(list);
-  index.append(group);
  }
- const photos=make('div',null,'assessment-photos');
- for(const [file,label] of [['assessment-checklist','15 项评估动作清单'],['assessment-dimensions','评估维度分类']]){
-  const button=make('button',null,'assessment-photo');
-  button.type='button';
-  const photo=make('img');
-  photo.src=(hostedMode?'./assets/':'./assessments/photos/')+file+'.webp';
-  photo.alt='';
-  photo.loading='lazy';
-  button.append(photo,make('span',label+' · 放大'));
-  button.onclick=()=>{
-   fullPhoto.src=photo.src;
-   fullPhoto.alt=label+'白板照片';
-   photoDialog.setAttribute('aria-label',fullPhoto.alt);
-   photoDialog.classList.remove('assessment-photo-zoom');
-   zoom.textContent='放大';
-   zoom.setAttribute('aria-pressed','false');
-   photoDialog.showModal();
-   photoDialog.scrollTo(0,0);
-  };
-  photos.append(button);
- }
- reference.append(photos,index);
- root.append(reference);
+ group.append(table);
+ index.append(group);
 }
 function render(){
- grid.replaceChildren();const index=source.entries.findIndex(e=>String(e.id)===select.value);const entries=[source.entries[index]];previous.disabled=index===0;next.disabled=index===source.entries.length-1;
- for(const entry of entries){
-  const card=make('article',null,'assessment-item');card.append(make('h3',String(entry.id).padStart(2,'0')+'  '+entry.name),make('p',entry.cn,'assessment-cn'));
-  card.querySelector('h3').tabIndex=-1;
-  const goal=source.classroom?.goals[entry.id-1];
-  if(goal){
-   const purpose=make('section',null,'assessment-goal');
-   purpose.append(make('h4','评估目标'),make('p',goal));
-   card.append(purpose);
-  }
+ grid.replaceChildren();
+ const entry=entries.get(selected);
+ for(const button of list.children)button.setAttribute('aria-current',String(Number(button.dataset.assessmentId)===selected));
+ const card=make('article',null,'assessment-item');
+ const title=make('h3',String(entry.id).padStart(2,'0')+'  '+entry.name);
+ title.tabIndex=-1;
+ card.append(title,make('p',entry.cn,'assessment-cn'));
+ const intro=make('div',null,'assessment-detail-intro');
+ const figure=make('button',null,'assessment-textbook');
+ figure.type='button';
+ const image=make('img');
+ image.src=asset(entry.id,'thumb');
+ image.alt=entry.name+' 教材动作图';
+ figure.append(image,make('span','查看《运动原则》教材图'));
+ figure.onclick=()=>{
+  fullPhoto.src=asset(entry.id,'page');
+  fullPhoto.alt=entry.name+' 教材图';
+  photoDialog.setAttribute('aria-label',fullPhoto.alt);
+  photoDialog.classList.remove('assessment-photo-zoom');
+  zoom.textContent='放大';
+  zoom.setAttribute('aria-pressed','false');
+  photoDialog.showModal();
+  photoDialog.scrollTo(0,0);
+ };
+ const descriptions=make('div');
+ const purpose=make('section',null,'assessment-goal');
+ purpose.append(make('h4','评估目的'),make('p',source.classroom.goals[entry.id-1]));
+ const how=make('section',null,'assessment-how');
+ how.append(make('h4','动作做法'),make('p',source.classroom.textbook[entry.id-1].how));
+ descriptions.append(purpose,how);
+ intro.append(figure,descriptions);
+ card.append(intro,make('h4','关联动作','assessment-related-heading'));
   const stages=make('div',null,'assessment-stages');for(const stage of entry.stages){const section=make('section');section.append(make('h4',stage.label));const list=make('ul');for(const item of stage.items){const ids=item.actionIds.filter(id=>validIds.has(id));if(item.actionIds.length&&!ids.length)continue;const li=make('li');if(!ids.length){const note=make('a',item.text,'assessment-link');note.href='#note-'+item.noteId;note.dataset.noteId=item.noteId;note.onclick=e=>{e.preventDefault();openCard(null,item);};li.append(note);}for(const [version,id] of ids.entries()){const action=CARDS.find(a=>a.id===id);if(!action)continue;if(version)li.append(document.createTextNode('、'));const a=make('a',ids.length===1?item.text:action.name,'assessment-link');a.title=action.name;a.href='#assessment-card-'+id;a.dataset.actionId=id;a.dataset.noteId=item.noteId;a.onclick=e=>{e.preventDefault();openCard(id,item);};li.append(a);}list.append(li);}if(!stage.items.length)list.append(make('li','笔记未列出关联动作','assessment-intro'));section.append(list);stages.append(section);}card.append(stages);grid.append(card);
- }
- if(!entries.length)grid.append(make('p','没有找到对应评估动作。'));
 }
-select.onchange=render;previous.onclick=()=>{select.selectedIndex--;render();};next.onclick=()=>{select.selectedIndex++;render();};render();
+render();
 window.polestarAssessments={close(){if(dialog.open)dialog.close();if(photoDialog.open)photoDialog.close();},preparePortable(clone){clone.querySelectorAll('#assessments,#assessmentCardDialog,#assessmentPhotoDialog,[data-tab=assessments]').forEach(n=>n.remove());}};
 })();
 </script><style data-notes-build>#notesStudy{padding:20px 0 40px}.notes-top{display:flex;justify-content:space-between;align-items:center;gap:14px;flex-wrap:wrap;margin-bottom:18px}.notes-top h2{margin:0;font-size:24px}.notes-modes{display:flex;gap:6px}.notes-modes button[aria-pressed=true]{background:#fff2cc;border-color:#ffb525;color:#6c4200}.notes-filters{display:grid;grid-template-columns:1fr 1fr 2fr;gap:10px;margin-bottom:18px}.notes-filters input,.notes-filters select{width:100%;min-height:44px;font-size:16px;padding:10px;border:1px solid var(--line);border-radius:9px;background:#fff;min-width:0}.notes-layout{display:grid;grid-template-columns:250px minmax(0,1fr);gap:22px;align-items:start}.notes-list{border:1px solid var(--line);border-radius:12px;max-height:75vh;overflow:auto}.notes-list button{display:block;width:100%;text-align:left;padding:14px;border:0;border-bottom:1px solid var(--line);border-radius:0;min-height:62px;font-size:14px;overflow-wrap:anywhere;background:white}.notes-list button:last-child{border-bottom:0}.notes-list button[aria-current=true]{background:#fff8e9;border-left:3px solid #ffb525}.notes-list button span{display:block;font-size:12px;color:#777;margin-top:5px}.notes-detail{min-width:0;border:1px solid var(--line);border-radius:14px;padding:24px}.notes-detail h3{font-size:27px;line-height:1.3;margin:0 0 8px;overflow-wrap:anywhere}.notes-meta{display:flex;gap:8px;flex-wrap:wrap;color:#777;font-size:13px;margin:0 0 16px}.notes-meta span{padding:5px 9px;background:#fafafa;border-radius:6px}.notes-info{display:grid;grid-template-columns:1fr 1fr;gap:12px}.notes-block{border:1px solid var(--line);border-radius:10px;padding:16px;min-width:0}.notes-block[data-field=process],.notes-block[data-field=cues]{grid-column:1/-1}.notes-block h4{font-size:15px;margin:0 0 10px}.notes-block p{font-size:14px;line-height:1.85;white-space:pre-wrap;overflow-wrap:anywhere;margin:0}.notes-block p.missing{color:#999}.notes-block[data-field=precautions]{background:#fffbf4}.notes-source{margin-top:18px;border-top:1px solid var(--line);padding-top:16px}.notes-source summary{cursor:pointer;font-size:14px;min-height:34px}.notes-source-image{display:block;width:100%;padding:0;background:#fff;border:1px solid var(--line);margin-top:10px;cursor:zoom-in}.notes-source-image img{display:block;width:100%;height:auto}.notes-source pre{white-space:pre-wrap;font-size:13px;line-height:1.8;max-height:520px;overflow:auto}.notes-read-controls,.notes-quiz-controls{display:flex;gap:10px;flex-wrap:wrap;margin:18px 0}.notes-read-controls button,.notes-quiz-controls button{min-height:44px}.notes-question{border:1px solid var(--line);border-radius:12px;padding:18px;margin:14px 0;min-width:0}.notes-question legend{font-size:16px;font-weight:600;line-height:1.6;padding:0 5px;overflow-wrap:anywhere}.notes-question .notes-kind{font-size:12px;color:#8a5100;font-weight:400;margin-right:8px}.notes-answer-option{display:flex;gap:10px;align-items:flex-start;padding:12px;margin:8px 0;border:1px solid var(--line);border-radius:9px;line-height:1.7;font-size:14px;cursor:pointer}.notes-answer-option input{margin-top:6px;flex-shrink:0;accent-color:#eeb02e}.notes-answer-option.correct{border-color:#e6ae2e;background:#fff7de}.notes-answer-option.wrong{border-color:#cc6555;background:#fff2f0}.notes-fill{min-height:46px;width:100%;padding:12px;font-size:16px;border:1px solid var(--line);border-radius:9px}.notes-explanation{padding:14px;background:#fff9e9;border-radius:9px;margin:14px 0 0;font-size:14px;line-height:1.85;white-space:pre-wrap;overflow-wrap:anywhere}.notes-explanation[data-correct=false]{background:#fff2ef}.notes-question button{margin-top:10px;min-height:42px}.notes-exam-score{padding:22px;background:#fff5d5;border:1px solid #f2cc64;border-radius:12px;margin:18px 0;font-size:18px}.notes-exam-score strong{font-size:30px}.notes-quiet{font-size:13px;line-height:1.7;color:#777}.notes-empty{padding:28px;text-align:center;color:#777}.notes-questions-title{font-size:20px;margin-top:24px}.notes-local-status{min-height:20px;color:#777;font-size:12px}#notesImageDialog{width:min(1100px,calc(100% - 20px));padding:12px;max-height:94vh;overflow:auto}#notesImageDialog img{display:block;width:100%;height:auto;max-width:none}#notesImageDialog.zoom img{width:200%}#notesImageDialog .dialog-top{position:sticky;top:-12px;background:white;z-index:1}.web-guest #notesStudy{display:none!important}
