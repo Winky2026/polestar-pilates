@@ -106,6 +106,10 @@ function useLibrary(owner){
     });
   }
   return {
+    async dump(){
+      const items=await transaction('readonly',store=>store.index('byOwner').getAll(owner));
+      return items.map(({owner,...item})=>item);
+    },
     async list(){
       const records=await transaction('readonly',store=>store.index('byOwner').getAll(owner));
       return records.map(({book,owner,...details})=>details).sort((a,b)=>a.title.localeCompare(b.title));
@@ -275,5 +279,17 @@ export async function createHostedReader(){
   const storage=makeSync(user.id);
   await storage.pull();
   storage.flush();
-  return {user,signIn,signOut:()=>signOut(storage),storage,books:useLibrary(user.id)};
+  const library=useLibrary(user.id);
+  return {user,signIn,signOut:()=>signOut(storage),storage,books:library,
+    exportLegacyBackup:()=>exportBackup(storage,library)};
+}
+
+async function exportBackup(storage,library){
+  const data=Object.fromEntries(Object.keys(keys).map(key=>[key,JSON.parse(storage.getItem(key)||'{}')]));
+  const books=await library.dump();
+  const output=new Blob([JSON.stringify({format:'reading-shelf-backup-v1',books,data})],{type:'application/json'});
+  const url=URL.createObjectURL(output);
+  const link=document.createElement('a');
+  link.href=url;link.download='reading-shelf-backup-'+new Date().toISOString().slice(0,10)+'.json';
+  link.click();setTimeout(()=>URL.revokeObjectURL(url),10000);
 }

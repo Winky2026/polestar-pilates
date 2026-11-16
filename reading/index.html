@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="color-scheme" content="light">
-<title>英文有声书架</title>
+<title>旧版有声书架 · 迁移</title>
 <style>
 :root{--paper:#faf7ef;--panel:#f1ebdf;--ink:#221c26;--muted:#685e68;--accent:#792d4b;--wash:#f1dce4;--rule:#d9cfc4;--dark:#251d2b;--gold:#f2cb9e;--reading:21px;color:var(--ink);background:var(--paper);font:15px/1.55 "PingFang SC","Microsoft YaHei",system-ui,sans-serif}
 *{box-sizing:border-box}body{margin:0}button,select,input{font:inherit;color:inherit}button,select{cursor:pointer}button{border:1px solid var(--rule);background:transparent;border-radius:7px;padding:.48rem .72rem}button:hover,select:hover{background:var(--wash)}button:disabled{opacity:.45;cursor:default}button:focus-visible,select:focus-visible,a:focus-visible,input:focus-visible{outline:2px solid var(--accent);outline-offset:3px}::selection{background:#ead1dd;color:var(--ink)}[hidden]{display:none!important}a{color:var(--accent)}.sr{position:absolute;clip-path:inset(50%);width:1px;height:1px;overflow:hidden;white-space:nowrap}
@@ -141,6 +141,7 @@ button{-webkit-tap-highlight-color:#ead1dd66}
 </style>
 </head>
 <body>
+<div id="legacy-reader-banner" style="padding:10px 18px;background:#f4e6ef;color:#59293c;text-align:center">阅读器已迁到独立地址。旧书架可用原账号登录并导出。<a href="https://winky-reading-shelf.pages.dev/">打开独立阅读器</a></div>
 <div class="layout">
 <aside id="library" class="library" aria-label="章节目录"><button class="mobile close-toc" id="close-toc" type="button">关闭</button>
 <div class="book"><img class="cover" src="" alt="本书封面"><strong lang="en">英文有声书架</strong><small lang="en"></small></div>
@@ -177,7 +178,7 @@ button{-webkit-tap-highlight-color:#ead1dd66}
 <dialog id="account-dialog" aria-labelledby="account-heading"><div class="dialog-head"><h2 id="account-heading">登录有声书架</h2><button type="button" data-close>关闭</button></div><div class="dialog-body"><form id="account-form"><label>邮箱<input id="account-email" type="email" required autocomplete="username" placeholder="name@example.com"></label><label>密码<input id="account-password" type="password" required autocomplete="current-password"></label><button class="action" id="account-submit">登录</button><p id="account-status" role="status"></p></form><p class="assist">可用已开通的普拉提账号登录。新账号由管理员开通。</p></div></dialog>
 <dialog id="shelf-dialog"><div class="dialog-head"><h2>我的书架</h2><button type="button" data-close>关闭</button></div><div class="dialog-body">
 <form id="import-form" class="import-form"><label>电子书<input id="book-file" type="file" required accept=".epub,.ty,.txt,.md,.html,.htm,.docx,.pdf,.fb2,.mobi,.azw3"></label><label>原文语言<select id="import-lang"><option value="auto">自动识别</option><option value="en">英语</option><option value="zh">中文</option><option value="fr">法语</option><option value="es">西班牙语</option><option value="de">德语</option><option value="ja">日语</option><option value="ko">韩语</option><option value="it">意大利语</option><option value="pt">葡萄牙语</option><option value="ru">俄语</option></select></label><button class="action" id="import-button">导入</button></form>
-<p class="assist">支持 EPUB、TY、TXT、Markdown、HTML、DOCX、FB2 和可提取文字的 PDF。电子书保存在当前设备的浏览器里；阅读进度、词数和生词随账号同步。</p><p class="form-status" id="import-status" role="status"></p><ul id="book-list" class="book-list"></ul>
+<p class="assist">支持 EPUB、TY、TXT、Markdown、HTML、DOCX、FB2 和可提取文字的 PDF。电子书保存在当前设备的浏览器里；阅读进度、词数和生词随账号同步。</p><p class="form-status" id="import-status" role="status"></p><ul id="book-list" class="book-list"></ul><button id="legacy-export" type="button" hidden>导出旧版书架备份</button>
 </div></dialog>
 <div id="sentence-toolbar" role="toolbar" aria-label="选区操作" hidden><button type="button" id="toolbar-translate">翻译整句</button></div>
 <dialog id="sentence-dialog" aria-labelledby="sentence-dialog-title"><div class="dialog-head"><h2 id="sentence-dialog-title">整句翻译</h2><button type="button" data-close>关闭</button></div><div class="dialog-body"><p id="sentence-original" class="example-original"></p><p id="sentence-translation" class="example-translation" aria-live="polite" hidden></p><div id="sentence-translation-actions" class="example-actions"><button id="translate-sentence" type="button">查看翻译</button></div></div></dialog>
@@ -1837,6 +1838,11 @@ $('account-form').addEventListener('submit',async event=>{
   try{await host.signIn($('account-email').value.trim(),$('account-password').value);}
   catch(error){$('account-status').textContent=error.message;}
   finally{submit.disabled=false;$('account-password').value='';}
+});
+$('legacy-export').hidden=!host.user;
+$('legacy-export').addEventListener('click',async()=>{
+  try{await host.exportLegacyBackup();}
+  catch(error){$('import-status').textContent=error.message;}
 });
 const requestedBook=new URLSearchParams(location.search).get('book');
 if(readerCanStore && /^[0-9a-f]{24}$/.test(requestedBook || '')) openBook(requestedBook);
