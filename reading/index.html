@@ -677,7 +677,7 @@ document.addEventListener('keydown',event=>{
   else if(selected) $('close-dict').click();
 });
 const builtIn={id:'empty',title:'英文有声书架',author:'',book,
-  lang:'en',chapters:book.length,pages:book.reduce((n,c)=>n+c[3].length,0),format:'EPUB',cover:document.querySelector('.cover').src};
+  lang:'en',chapters:book.length,pages:book.reduce((n,c)=>n+c[3].length,0),format:'EPUB',cover:''};
 let currentBook=builtIn;
 let libraryLoaded=false;
 let bookSwitch=0;
