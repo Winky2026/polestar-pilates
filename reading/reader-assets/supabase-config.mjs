@@ -1,0 +1,1 @@
+export const supabase={"url":"https://ooolucqmsuxyycjcbjss.supabase.co","publicKey":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im9vb2x1Y3Ftc3V4eXljamNianNzIiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTIxMzU5NzAsImV4cCI6MjEwNzcxMTk3MH0.qAsz2fEnip7putKRMlL_Fa23QEDim04eXF8gpDpZY88"};

@@ -14,7 +14,7 @@ async function partial(response,range){
 }
 self.addEventListener('fetch',event=>{
  const request=event.request,url=new URL(request.url),base=new URL('./',self.location.href);
- if(request.method!=='GET'||url.origin!==base.origin||!url.pathname.startsWith(base.pathname)||url.pathname.includes('/api/'))return;
+ if(request.method!=='GET'||url.origin!==base.origin||!url.pathname.startsWith(base.pathname)||url.pathname.startsWith(base.pathname+'reading/')||url.pathname.includes('/api/'))return;
  if(request.mode==='navigate'){
   event.respondWith((async()=>{try{const response=await fetch(request,{cache:'no-store'});if(response.ok){const cache=await caches.open(SHELL);await cache.put(new URL('./',base),response.clone());}return response;}catch{const response=await caches.match(new URL('./',base));return response||new Response('请先联网打开一次动作库。',{status:503});}})());return;
  }
