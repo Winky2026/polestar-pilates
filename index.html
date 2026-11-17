@@ -180,7 +180,7 @@ body.web-guest #relations{display:none!important}
 
 
 .intro[hidden]{display:none!important}#tracking{margin:0 0 14px}#tracking .progress{width:100%;max-width:600px;margin:16px 0 24px}
-</style><style>.category-suggestion{margin-top:12px;padding:10px 12px;background:#fff9e9;border-radius:8px;font-size:13px;line-height:1.65}.category-suggestion summary{cursor:pointer}.category-suggestion p{white-space:pre-wrap;color:#777;font-size:12px;margin:10px 0 0}</style><meta name="theme-color" content="#ffffff"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-status-bar-style" content="default"><link rel="manifest" href="./manifest.webmanifest"><link rel="apple-touch-icon" href="./icon-180.png"><meta name="polestar-build" content="7cec9373512c"></head><body class="web-guest"><div class="wrap">
+</style><style>.category-suggestion{margin-top:12px;padding:10px 12px;background:#fff9e9;border-radius:8px;font-size:13px;line-height:1.65}.category-suggestion summary{cursor:pointer}.category-suggestion p{white-space:pre-wrap;color:#777;font-size:12px;margin:10px 0 0}</style><meta name="theme-color" content="#ffffff"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-status-bar-style" content="default"><link rel="manifest" href="./manifest.webmanifest"><link rel="apple-touch-icon" href="./icon-180.png"><meta name="polestar-build" content="0ea1fe2d75db"></head><body class="web-guest"><div class="wrap">
 <header><div class="brand">普拉提动作库 <small>POLESTAR PILATES</small></div><div class="tools"><button type="button" id="variantToggle" class="variant-toggle" aria-pressed="true">显示变式</button><button id="soundToggle" class="sound-toggle" aria-label="静音" title="静音"></button><button id="saveGame" class="primary">存档</button><button id="loadGame">读档</button><button id="toolsToggle" aria-label="更多功能" aria-expanded="false">⋯</button><button id="portable" class="mobile-secondary">保存随身 HTML</button><button id="checkUpdate" class="mobile-secondary" hidden>检查更新</button><button id="helpOpen" class="mobile-secondary" aria-label="使用说明">?</button></div></header><div id="updateStatus" hidden role="status" aria-live="polite"><div class="inline"><strong id="updateMessage"></strong><span id="updateDetail"></span></div><progress id="updateProgress" max="100" aria-label="更新下载进度"></progress></div><p id="exportDestination" class="muted" style="font-size:11px;text-align:right;margin-top:6px" hidden></p>
 <div class="intro"><div><h1>动作练习</h1></div></div>
 <div id="folderBar" class="folder-bar" hidden><span id="folderHint">首次选择桌面的“普拉提动作库备份”文件夹，即可直接读写进度。</span><button id="chooseFolder">连接存档文件夹</button></div><div id="storageWarning" class="notice" hidden></div>
@@ -1336,7 +1336,7 @@ window.addEventListener('pagehide',()=>{if(!window.polestarCloud?.active&&diskEn
  <form id="cloudLogin" novalidate><p>账号由管理员分配，不开放自行注册。</p><label>账号邮箱<input id="cloudEmail" type="email" autocomplete="username" required></label><label>密码<input id="cloudPassword" type="password" autocomplete="current-password" required></label><label class="remember-login"><input id="cloudRemember" type="checkbox" checked>记住登录状态</label><p class="remember-note">下次自动登录；公用设备可取消勾选。</p><button class="primary" type="submit">登录</button><p id="cloudLoginFeedback" role="status" aria-live="polite"></p></form>
  <div id="cloudAccount" hidden><p id="cloudIdentity"></p><div class="inline"><button id="cloudSync">同步进度</button><button id="cloudMigrate">导入登录前的本机记录</button><button id="cloudLogout">退出账号</button></div><details><summary>修改我的密码</summary><form id="cloudChangePassword"><label>新密码（至少12位）<input id="cloudNewPassword" type="password" minlength="12" maxlength="128" autocomplete="new-password" required></label><button>保存新密码</button></form></details></div>
  <div id="cloudConflict" hidden class="notice"><p>另一台设备也修改了进度。此设备的记录已保留，请选择要继续使用的版本。</p><button id="cloudUseRemote">使用云端版本</button><button id="cloudUseLocal">用此设备版本覆盖云端</button></div>
- <section id="cloudAdmin" hidden><h3>分配账号</h3><form id="cloudCreate"><label>新账号邮箱<input id="cloudCreateEmail" type="email" autocomplete="off" required></label><label>初始密码（至少12位）<input id="cloudCreatePassword" type="password" minlength="12" maxlength="128" autocomplete="new-password" required></label><button class="primary">创建账号</button></form><p>账号密码由你交给使用者。停用后立即禁止读取和保存学习数据。</p><button id="cloudRefreshUsers">刷新账号列表</button><div id="cloudUsers"></div><form id="cloudReset" hidden><p id="cloudResetLabel"></p><label>新密码<input id="cloudResetPassword" type="password" minlength="12" maxlength="128" autocomplete="new-password" required></label><button>重置此账号密码</button></form></section>`;
+ <section id="cloudAdmin" hidden><h3>账号管理</h3><form id="cloudCreate"><label>新账号邮箱<input id="cloudCreateEmail" type="email" autocomplete="off" required></label><label>初始密码（至少12位）<input id="cloudCreatePassword" type="password" minlength="12" maxlength="128" autocomplete="new-password" required></label><button class="primary">创建账号</button></form><p>账号密码由你交给使用者。停用后立即禁止读取和保存学习数据。</p><button id="cloudRefreshUsers">查看使用情况</button><div id="cloudUsers" tabindex="0" role="region" aria-label="用户使用情况"></div><form id="cloudReset" hidden><p id="cloudResetLabel"></p><label>新密码<input id="cloudResetPassword" type="password" minlength="12" maxlength="128" autocomplete="new-password" required></label><button>重置此账号密码</button></form></section>`;
  const backdrop=document.createElement('div');backdrop.id='cloudBackdrop';backdrop.hidden=true;document.body.append(backdrop,panel);
  function openCloud(){
   try{if(typeof panel.showModal!=='function')throw Error('dialog unavailable');panel.showModal();}
@@ -1346,6 +1346,14 @@ window.addEventListener('pagehide',()=>{if(!window.polestarCloud?.active&&diskEn
  backdrop.onclick=closeCloud;panel.addEventListener('keydown',event=>{if(event.key==='Escape'&&panel.classList.contains('cloud-fallback')){event.preventDefault();closeCloud();}});
 
  const style=document.createElement('style');style.textContent='#cloudDialog:not([open]){display:none}#cloudBackdrop{position:fixed;inset:0;background:#0006;z-index:2147483645}#cloudBackdrop[hidden]{display:none}#cloudDialog.cloud-fallback[open]{display:block;position:fixed;left:50%;top:50%;transform:translate(-50%,-50%);margin:0;z-index:2147483646;background:#fff;overflow:auto;border:1px solid #ddd;border-radius:16px;padding:18px}#cloudDialog{width:min(640px,calc(100% - 24px));max-height:90vh}#cloudDialog input{display:block;width:100%;margin:5px 0 12px;padding:10px;border:1px solid #ddd;border-radius:8px}#cloudDialog label{display:block}#cloudDialog .remember-login{display:flex;align-items:center;gap:8px;min-height:44px}#cloudDialog .remember-login input{display:inline-block;width:20px;height:20px;margin:0}#cloudDialog .remember-note{color:#777;font-size:13px}#cloudStatus{padding:10px 0;overflow-wrap:anywhere}#cloudStatus.error,#cloudLoginFeedback.error{color:#b22c23}#cloudLoginFeedback{margin:10px 0 0;min-height:24px;overflow-wrap:anywhere}#cloudAdmin{margin-top:24px;border-top:1px solid #ddd}#cloudUsers>div{padding:12px 0;border-bottom:1px solid #eee;display:flex;gap:8px;align-items:center;flex-wrap:wrap}#cloudUsers span{flex:1;overflow-wrap:anywhere}';document.head.append(style);
+ style.textContent += `
+ #cloudUsers{overflow-x:auto;margin-top:12px}
+ .cloud-usage-table{width:100%;border-collapse:collapse;text-align:left;font-size:13px}
+ .cloud-usage-table th,.cloud-usage-table td{padding:9px 8px;border-bottom:1px solid #eee;white-space:nowrap}
+ .cloud-usage-table thead th{background:#faf6ee}
+ .cloud-usage-table tbody th{font-weight:500;white-space:normal;min-width:145px;overflow-wrap:anywhere}
+ .cloud-usage-table button{margin-right:4px}
+ `;
  const button=document.createElement('button');button.id='cloudOpen';button.type='button';button.textContent=hostedMode?'登录':'登录／云端存档';el('helpOpen').before(button);
  const authKey=KEY+'-auth-'+new URL(config.url).hostname;
  let authBusy=false;
@@ -1481,8 +1489,59 @@ window.addEventListener('pagehide',()=>{if(!window.polestarCloud?.active&&diskEn
  el('cloudLogout').onclick=async()=>{try{if(busy)throw Error('正在同步，请稍后退出。');if(conflict)throw Error('请先选择冲突版本再退出。');await sync();if(dirty)throw Error('仍有记录待同步，请先保存或导出备份。');await request('/auth/v1/logout',{method:'POST'});forgetSession();clearTimeout(timer);controller.active=false;controller.storageKey=null;user=null;session=null;revision=0;state=original||empty();original=null;migrated=false;el('cloudMigrate').disabled=false;diskEnabled=oldDiskEnabled;diskPending=false;el('cloudAccount').hidden=true;el('cloudAdmin').hidden=true;el('cloudLogin').hidden=false;el('cloudUsers').replaceChildren();redraw();savedStatus('已退出云端，恢复本机记录');status('已退出。');}catch(e){report(e);}};
  el('cloudChangePassword').onsubmit=async event=>{event.preventDefault();try{await request('/auth/v1/user',{method:'PUT',body:JSON.stringify({password:el('cloudNewPassword').value})});el('cloudNewPassword').value='';status('密码已修改。');}catch(e){report(e);}};
  async function manage(body){return request('/functions/v1/manage-accounts',{method:'POST',body:JSON.stringify(body)});}
- async function listUsers(){const {users}=await manage({action:'list'});el('cloudUsers').replaceChildren();for(const u of users){const row=document.createElement('div');const label=document.createElement('span');label.textContent=u.email+(u.is_admin?' · 管理员':u.enabled?' · 已启用':' · 已停用');row.append(label);if(u.id!==user.id){const toggle=document.createElement('button');toggle.textContent=u.enabled?'停用':'启用';toggle.onclick=async()=>{try{await manage({action:'set-enabled',id:u.id,enabled:!u.enabled});await listUsers();}catch(e){report(e);}};row.append(toggle);const reset=document.createElement('button');reset.textContent='重置密码';reset.onclick=()=>{resetId=u.id;el('cloudResetLabel').textContent='重置 '+u.email+' 的密码';el('cloudReset').hidden=false;el('cloudResetPassword').focus();};row.append(reset);}el('cloudUsers').append(row);}}
- el('cloudRefreshUsers').onclick=()=>listUsers().catch(report);
+ const accountDate = value => value ? new Date(value).toLocaleString('zh-CN',{hour12:false}) : '—';
+ async function listUsers(){
+  const owner=user?.id;
+  const {users}=await manage({action:'list',includeUsage:true});
+  if(!owner||user?.id!==owner||el('cloudAdmin').hidden)return;
+  const host=el('cloudUsers');
+  if(!users.length){host.textContent='暂无账号';return;}
+  if(!users.some(account=>Object.hasOwn(account,'usage')))throw Error('使用情况接口暂未上线。');
+  const table=document.createElement('table');
+  table.className='cloud-usage-table';
+  const heading=table.createTHead().insertRow();
+  const headers=['账号','最近登录','最近同步','已整理','已读','累计作答','正确率','笔记条数','操作'];
+  for(const title of headers){
+   const cell=document.createElement('th');
+   cell.scope='col';cell.textContent=title;heading.append(cell);
+   if(title==='累计作答')cell.title='包含动作分类猜名和听力练习';
+  }
+  const body=table.createTBody();
+  users.sort((a,b)=>(b.usage?.updatedAt||'').localeCompare(a.usage?.updatedAt||''));
+  for(const account of users){
+   const row=body.insertRow(),usage=account.usage;
+   const label=document.createElement('th');
+   label.scope='row';
+   label.textContent=account.email+(account.is_admin?' · 管理员':account.enabled?' · 已启用':' · 已停用');
+   row.append(label);
+   const correctRate=usage?.attempts ? Math.round(100*usage.correct/usage.attempts)+'%' : '—';
+   for(const value of [accountDate(account.lastSignIn),accountDate(usage?.updatedAt),usage?.organized,usage?.read,usage?.attempts,correctRate,usage?.notes]){
+    row.insertCell().textContent=value??'—';
+   }
+   const controls=row.insertCell();
+   if(account.id!==owner){
+    const toggle=makeButton(account.enabled?'停用':'启用',async()=>{
+     try{await manage({action:'set-enabled',id:account.id,enabled:!account.enabled});await listUsers();}catch(error){report(error);}
+    });
+    const reset=makeButton('重置密码',()=>{
+     resetId=account.id;
+     el('cloudResetLabel').textContent='重置 '+account.email+' 的密码';
+     el('cloudReset').hidden=false;
+     el('cloudResetPassword').focus();
+    });
+    controls.append(toggle,reset);
+   }
+  }
+  host.replaceChildren(table);
+ }
+ el('cloudRefreshUsers').onclick=async()=>{
+  const refresh=el('cloudRefreshUsers');
+  refresh.disabled=true;
+  refresh.textContent='载入中…';
+  try{await listUsers();refresh.textContent='刷新使用情况';}
+  catch(error){report(error);refresh.textContent='重试查看使用情况';}
+  finally{refresh.disabled=false;}
+ };
  el('cloudCreate').onsubmit=async event=>{event.preventDefault();const submit=event.submitter||event.currentTarget.querySelector('button');submit.disabled=true;try{await manage({action:'create',email:el('cloudCreateEmail').value.trim(),password:el('cloudCreatePassword').value});el('cloudCreatePassword').value='';el('cloudCreateEmail').value='';status('账号已创建，可以把账号和初始密码交给使用者。');await listUsers();}catch(e){report(e);}finally{submit.disabled=false;}};
  el('cloudReset').onsubmit=async event=>{event.preventDefault();try{await manage({action:'reset-password',id:resetId,password:el('cloudResetPassword').value});el('cloudResetPassword').value='';el('cloudReset').hidden=true;status('密码已重置。');}catch(e){report(e);}};
  window.addEventListener('online',()=>{if(user&&dirty)sync().catch(report);else if(!controller.active)restoreSession();});
