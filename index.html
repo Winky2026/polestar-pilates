@@ -180,7 +180,7 @@ body.web-guest #relations{display:none!important}
 
 
 .intro[hidden]{display:none!important}#tracking{margin:0 0 14px}#tracking .progress{width:100%;max-width:600px;margin:16px 0 24px}
-</style><style>.category-suggestion{margin-top:12px;padding:10px 12px;background:#fff9e9;border-radius:8px;font-size:13px;line-height:1.65}.category-suggestion summary{cursor:pointer}.category-suggestion p{white-space:pre-wrap;color:#777;font-size:12px;margin:10px 0 0}</style><meta name="theme-color" content="#ffffff"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-status-bar-style" content="default"><link rel="manifest" href="./manifest.webmanifest"><link rel="apple-touch-icon" href="./icon-180.png"><meta name="polestar-build" content="0278f4c5f592"></head><body class="web-guest"><div class="wrap">
+</style><style>.category-suggestion{margin-top:12px;padding:10px 12px;background:#fff9e9;border-radius:8px;font-size:13px;line-height:1.65}.category-suggestion summary{cursor:pointer}.category-suggestion p{white-space:pre-wrap;color:#777;font-size:12px;margin:10px 0 0}</style><meta name="theme-color" content="#ffffff"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-status-bar-style" content="default"><link rel="manifest" href="./manifest.webmanifest"><link rel="apple-touch-icon" href="./icon-180.png"><meta name="polestar-build" content="7eb301f7addc"></head><body class="web-guest"><div class="wrap">
 <header><div class="brand">普拉提动作库 <small>POLESTAR PILATES</small></div><div class="tools"><button type="button" id="variantToggle" class="variant-toggle" aria-pressed="true">显示变式</button><button id="soundToggle" class="sound-toggle" aria-label="静音" title="静音"></button><button id="saveGame" class="primary">存档</button><button id="loadGame">读档</button><button id="toolsToggle" aria-label="更多功能" aria-expanded="false">⋯</button><button id="portable" class="mobile-secondary">保存随身 HTML</button><button id="checkUpdate" class="mobile-secondary" hidden>检查更新</button><button id="helpOpen" class="mobile-secondary" aria-label="使用说明">?</button></div></header><div id="updateStatus" hidden role="status" aria-live="polite"><div class="inline"><strong id="updateMessage"></strong><span id="updateDetail"></span></div><progress id="updateProgress" max="100" aria-label="更新下载进度"></progress></div><p id="exportDestination" class="muted" style="font-size:11px;text-align:right;margin-top:6px" hidden></p>
 <div class="intro"><div><h1>动作练习</h1></div></div>
 <div id="folderBar" class="folder-bar" hidden><span id="folderHint">首次选择桌面的“普拉提动作库备份”文件夹，即可直接读写进度。</span><button id="chooseFolder">连接存档文件夹</button></div><div id="storageWarning" class="notice" hidden></div>
@@ -503,10 +503,19 @@ function toast(text){clearTimeout(toastTimer);$('toast').textContent=text;$('toa
 function makeButton(text,click,cls=''){const b=document.createElement('button');b.type='button';b.textContent=text;b.className=cls;b.addEventListener('click',click);return b;}
 function refreshProgress(){const n=CARDS.filter(a=>record(a.id).status==='done').length;$('doneCount').textContent=n;$('progressTotal').textContent=CARDS.length;$('overallProgress').setAttribute('aria-valuemax',CARDS.length);$('percent').textContent=Math.round(n/CARDS.length*100)+'%';$('progressFill').style.width=n/CARDS.length*100+'%';$('overallProgress').setAttribute('aria-valuenow',n);$('remainingCount').textContent=`未完成 ${CARDS.length-n} 张`;$('laterCount').textContent=`稍后再想 ${CARDS.filter(a=>record(a.id).status==='later').length} 张`;renderTracking();}
 function renderStatus(){const r=record(state.current);$('cardStatus').textContent=r.status==='done'?'✓ 已整理':r.status==='later'?'稍后再想':'待整理';}
-function renderSupplementaryReferences(host,references=[]){
+const classroomClassificationReferences = {"43": "SEATED · 坐姿；一般放在课程中段，难度随对象调整。", "45": "SLEI · 仰卧下肢；以骨盆稳定和髋分离为重点。", "83": "SLEI · 仰卧下肢；可按能力放在初级或中级。", "112": "SEATED · 坐姿；以坐姿中立和下肢排列为重点。", "115": "STANDING · 站姿；站立腿承重、踏板腿活动。", "118": "特殊拉伸类；体位是站姿，日常可用于课程中段，也可按需要收尾。", "137": "特殊拉伸类；体位是站姿，日常按需安排，通常偏前段。", "55": "STANDING · 初级站姿；方案可注明 Basic，保留扶杆，不做图五脱手摆臂。", "49": "STANDING · 站姿，也兼具拉伸属性；可作初级站姿或收尾动作。", "47": "SUEI · 初级仰卧上肢。", "48": "Hundred：SUEI · 初级仰卧上肢，也可用于中高级。Coordination：SUEI · 高级仰卧上肢。", "144": "伸展类；非常基础的伸展练习。", "145": "伸展类；通常用于初级伸展。动作整合原则与 FBI 分类分别判断。"};
+function renderSupplementaryReferences(host,references=[],actionId){
  host.replaceChildren();host.className='classification-references';
  const values=[];for(const ref of references){const text=ref.category+' · '+(CATS.find(c=>c[0]===ref.category)?.[1]||ref.category)+' · '+ref.level;const item=text+'（'+ref.term+'）';if(!values.includes(item))values.push(item);}
  if(values.length){const row=document.createElement('p');row.className='classification-reference-line';row.textContent='参考2：'+values.join('；');host.append(row);}
+ const classroom=classroomClassificationReferences[String(actionId)];
+ if(classroom){
+  const row=document.createElement('p');
+  row.className='classification-reference-line';
+  row.textContent='课堂参考：'+classroom;
+  host.append(row);
+ }
+
 }
 window.PolestarReferences={render:renderSupplementaryReferences};
 
@@ -514,7 +523,7 @@ function renderChoices(){
  const r=record(state.current),action=CARDS.find(a=>a.id===state.current);
  $('categorySuggestionTitle').className='classification-reference-line';
  $('categorySuggestionTitle').textContent='参考1：'+(action.suggestedCategories?.length?action.suggestedCategories.map(c=>c+' · '+(CATS.find(x=>x[0]===c)?.[1]||c)).join(' / '):'待核对')+' · '+(action.suggestedLevel||'待核对')+(action.levelSourceLabel?'（'+action.levelSourceLabel+'）':'');
- renderSupplementaryReferences($('categorySupplementary'),action.supplementaryReferences||[]);
+ renderSupplementaryReferences($('categorySupplementary'),action.supplementaryReferences||[],action.id);
  const revealSuggestions=studyCore.classifications(r).some(p=>p.category&&p.level);
  $('categorySuggestion').hidden=!revealSuggestions;
  $('levelSuggestion').hidden=true;
@@ -8344,7 +8353,7 @@ function catalogTitle(row){const action=DATA.actions.find(a=>a.id===row.actionId
 function renderCategory(entry,block){
  const categories=entry.suggestedCategories||[],suggestion=make('div',undefined,'notes-category');
  suggestion.append(make('p','参考1：'+(categories.length?categories.map(c=>c+' · '+(categoryNames[c]||c)).join(' / '):'待核对')+' · '+(entry.suggestedLevel||'待核对')+'（'+(entry.levelSourceLabel||entry.level)+'）','classification-reference-line'));
- const extra=make('div');if(window.PolestarReferences)window.PolestarReferences.render(extra,entry.supplementaryReferences||[]);suggestion.append(extra);
+ const extra=make('div');if(window.PolestarReferences)window.PolestarReferences.render(extra,entry.supplementaryReferences||[],entry.actionId);suggestion.append(extra);
  const action=CARDS.find(item=>item.id===entry.actionId);
  const pairs=action?studyCore.classifications(record(action.id)).filter(pair=>pair.category||pair.level):[];
  const mine=make('div',undefined,'notes-own-classification');
