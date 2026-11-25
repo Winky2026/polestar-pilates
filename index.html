@@ -343,31 +343,143 @@ body.quiz-result-open{padding-bottom:calc(var(--app-nav-h) + 180px + var(--safe-
 #libraryCategories button[aria-pressed="true"]::before{content:"";position:absolute;left:0;top:9px;bottom:9px;width:3.5px;border-radius:0 4px 4px 0;background:var(--sun)}
 #libraryCategories .cat-count{font-size:11px;font-weight:500;color:var(--muted);font-variant-numeric:tabular-nums;flex:none}
 #libraryCategories button[aria-pressed="true"] .cat-count{color:var(--sun-dark)}
-#library .library-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,280px),1fr));gap:8px}
-#library .library-row{display:flex;align-items:center;gap:10px;width:100%;padding:8px 10px;border-radius:14px;background:var(--surface);border:1px solid var(--line);box-shadow:var(--shadow-sm);text-align:left;transition:background-color .16s var(--ease),border-color .16s var(--ease),transform .14s var(--ease)}
+#library .library-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,280px),1fr));gap:10px}
+#library .library-row{display:flex;align-items:center;gap:12px;width:100%;padding:10px 12px;border-radius:15px;background:var(--surface);border:1px solid var(--line);box-shadow:var(--shadow-sm);text-align:left;transition:background-color .16s var(--ease),border-color .16s var(--ease),transform .14s var(--ease)}
 #library .library-row:hover{border-color:var(--line-strong);background:var(--surface-soft)}
-#library .library-row-thumb{width:56px;height:44px;flex:none;border-radius:9px;background:#fff;border:1px solid var(--line);object-fit:contain;padding:2px}
+#library .library-row-thumb{width:72px;height:56px;flex:none;border-radius:10px;background:#fff;border:1px solid var(--line);object-fit:contain;padding:2px}
 #library .library-row-body{flex:1;min-width:0}
-#library .library-row-title{display:block;font-size:14px;font-weight:600;line-height:1.3;color:var(--ink);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-#library .library-row-cn{display:block;font-size:12px;color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;margin-top:2px}
-#library .library-row-meta{display:flex;align-items:center;gap:6px;margin-top:3px;font-size:11px;color:var(--muted)}
-#library .library-row-level{padding:1px 6px;border-radius:999px;background:var(--sun-light);color:var(--sun-dark);font-weight:600}
+#library .library-row-title{display:-webkit-box;-webkit-box-orient:vertical;-webkit-line-clamp:2;overflow:hidden;font-size:15.5px;font-weight:600;line-height:1.32;color:var(--ink);overflow-wrap:anywhere}
+#library .library-row-cn{display:block;font-size:13px;color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;margin-top:3px}
+#library .library-row-meta{display:flex;align-items:center;flex-wrap:wrap;gap:6px;margin-top:5px;font-size:12px;color:var(--muted)}
+#library .library-row-level{padding:2px 8px;border-radius:999px;background:var(--sun-light);color:var(--sun-dark);font-weight:600;font-size:11.5px}
 #library .library-row-arrow{flex:none;color:var(--muted);font-size:16px;padding-left:2px}
-.notes-back-library{display:inline-flex;align-items:center;gap:6px;margin:0 0 12px;padding:7px 14px;min-height:38px;border-radius:999px;background:var(--surface);border:1px solid var(--line-strong);color:var(--ink);font-size:13px;font-weight:500;box-shadow:var(--shadow-sm)}
-.notes-back-library:hover{background:var(--sun-light);border-color:var(--sun);color:var(--sun-dark)}
+/* === 原生移动端沉浸式二级详情页（动作学习 & 评估详情） === */
+body[data-active-tab="notesStudy"],body.assessment-detail-open{--app-nav-h:0px}
+body[data-active-tab="notesStudy"] .nav,body.assessment-detail-open .nav{display:none!important}
+@media(max-width:700px){
+ body[data-active-tab="notesStudy"] header,body.assessment-detail-open header{display:none!important}
+ body[data-active-tab="notesStudy"] .wrap,body.assessment-detail-open .wrap{padding-top:env(safe-area-inset-top,0px)!important}
+}
+.detail-topbar{
+ position:sticky;top:0;z-index:45;
+ display:grid;grid-template-columns:auto minmax(0,1fr) auto;align-items:center;gap:8px;
+ min-height:52px;margin:0 -14px 14px;padding:6px 10px;
+ background:var(--glass-canvas);backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px);
+ border-bottom:1px solid var(--line);
+}
+@media(min-width:701px){.detail-topbar{margin:0 0 18px;border-radius:14px;border:1px solid var(--line);padding:6px 12px}}
+.detail-back-btn{
+ display:inline-flex!important;align-items:center;gap:2px;min-height:40px;padding:6px 10px 6px 4px!important;
+ border:0!important;background:transparent!important;box-shadow:none!important;
+ color:var(--ink)!important;font-size:15px!important;font-weight:500;border-radius:10px!important;
+}
+.detail-back-btn:hover{background:rgba(31,41,38,.06)!important}
+.detail-back-btn svg{width:22px;height:22px;stroke:currentColor;fill:none;stroke-width:2.1;stroke-linecap:round;stroke-linejoin:round;flex:none}
+.detail-topbar-title{
+ text-align:center;font-size:15px;font-weight:650;color:var(--ink);
+ white-space:nowrap;overflow:hidden;text-overflow:ellipsis;padding:0 4px;
+}
+.detail-top-action{
+ width:40px;height:40px;min-width:40px;min-height:40px;padding:0!important;
+ display:inline-flex!important;align-items:center;justify-content:center;
+ border:0!important;border-radius:999px!important;background:rgba(31,41,38,.055)!important;color:var(--ink)!important;box-shadow:none!important;
+}
+.detail-top-action[aria-pressed="true"]{background:var(--sun-light)!important;color:var(--sun-dark)!important}
+.detail-top-spacer{width:40px;height:40px;display:block}
+
+/* 详情页 Hero 与内容板块：去“框套框”，呈现高级留白与层次 */
+#notesStudy{padding-top:0!important}
+#notesStudy .notes-detail{background:transparent!important;border:0!important;box-shadow:none!important;padding:0!important}
+.detail-hero{padding:6px 2px 16px}
+.detail-hero .notes-action-heading{display:block;margin:0}
+.detail-hero h3{font-size:26px!important;font-weight:700!important;line-height:1.22!important;letter-spacing:-.02em;color:var(--ink);margin:0!important}
+.detail-hero-cn{font-size:15px;color:var(--muted);margin:6px 0 0;line-height:1.45}
+.detail-hero .notes-meta{display:flex;align-items:center;flex-wrap:wrap;gap:8px;margin:12px 0 0!important}
+.detail-hero .notes-meta>span{padding:4px 11px;border-radius:999px;background:var(--surface);border:1px solid var(--line);color:var(--ink);font-size:12.5px;font-weight:500}
+.detail-hero .notes-meta>span:first-child{background:var(--sun-light);border-color:rgba(244,168,37,.35);color:var(--sun-dark);font-weight:600}
+.detail-hero .notes-xhs-logo{min-height:32px!important;padding:4px 10px!important;border-radius:999px!important;font-size:12px!important;margin:0 0 0 auto!important}
+
+/* 详情内分段胶囊 Tab（iOS Segmented Control） */
+#notesDetail .notes-detail-tabs{
+ display:grid!important;grid-auto-flow:column;grid-auto-columns:minmax(0,1fr);gap:4px!important;
+ padding:4px;margin:0 0 16px!important;border:0!important;border-radius:14px;
+ background:rgba(31,41,38,.06);
+}
+#notesDetail .notes-detail-tabs button{
+ min-height:38px!important;padding:7px 8px!important;border:0!important;border-radius:10px!important;
+ background:transparent!important;color:var(--muted)!important;font-size:13.5px!important;font-weight:500!important;
+}
+#notesDetail .notes-detail-tabs button[aria-selected="true"]{
+ background:var(--surface)!important;color:var(--ink)!important;font-weight:650!important;
+ box-shadow:var(--shadow-sm)!important;
+}
+
+/* 详情页内容卡片统一高级化 */
+#notesDetail .notes-block,#notesDetail .notes-textbook-pages,#notesDetail .notes-variations,#notesDetail .notes-source{
+ background:var(--surface)!important;border:1px solid var(--line)!important;border-radius:18px!important;
+ padding:16px 18px!important;margin:0 0 12px!important;box-shadow:var(--shadow-sm);
+}
+#notesDetail .notes-block[data-field="precautions"]{background:#fff8f5!important;border-color:rgba(216,75,61,.16)!important}
+#notesDetail .notes-block h4{font-size:15px!important;font-weight:650;color:var(--ink);margin:0 0 10px!important}
+#notesDetail .notes-block p{font-size:15px!important;line-height:1.82!important;color:var(--ink)}
+#notesDetail .notes-analysis-section{background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:15px 16px;margin:0 0 10px;box-shadow:var(--shadow-sm)}
+#notesDetail .notes-analysis-section h4{margin:0 0 8px;font-size:15px;font-weight:650}
+
+/* 动作学习页：朗读回归正文内清爽音频条，底部仅留单层悬浮切题胶囊 */
+#notesStudy .notes-narration{
+ position:static!important;margin:0 0 14px!important;padding:12px 14px!important;
+ border-radius:16px!important;background:var(--surface)!important;border:1px solid var(--line)!important;
+ box-shadow:var(--shadow-sm)!important;
+}
+@media(max-width:900px){
+ #notesStudy{padding-bottom:calc(84px + var(--safe-b))!important}
+ #notesStudy .notes-read-controls{
+  position:fixed!important;left:50%!important;right:auto!important;transform:translateX(-50%);
+  width:min(460px,calc(100vw - 24px))!important;
+  bottom:max(12px,var(--safe-b))!important;z-index:60!important;
+  padding:6px!important;border-radius:20px!important;gap:6px!important;
+  background:var(--glass)!important;backdrop-filter:blur(22px);-webkit-backdrop-filter:blur(22px);
+  border:1px solid var(--line-strong)!important;box-shadow:var(--shadow-lg)!important;
+ }
+ #notesStudy .notes-read-controls button{
+  min-height:42px!important;border-radius:14px!important;border:0!important;
+  background:transparent!important;font-size:13.5px!important;font-weight:500;
+ }
+ #notesStudy .notes-read-controls button:nth-child(2){
+  background:var(--sun-light)!important;color:var(--sun-dark)!important;font-weight:650;
+ }
+}
+
+/* 评估动作详情页同样升级为去外框 + 分块轻卡片 */
+#assessments .assessment-item{background:transparent!important;border:0!important;padding:0!important;box-shadow:none!important}
+#assessments .assessment-item h3{font-size:24px!important;font-weight:700;letter-spacing:-.02em;margin:4px 0 4px!important}
+#assessments .assessment-cn{font-size:15px;color:var(--muted);margin:0 0 14px!important}
+#assessments .assessment-textbook{background:var(--surface);border:1px solid var(--line);border-radius:18px;padding:12px;box-shadow:var(--shadow-sm)}
+#assessments .assessment-goal,#assessments .assessment-how,#assessments .assessment-stages>section{
+ background:var(--surface)!important;border:1px solid var(--line)!important;border-radius:18px!important;
+ padding:16px 18px!important;margin:0 0 12px!important;box-shadow:var(--shadow-sm);
+}
+#assessments .assessment-goal{background:#fffbf0!important;border-color:rgba(244,168,37,.25)!important}
+#assessments .assessment-related-heading{font-size:15px;font-weight:650;margin:18px 0 10px!important;padding-left:2px}
 #notesStudy .notes-top,#notesStudy #notesPickerOpen,#notesStudy #notesFiltersHost,#notesStudy #notesListHost{display:none!important}
 #notesStudy .notes-layout{display:block!important}
 @media(max-width:700px){
- .library-browser{grid-template-columns:clamp(84px,26vw,108px) minmax(0,1fr);gap:8px}
- #library .library-filters{display:grid;grid-template-columns:1fr 1fr;gap:7px}
- #library .library-filters input{grid-column:1/-1}
- #library .library-filters select{min-width:0;width:100%;min-height:40px;font-size:14px}
- #libraryCategories button{padding:7px 7px 7px 9px;font-size:12px;min-height:40px}
- #library .library-grid{grid-template-columns:1fr;gap:7px}
- #library .library-row{padding:7px 9px;gap:9px}
- #library .library-row-thumb{width:50px;height:40px}
+ .library-browser{grid-template-columns:76px minmax(0,1fr);gap:8px}
+ #library .library-filters{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+ #library .library-filters input{grid-column:1/-1;min-height:42px;font-size:15px}
+ #library .library-filters select{min-width:0;width:100%;min-height:42px;font-size:14px}
+ .library-level-bar button{min-height:36px;padding:6px 14px;font-size:13.5px}
+ #libraryCategories{padding:4px}
+ #libraryCategories button{flex-direction:column;align-items:flex-start;gap:2px;padding:9px 7px 9px 9px;font-size:12.5px;min-height:46px}
+ #libraryCategories .cat-count{font-size:11px;opacity:.8}
+ #library .library-grid{grid-template-columns:1fr;gap:9px}
+ #library .library-row{padding:11px 10px;gap:10px}
+ #library .library-row-thumb{width:68px;height:54px}
+ #library .library-row-title{font-size:15.5px}
+ #library .library-row-cn{font-size:13px}
+ #library .library-row-arrow{display:none}
 }
-</style><style>.category-suggestion{margin-top:12px;padding:10px 12px;background:#fff9e9;border-radius:8px;font-size:13px;line-height:1.65}.category-suggestion summary{cursor:pointer}.category-suggestion p{white-space:pre-wrap;color:#777;font-size:12px;margin:10px 0 0}</style><meta name="theme-color" content="#ffffff"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-status-bar-style" content="default"><link rel="manifest" href="./manifest.webmanifest"><link rel="apple-touch-icon" href="./icon-180.png"><meta name="polestar-build" content="09dc8d2eb4a7"></head><body class="web-guest"><div class="wrap">
+</style><style>.category-suggestion{margin-top:12px;padding:10px 12px;background:#fff9e9;border-radius:8px;font-size:13px;line-height:1.65}.category-suggestion summary{cursor:pointer}.category-suggestion p{white-space:pre-wrap;color:#777;font-size:12px;margin:10px 0 0}</style><meta name="theme-color" content="#ffffff"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-status-bar-style" content="default"><link rel="manifest" href="./manifest.webmanifest"><link rel="apple-touch-icon" href="./icon-180.png"><meta name="polestar-build" content="e69698de1fe9"></head><body class="web-guest"><div class="wrap">
 <header><div class="brand">普拉提动作库 <small>POLESTAR PILATES</small></div><div class="tools"><button type="button" id="variantToggle" class="variant-toggle" aria-pressed="true">显示变式</button><button id="soundToggle" class="sound-toggle" aria-label="静音" title="静音"></button><button id="saveGame" class="primary">存档</button><button id="loadGame">读档</button><button id="toolsToggle" aria-label="更多功能" aria-expanded="false">⋯</button><button id="portable" class="mobile-secondary">保存随身 HTML</button><button id="checkUpdate" class="mobile-secondary" hidden>检查更新</button><button id="helpOpen" class="mobile-secondary" aria-label="使用说明">?</button></div></header><div id="updateStatus" hidden role="status" aria-live="polite"><div class="inline"><strong id="updateMessage"></strong><span id="updateDetail"></span></div><progress id="updateProgress" max="100" aria-label="更新下载进度"></progress></div><p id="exportDestination" class="muted" style="font-size:11px;text-align:right;margin-top:6px" hidden></p>
 <div class="intro"><div><h1>动作练习</h1></div></div>
 <div id="folderBar" class="folder-bar" hidden><span id="folderHint">首次选择桌面的“普拉提动作库备份”文件夹，即可直接读写进度。</span><button id="chooseFolder">连接存档文件夹</button></div><div id="storageWarning" class="notice" hidden></div>
@@ -7836,6 +7948,7 @@ function syncDetailView(){
  grid.hidden=!detailOpen;
  tabs.hidden=detailOpen;
  top.hidden=detailOpen;
+ document.body.classList.toggle('assessment-detail-open',detailOpen);
 }
 function showList(){
  detailOpen=false;
@@ -7941,10 +8054,15 @@ function render(){
  grid.replaceChildren();
  const entry=entries.get(selected);
  for(const button of list.children)button.setAttribute('aria-current',String(Number(button.dataset.assessmentId)===selected));
- const backBtn=make('button','← 返回评估列表','assessment-back-btn');
+ const topbar=make('div',null,'detail-topbar');
+ const backBtn=make('button',null,'detail-back-btn assessment-back-btn');
  backBtn.type='button';
+ backBtn.innerHTML='<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 18l-6-6 6-6"/></svg><span>返回</span>';
  backBtn.onclick=showList;
- grid.append(backBtn);
+ const topTitle=make('span',entry.name,'detail-topbar-title');
+ const spacer=make('span',null,'detail-top-spacer');
+ topbar.append(backBtn,topTitle,spacer);
+ grid.append(topbar);
  const card=make('article',null,'assessment-item');
  const title=make('h3',String(entry.id).padStart(2,'0')+'  '+entry.name);
  title.tabIndex=-1;
@@ -7977,7 +8095,7 @@ function render(){
   const stages=make('div',null,'assessment-stages');for(const stage of entry.stages){const section=make('section');section.append(make('h4',stage.label));const list=make('ul');for(const item of stage.items){const ids=item.actionIds.filter(id=>validIds.has(id));if(item.actionIds.length&&!ids.length)continue;const li=make('li');if(!ids.length){const note=make('a',item.text,'assessment-link');note.href='#note-'+item.noteId;note.dataset.noteId=item.noteId;note.onclick=e=>{e.preventDefault();openCard(null,item);};li.append(note);}for(const [version,id] of ids.entries()){const action=CARDS.find(a=>a.id===id);if(!action)continue;if(version)li.append(document.createTextNode('、'));const a=make('a',ids.length===1?item.text:action.name,'assessment-link');a.title=action.name;a.href='#assessment-card-'+id;a.dataset.actionId=id;a.dataset.noteId=item.noteId;a.onclick=e=>{e.preventDefault();openCard(id,item);};li.append(a);}list.append(li);}if(!stage.items.length)list.append(make('li','笔记未列出关联动作','assessment-intro'));section.append(list);stages.append(section);}card.append(stages);grid.append(card);
 }
 render();
-window.polestarAssessments={close(){if(dialog.open)dialog.close();if(photoDialog.open)photoDialog.close();},preparePortable(clone){clone.querySelectorAll('#assessments,#assessmentCardDialog,#assessmentPhotoDialog,[data-tab=assessments]').forEach(n=>n.remove());}};
+window.polestarAssessments={close(){detailOpen=false;syncDetailView();if(dialog.open)dialog.close();if(photoDialog.open)photoDialog.close();},preparePortable(clone){clone.querySelectorAll('#assessments,#assessmentCardDialog,#assessmentPhotoDialog,[data-tab=assessments]').forEach(n=>n.remove());}};
 })();
 </script><style data-notes-build>#notesStudy{padding:20px 0 40px}.notes-top{display:flex;justify-content:space-between;align-items:center;gap:14px;flex-wrap:wrap;margin-bottom:18px}.notes-top h2{margin:0;font-size:24px}.notes-modes{display:flex;gap:6px}.notes-modes button[aria-pressed=true]{background:#fff2cc;border-color:#ffb525;color:#6c4200}.notes-filters{display:grid;grid-template-columns:1fr 1fr 2fr;gap:10px;margin-bottom:18px}.notes-filters input,.notes-filters select{width:100%;min-height:44px;font-size:16px;padding:10px;border:1px solid var(--line);border-radius:9px;background:#fff;min-width:0}.notes-layout{display:grid;grid-template-columns:250px minmax(0,1fr);gap:22px;align-items:start}.notes-list{border:1px solid var(--line);border-radius:12px;max-height:75vh;overflow:auto}.notes-list button{display:block;width:100%;text-align:left;padding:14px;border:0;border-bottom:1px solid var(--line);border-radius:0;min-height:62px;font-size:14px;overflow-wrap:anywhere;background:white}.notes-list button:last-child{border-bottom:0}.notes-list button[aria-current=true]{background:#fff8e9;border-left:3px solid #ffb525}.notes-list button span{display:block;font-size:12px;color:#777;margin-top:5px}.notes-detail{min-width:0;border:1px solid var(--line);border-radius:14px;padding:24px}.notes-detail h3{font-size:27px;line-height:1.3;margin:0 0 8px;overflow-wrap:anywhere}.notes-meta{display:flex;gap:8px;flex-wrap:wrap;color:#777;font-size:13px;margin:0 0 16px}.notes-meta span{padding:5px 9px;background:#fafafa;border-radius:6px}.notes-info{display:grid;grid-template-columns:1fr 1fr;gap:12px}.notes-block{border:1px solid var(--line);border-radius:10px;padding:16px;min-width:0}.notes-block[data-field=process],.notes-block[data-field=cues]{grid-column:1/-1}.notes-block h4{font-size:15px;margin:0 0 10px}.notes-block p{font-size:14px;line-height:1.85;white-space:pre-wrap;overflow-wrap:anywhere;margin:0}.notes-block p.missing{color:#999}.notes-block[data-field=precautions]{background:#fffbf4}.notes-source{margin-top:18px;border-top:1px solid var(--line);padding-top:16px}.notes-source summary{cursor:pointer;font-size:14px;min-height:34px}.notes-source-image{display:block;width:100%;padding:0;background:#fff;border:1px solid var(--line);margin-top:10px;cursor:zoom-in}.notes-source-image img{display:block;width:100%;height:auto}.notes-source pre{white-space:pre-wrap;font-size:13px;line-height:1.8;max-height:520px;overflow:auto}.notes-read-controls,.notes-quiz-controls{display:flex;gap:10px;flex-wrap:wrap;margin:18px 0}.notes-read-controls button,.notes-quiz-controls button{min-height:44px}.notes-question{border:1px solid var(--line);border-radius:12px;padding:18px;margin:14px 0;min-width:0}.notes-question legend{font-size:16px;font-weight:600;line-height:1.6;padding:0 5px;overflow-wrap:anywhere}.notes-question .notes-kind{font-size:12px;color:#8a5100;font-weight:400;margin-right:8px}.notes-answer-option{display:flex;gap:10px;align-items:flex-start;padding:12px;margin:8px 0;border:1px solid var(--line);border-radius:9px;line-height:1.7;font-size:14px;cursor:pointer}.notes-answer-option input{margin-top:6px;flex-shrink:0;accent-color:#eeb02e}.notes-answer-option.correct{border-color:#e6ae2e;background:#fff7de}.notes-answer-option.wrong{border-color:#cc6555;background:#fff2f0}.notes-fill{min-height:46px;width:100%;padding:12px;font-size:16px;border:1px solid var(--line);border-radius:9px}.notes-explanation{padding:14px;background:#fff9e9;border-radius:9px;margin:14px 0 0;font-size:14px;line-height:1.85;white-space:pre-wrap;overflow-wrap:anywhere}.notes-explanation[data-correct=false]{background:#fff2ef}.notes-question button{margin-top:10px;min-height:42px}.notes-exam-score{padding:22px;background:#fff5d5;border:1px solid #f2cc64;border-radius:12px;margin:18px 0;font-size:18px}.notes-exam-score strong{font-size:30px}.notes-quiet{font-size:13px;line-height:1.7;color:#777}.notes-empty{padding:28px;text-align:center;color:#777}.notes-questions-title{font-size:20px;margin-top:24px}.notes-local-status{min-height:20px;color:#777;font-size:12px}#notesImageDialog{width:min(1100px,calc(100% - 20px));padding:12px;max-height:94vh;overflow:auto}#notesImageDialog img{display:block;width:100%;height:auto;max-width:none}#notesImageDialog.zoom img{width:200%}#notesImageDialog .dialog-top{position:sticky;top:-12px;background:white;z-index:1}.web-guest #notesStudy{display:none!important}
 @media(max-width:700px){#notesStudy{padding-top:16px}.notes-top h2{font-size:21px}.notes-modes button{min-height:44px}.notes-filters{grid-template-columns:1fr 1fr}.notes-filters input{grid-column:1/-1}.notes-layout{display:block}.notes-list{max-height:210px;margin-bottom:16px}.notes-list button{min-height:56px;padding:12px 14px}.notes-detail{padding:16px}.notes-detail h3{font-size:23px}.notes-info{grid-template-columns:1fr}.notes-block{padding:14px}.notes-block[data-field]{grid-column:auto}.notes-question{padding:14px 10px}.notes-question legend{font-size:15px}.notes-answer-option{padding:10px;font-size:14px}.notes-read-controls button,.notes-quiz-controls button{flex:1;min-width:100px}.notes-source-image img{height:auto}.notes-exam-score strong{font-size:26px}}
@@ -8713,11 +8831,33 @@ function mountStudyTabs(entry, study){
 }
 function render(){stopVariationAudio();stopSpeaking();load();if(!notesAssessmentEnabled){saved.mode='memory';saved.review=false;quizOpen=false;}if(equipmentOpen)renderEquipment();if(plansOpen){renderPlans();}el('notesReview').setAttribute('aria-pressed',String(saved.review));localStatus();renderList();el('notesExam').setAttribute('aria-pressed',String(saved.mode==='exam'));const article=el('notesDetail');article.dataset.mode=saved.mode;article.replaceChildren();
  const backToList=make('button','← 动作列表','notes-back-list');
- backToList.type='button';
- backToList.onclick=()=>{root.classList.add('mobile-list-view');positionNotesList();root.scrollIntoView({block:'start'});};
- article.append(backToList);
- if(typeof practiceStudyReturn!=='undefined'&&practiceStudyReturn){const back=make('button','← 返回听力练习');back.id='notesBackPractice';back.onclick=returnToPractice;article.append(back);}else if(!equipmentOpen){const back=make('button','← 返回动作库','notes-back-library');back.id='notesBackLibrary';back.type='button';back.onclick=()=>tab('library');article.append(back);}if(notebookReturn&&notebookReturn.owner===ownerKey&&!equipmentOpen){const back=make('button','← 返回动作笔记','notes-notebook-back');back.type='button';back.onclick=returnToNotebook;article.append(back);}const entry=data.entries.find(e=>e.id===saved.current);if(!entry){article.append(make('p','请选择动作','notes-empty'));return;}narration.sync(entry.id,saved.mode==='memory');const heading=make('div',undefined,'notes-action-heading');const title=make('h3',studyEntryTitle(entry));title.dataset.baseName=entry.name;heading.append(title);const speak=make('button',undefined,'speak-name');speak.id='notesSpeakName';speak.type='button';speak.innerHTML=speakerIcon;speak.setAttribute('aria-label','朗读 '+studyEntryTitle(entry));speak.title='播放动作名';speak.onclick=()=>{stopVariationAudio();narration.stop();const action=DATA.actions.find(a=>a.id===entry.actionId);if(action)speakActionTitle(action,actionVariantsFor(action),speak);else speakText(entry.name);};heading.append(speak);article.append(heading);if(entry.cn)article.append(make('p',entry.cn,'notes-quiet'));const meta=make('div',undefined,'notes-meta');for(const label of [textbookLevel(entry)||entry.level,appNames[entry.apparatus]||entry.apparatus])meta.append(make('span',label));
- article.append(meta);
+ const entry=data.entries.find(e=>e.id===saved.current);if(!entry){article.append(make('p','请选择动作','notes-empty'));return;}
+ const topbar=make('div',undefined,'detail-topbar');
+ const backBtn=make('button',undefined,'detail-back-btn');
+ backBtn.type='button';
+ const backSvg='<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 18l-6-6 6-6"/></svg>';
+ if(typeof practiceStudyReturn!=='undefined'&&practiceStudyReturn){
+  backBtn.id='notesBackPractice';backBtn.innerHTML=backSvg+'<span>返回练习</span>';backBtn.onclick=returnToPractice;
+ }else{
+  backBtn.id='notesBackLibrary';backBtn.innerHTML=backSvg+'<span>返回</span>';backBtn.onclick=()=>tab('library');
+ }
+ const topTitle=make('span',studyEntryTitle(entry),'detail-topbar-title');
+ const speakTop=make('button',undefined,'detail-top-action');
+ speakTop.id='notesSpeakName';speakTop.type='button';speakTop.innerHTML=speakerIcon;speakTop.setAttribute('aria-label','朗读 '+studyEntryTitle(entry));speakTop.title='朗读动作名';
+ speakTop.onclick=()=>{stopVariationAudio();narration.stop();const action=DATA.actions.find(a=>a.id===entry.actionId);if(action)speakActionTitle(action,actionVariantsFor(action),speakTop);else speakText(entry.name);};
+ topbar.append(backBtn,topTitle,speakTop);
+ article.append(topbar);
+ narration.sync(entry.id,saved.mode==='memory');
+ const hero=make('div',undefined,'detail-hero');
+ const heading=make('div',undefined,'notes-action-heading');
+ const title=make('h3',studyEntryTitle(entry));title.dataset.baseName=entry.name;
+ heading.append(title);
+ hero.append(heading);
+ if(entry.cn)hero.append(make('p',entry.cn,'detail-hero-cn'));
+ const meta=make('div',undefined,'notes-meta');
+ for(const label of [textbookLevel(entry)||entry.level,appNames[entry.apparatus]||entry.apparatus])meta.append(make('span',label));
+ hero.append(meta);
+ article.append(hero);
  if(saved.mode==='memory'){
   renderStudyMedia(entry,article);
   renderTextbookPages(entry,article);
@@ -8760,7 +8900,9 @@ function updateNarrationControls(){
 }
 function renderStudyMedia(entry,article){
  const search=make('a',undefined,'notes-xhs notes-xhs-logo');search.innerHTML=xhsSearchBadge();search.setAttribute('aria-label','在小红书搜索 '+entry.name);search.id='notesXhsSearch';const links=xhsSearchLinks({name:entry.name});search.href=links.web;search.dataset.appUrl=links.app;search.target='_blank';search.rel='noopener noreferrer';search.referrerPolicy='no-referrer';search.onclick=openXhsSearch;
- article.querySelector('#notesSpeakName').before(search);
+ const meta=article.querySelector('.detail-hero .notes-meta');
+ if(meta)meta.append(search);
+ else article.querySelector('#notesSpeakName')?.before(search);
 }
 // Highlight only literal source text; never rewrite the original notes or question options.
 function highlightNotes(node,text,field,entry){
