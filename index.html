@@ -481,7 +481,7 @@ body[data-active-tab="notesStudy"] .nav,body.assessment-detail-open .nav{display
  #library .library-row-cn{font-size:13px}
  #library .library-row-arrow{display:none}
 }
-</style><style>.category-suggestion{margin-top:12px;padding:10px 12px;background:#fff9e9;border-radius:8px;font-size:13px;line-height:1.65}.category-suggestion summary{cursor:pointer}.category-suggestion p{white-space:pre-wrap;color:#777;font-size:12px;margin:10px 0 0}</style><meta name="theme-color" content="#ffffff"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-status-bar-style" content="default"><link rel="manifest" href="./manifest.webmanifest"><link rel="apple-touch-icon" href="./icon-180.png"><meta name="polestar-build" content="75094ec1895e"></head><body class="web-guest"><div class="wrap">
+</style><style>.category-suggestion{margin-top:12px;padding:10px 12px;background:#fff9e9;border-radius:8px;font-size:13px;line-height:1.65}.category-suggestion summary{cursor:pointer}.category-suggestion p{white-space:pre-wrap;color:#777;font-size:12px;margin:10px 0 0}</style><meta name="theme-color" content="#f6f5f0"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-status-bar-style" content="default"><link rel="manifest" href="./manifest.webmanifest"><link rel="icon" type="image/png" href="./icon-192.png"><link rel="apple-touch-icon" href="./icon-180.png"><meta name="polestar-build" content="57156d952c2b"></head><body class="web-guest"><div class="wrap">
 <header><div class="brand">普拉提动作库 <small>POLESTAR PILATES</small></div><div class="tools"><button type="button" id="variantToggle" class="variant-toggle" aria-pressed="true">显示变式</button><button id="soundToggle" class="sound-toggle" aria-label="静音" title="静音"></button><button id="saveGame" class="primary">存档</button><button id="loadGame">读档</button><button id="toolsToggle" aria-label="更多功能" aria-expanded="false">⋯</button><button id="portable" class="mobile-secondary">保存随身 HTML</button><button id="checkUpdate" class="mobile-secondary" hidden>检查更新</button><button id="helpOpen" class="mobile-secondary" aria-label="使用说明">?</button></div></header><div id="updateStatus" hidden role="status" aria-live="polite"><div class="inline"><strong id="updateMessage"></strong><span id="updateDetail"></span></div><progress id="updateProgress" max="100" aria-label="更新下载进度"></progress></div><p id="exportDestination" class="muted" style="font-size:11px;text-align:right;margin-top:6px" hidden></p>
 <div class="intro"><div><h1>动作练习</h1></div></div>
 <div id="folderBar" class="folder-bar" hidden><span id="folderHint">首次选择桌面的“普拉提动作库备份”文件夹，即可直接读写进度。</span><button id="chooseFolder">连接存档文件夹</button></div><div id="storageWarning" class="notice" hidden></div>
@@ -493,7 +493,7 @@ body[data-active-tab="notesStudy"] .nav,body.assessment-detail-open .nav{display
 <div class="actions"><button id="prev">← 上一张</button><button id="later">稍后再想</button><button class="primary" id="complete">收好，下一张 →</button></div><div class="footer-line"><span id="saveState" role="status">自动保存已开启</span><button class="quiet" id="random" style="font-size:12px;padding:4px 8px">随机抽未完成</button></div></aside></div></section>
 <section id="library" hidden>
  <div class="filters library-filters">
-  <input id="search" type="search" aria-label="搜索动作" placeholder="搜索动作名">
+  <input id="search" name="polestar-action-search" type="search" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" aria-label="搜索动作" placeholder="搜索动作名">
   <select id="appFilter" aria-label="器械"></select>
   <select id="levelFilter" aria-label="教材级别"></select>
   <select id="statusFilter" aria-label="整理状态"><option value="">所有状态</option><option value="done">已整理</option><option value="pending">未完成</option><option value="later">稍后再想</option></select>
@@ -1306,7 +1306,7 @@ function answerPicture(id){if(!practiceQuestion||practiceQuestion.answered)retur
 
 $('matrixEditClose').onclick = () => $('matrixEdit').close();
 $('matrixMoveClose').onclick = () => $('matrixMove').close();
-window.addEventListener('polestar-cloud-state', () => { matrixDrag = null; if ($('matrixMove').open) $('matrixMove').close(); if ($('matrixEdit').open) $('matrixEdit').close(); });
+window.addEventListener('polestar-cloud-state', () => { matrixDrag = null; if ($('matrixMove').open) $('matrixMove').close(); if ($('matrixEdit').open) $('matrixEdit').close(); if ($('search')) $('search').value = ''; });
 // Relations are saved with the source card, using one edge per pair.
 const relationLabels = {up:'升阶', down:'降阶', peer:'同级'};
 const reverseRelation = {up:'down', down:'up', peer:'peer'};
@@ -1955,7 +1955,7 @@ window.addEventListener('pagehide',()=>{if(!window.polestarCloud?.active&&diskEn
  function cache(){try{localStorage.setItem(controller.storageKey,JSON.stringify({payload:state,revision,pending:dirty}));return true;}catch{status('此设备缓存失败，请立即同步或导出 JSON 备份。',true);return false;}}
  function getNotes(){return controller.active&&state.notesStudy?JSON.parse(JSON.stringify(state.notesStudy)):null;}
  function setNotes(value){if(!controller.active)throw Error('请先登录账号。');if(!value||typeof value!=='object'||Array.isArray(value))throw Error('学习计划格式不正确');const text=JSON.stringify(value);if(text.length>2000000)throw Error('学习计划内容过大');state.notesStudy=JSON.parse(text);persist();return true;}
- function redraw(){window.dispatchEvent(new CustomEvent('polestar-cloud-state',{detail:{active:controller.active,accountId:controller.accountId}}));applyHostedAccess();refreshProgress();renderCard();practiceQuestion=null;renderPracticeStats();tab('play');}
+ function redraw(){window.dispatchEvent(new CustomEvent('polestar-cloud-state',{detail:{active:controller.active,accountId:controller.accountId}}));applyHostedAccess();refreshProgress();renderCard();practiceQuestion=null;renderPracticeStats();tab('library');}
  function setConflict(){conflict=true;el('cloudConflict').hidden=false;savedStatus('云端有另一份修改，请选择版本');status('同步冲突：当前记录已留在此设备。',true);}
  function schedule(){if(!controller.active)return;dirty=true;const cached=cache();savedStatus(cached?'☁ 待同步（已保存在此设备）':'☁ 缓存失败，请保持页面打开并同步');clearTimeout(timer);timer=setTimeout(()=>sync().catch(report),1200);}
  function report(e){status(e.message,true);if(user)savedStatus('☁ 尚未同步，请保持页面打开');}
