@@ -336,8 +336,13 @@ body.quiz-result-open{padding-bottom:calc(var(--app-nav-h) + 180px + var(--safe-
 .library-filters select{display:none!important}
 .library-chip-bar{display:flex;align-items:center;gap:5px;flex-wrap:nowrap;overflow-x:auto;scrollbar-width:none;margin:0 0 7px;padding:1px 0}
 .library-chip-bar::-webkit-scrollbar{display:none}
-.library-chip-bar button{flex:0 0 auto;min-height:30px!important;padding:4px 10px!important;border-radius:999px;font-size:12px!important;font-weight:500;line-height:1.2;background:var(--surface);border:1px solid var(--line-strong);color:var(--muted)}
+.library-chip-bar button{flex:0 0 auto;display:inline-flex;align-items:center;gap:5px;min-height:30px!important;padding:4px 10px!important;border-radius:999px;font-size:12px!important;font-weight:500;line-height:1.2;background:var(--surface);border:1px solid var(--line-strong);color:var(--muted)}
 .library-chip-bar button[aria-pressed="true"]{background:var(--sun-light);border-color:var(--sun);color:var(--sun-dark);font-weight:650}
+.empty-state-card{grid-column:1/-1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px;padding:28px 18px;border-radius:16px;background:var(--surface);border:1px dashed var(--line-strong);text-align:center;color:var(--muted);font-size:14px}
+.empty-state-card button{min-height:38px!important;padding:6px 16px!important;border-radius:999px!important;font-size:13px!important}
+#practice .practice-filters{display:grid;gap:6px;padding:10px 12px;margin:0 0 10px;border-radius:16px;background:var(--surface);border:1px solid var(--line);box-shadow:var(--shadow-sm)}
+#practice .practice-filters .library-chip-bar{margin:0}
+#relations .relation-filter-search{min-height:36px!important;height:36px;padding:6px 11px!important;font-size:14px!important;border-radius:10px;margin-bottom:7px}
 .library-browser{display:grid;grid-template-columns:clamp(74px,16vw,108px) minmax(0,1fr);gap:10px;align-items:start;margin-top:4px}
 #libraryCategories{display:grid;gap:3px;position:sticky;top:10px;max-height:calc(100dvh - var(--app-nav-h) - 110px);overflow:auto;scrollbar-width:none;background:rgba(31,41,38,.045);border-radius:14px;padding:4px}
 #libraryCategories::-webkit-scrollbar{display:none}
@@ -517,7 +522,7 @@ body[data-active-tab="notesStudy"] .nav,body.assessment-detail-open .nav{display
  #library .library-row-cn{font-size:13px}
  #library .library-row-arrow{display:none}
 }
-</style><style>.category-suggestion{margin-top:12px;padding:10px 12px;background:#fff9e9;border-radius:8px;font-size:13px;line-height:1.65}.category-suggestion summary{cursor:pointer}.category-suggestion p{white-space:pre-wrap;color:#777;font-size:12px;margin:10px 0 0}</style><meta name="theme-color" content="#f6f5f0"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-status-bar-style" content="default"><link rel="manifest" href="./manifest.webmanifest"><link rel="icon" type="image/png" href="./icon-192.png"><link rel="apple-touch-icon" href="./icon-180.png"><meta name="polestar-build" content="1dd75bfc8cb2"></head><body class="web-guest"><div class="wrap">
+</style><style>.category-suggestion{margin-top:12px;padding:10px 12px;background:#fff9e9;border-radius:8px;font-size:13px;line-height:1.65}.category-suggestion summary{cursor:pointer}.category-suggestion p{white-space:pre-wrap;color:#777;font-size:12px;margin:10px 0 0}</style><meta name="theme-color" content="#f6f5f0"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-status-bar-style" content="default"><link rel="manifest" href="./manifest.webmanifest"><link rel="icon" type="image/png" href="./icon-192.png"><link rel="apple-touch-icon" href="./icon-180.png"><meta name="polestar-build" content="b7eadd7c735e"></head><body class="web-guest"><div class="wrap">
 <header><div class="brand">普拉提动作库 <small>POLESTAR PILATES</small></div><div class="tools"><button type="button" id="variantToggle" class="variant-toggle" aria-pressed="true">显示变式</button><button id="soundToggle" class="sound-toggle" aria-label="静音" title="静音"></button><button id="saveGame" class="primary">存档</button><button id="loadGame">读档</button><button id="toolsToggle" aria-label="更多功能" aria-expanded="false">⋯</button><button id="portable" class="mobile-secondary">保存随身 HTML</button><button id="checkUpdate" class="mobile-secondary" hidden>检查更新</button><button id="helpOpen" class="mobile-secondary" aria-label="使用说明">?</button></div></header><div id="updateStatus" hidden role="status" aria-live="polite"><div class="inline"><strong id="updateMessage"></strong><span id="updateDetail"></span></div><progress id="updateProgress" max="100" aria-label="更新下载进度"></progress></div><p id="exportDestination" class="muted" style="font-size:11px;text-align:right;margin-top:6px" hidden></p>
 <div class="intro"><div><h1>动作练习</h1></div></div>
 <div id="folderBar" class="folder-bar" hidden><span id="folderHint">首次选择桌面的“普拉提动作库备份”文件夹，即可直接读写进度。</span><button id="chooseFolder">连接存档文件夹</button></div><div id="storageWarning" class="notice" hidden></div>
@@ -529,7 +534,7 @@ body[data-active-tab="notesStudy"] .nav,body.assessment-detail-open .nav{display
 <div class="actions"><button id="prev">← 上一张</button><button id="later">稍后再想</button><button class="primary" id="complete">收好，下一张 →</button></div><div class="footer-line"><span id="saveState" role="status">自动保存已开启</span><button class="quiet" id="random" style="font-size:12px;padding:4px 8px">随机抽未完成</button></div></aside></div></section>
 <section id="library" hidden>
  <div class="filters library-filters">
-  <input id="search" name="polestar-action-search" type="search" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" aria-label="搜索动作" placeholder="搜索动作名">
+  <input id="search" name="polestar-action-search" type="text" inputmode="search" autocomplete="new-password" autocorrect="off" autocapitalize="off" spellcheck="false" readonly aria-label="搜索动作" placeholder="搜索动作名（英文或中文）">
   <select id="appFilter" aria-label="器械"></select>
   <select id="levelFilter" aria-label="教材级别"></select>
   <select id="statusFilter" aria-label="整理状态"><option value="">所有状态</option><option value="done">已整理</option><option value="pending">未完成</option><option value="later">稍后再想</option></select>
@@ -541,7 +546,7 @@ body[data-active-tab="notesStudy"] .nav,body.assessment-detail-open .nav{display
   <div class="library-grid" id="libraryGrid"></div>
  </div>
 </section>
-<section id="relations" hidden><h2>关联动作网络</h2><div class="relation-toolbar"><select id="relationFocus" aria-label="查看关联动作"><option value="">全部已关联动作</option></select><button type="button" id="relationOpen">打开动作卡</button></div><p id="relationSummary" class="muted"></p><div id="relationGraph" class="table-scroll"></div></section><section id="matrix" hidden><p class="muted" style="font-size:13px;margin-bottom:15px">按你的选择汇总，点击动作继续编辑。多分类动作会出现在多个格子里；未完成卡片不计入。</p><div id="matrixApparatus" class="matrix-apparatus-chips" role="group" aria-label="筛选器械"></div><button type="button" id="matrixExport">导出表格（CSV）</button><div class="table-scroll" id="matrixTable"></div><div id="matrixPending" class="notice"></div></section>
+<section id="relations" hidden><h2>关联动作网络</h2><div id="relationFilters"></div><div class="relation-toolbar"><select id="relationFocus" aria-label="查看关联动作"><option value="">全部已关联动作</option></select><button type="button" id="relationOpen">打开动作卡</button></div><p id="relationSummary" class="muted"></p><div id="relationGraph" class="table-scroll"></div></section><section id="matrix" hidden><p class="muted" style="font-size:13px;margin-bottom:15px">按你的选择汇总，点击动作继续编辑。多分类动作会出现在多个格子里；未完成卡片不计入。</p><div id="matrixLevelBar" class="library-chip-bar" role="group" aria-label="按级别多选筛选"></div><div id="matrixApparatus" class="library-chip-bar" role="group" aria-label="按器械多选筛选"></div><button type="button" id="matrixExport">导出表格（CSV）</button><div class="table-scroll" id="matrixTable"></div><div id="matrixPending" class="notice"></div></section>
 <section id="practice" hidden><div class="practice-wrap"><div class="practice-toolbar"><div class="practice-modes"><button id="listenMode" aria-pressed="true">听名字</button><button id="readMode" aria-pressed="false">看名字</button><button type="button" id="practiceFilterToggle" aria-controls="practiceFilters" aria-expanded="false">筛选范围</button></div><div id="practiceStats" class="practice-stats"></div></div><div id="practiceFilters" class="practice-filters" aria-label="听力练习范围"></div><p id="practiceScopeStatus" class="practice-scope-status" role="status"></p><div class="practice-plan"><span id="practiceKind" hidden>错题加练</span><span id="practiceCoverage"></span></div><div class="practice-question"><h2 id="practiceName"></h2><button id="practiceLearn" type="button">学动作</button><button id="practiceSpeak" class="speak-name" aria-label="朗读题目" title="朗读题目"></button></div><div id="pictureOptions" class="picture-options"></div><div class="practice-bottom"><span id="practiceFeedback" role="status"></span><button id="practiceNext" class="primary">下一题 →</button></div></div></section></div>
 <dialog id="viewer"><div class="dialog-top"><span id="viewerTitle"></span><button id="viewerClose">关闭 ×</button></div><div id="viewerControls" class="viewer-controls" hidden><div id="viewerPages" class="viewer-pages" hidden><button id="viewerPrev" aria-label="上一张教材图片">←</button><span id="viewerPageCount"></span><button id="viewerNext" aria-label="下一张教材图片">→</button></div><button id="viewerZoom" aria-label="放大完整图片">＋</button></div><img id="viewerImage" alt="放大的教材扫描页"><div id="viewerArt" class="quiz-art" hidden></div></dialog>
 <dialog id="matrixEdit" aria-labelledby="matrixEditTitle"><div class="dialog-top"><strong id="matrixEditTitle"></strong><button type="button" id="matrixEditClose">关闭</button></div><div id="matrixEditPreview"><button type="button" id="matrixEditPicture" aria-label="查看完整教材原图"></button><button type="button" id="matrixEditLearn">学动作 →</button></div><h3>分类与等级</h3><div id="matrixEditPairs"></div><div class="matrix-edit-actions"><button type="button" id="matrixEditAdd">＋ 添加分类</button><button type="button" id="matrixEditSave" class="primary">保存分类</button></div><h3>关联动作</h3><div id="matrixEditRelations"></div></dialog><dialog id="matrixMove"><div class="dialog-top"><strong id="matrixMoveTitle">移动动作</strong><button type="button" id="matrixMoveClose">取消</button></div><label>目标分类与等级 <select id="matrixMoveTarget"></select></label><button type="button" id="matrixMoveSave" class="primary">移动</button></dialog><dialog id="help"><div class="dialog-top"><strong>普拉提动作库 · 使用说明</strong><button id="helpClose">关闭 ×</button></div><div class="help"><p>① 看名称和教材图，选择课程分类（可多选）、器械版本和初／中／高级。</p><p>② 点击“收好，下一张”标记为已整理。拿不准就点“稍后再想”。所有修改都会自动保存，未填完也可以退出。</p><p>③ 从本地服务页面使用时，每次修改自动写入电脑桌面“普拉提动作库备份／自动进度.json”，下次打开自动恢复；不需要互联网，也不需要导入导出。关闭电脑后，下次双击“打开动作库.command”启动即可。手机访问需要和电脑连在同一个局域网，电脑保持开启。独立 HTML 模式仍使用浏览器缓存。</p><p><b>保存随身 HTML：</b>把图片和当前进度一起存进新 HTML，用它在另一台电脑继续整理。本地服务页面会保存到电脑桌面的“普拉提动作库备份”；单独打开 HTML 时仍由浏览器下载。保存完成后再关闭页面。</p><p>“我的动作库”支持筛选和修改；“分类 × 等级”直观看分布。修改已整理卡片后，只要三项完整，仍保留已整理状态。</p><p>等级由你自己判断；教材原有 Gateway／Foundation／Intermediate／Advanced 1／Advanced 2 等级保留在“原资料参考”中。扫描页序不是印刷页码，印刷页码可看图片页脚填写。</p></div></dialog>
@@ -938,7 +943,28 @@ function renderTracking(){
 }
 function edit(id){go(id);tab('play');window.scrollTo({top:0,behavior:'smooth'});}
 function fillSelect(id,first,options){$(id).replaceChildren();const o=document.createElement('option');o.value='';o.textContent=first;$(id).append(o);for(const [value,label] of options){const o=document.createElement('option');o.value=value;o.textContent=label;$(id).append(o);}}
+const UNIFIED_LEVELS=['初级','中级','高级1','高级2'];
+const UNIFIED_APP_NAMES={'Mat':'垫上','Reformer':'核心床','Trapeze Table':'凯迪拉克','Chair':'稳踏椅','Ladder Barrel':'梯桶','Spine Corrector':'矫正器'};
+const UNIFIED_APPS=APPS.map(([v,l])=>[v,UNIFIED_APP_NAMES[v]||l]);
+function createUnifiedChip(val,label,withLevelDot=false){
+ const btn=document.createElement('button');btn.type='button';
+ if(withLevelDot&&val)btn.innerHTML='<i class="level-dot" data-level="'+val+'" aria-hidden="true"></i>'+label;
+ else btn.textContent=label;
+ btn.dataset.value=val;
+ return btn;
+}
+function clearAutofilledSearch(){
+ const s=$('search');
+ if(!s)return;
+ if(/@/.test(s.value)&&document.activeElement!==s)s.value='';
+}
 const librarySelectedCats=new Set(),librarySelectedLevels=new Set(),librarySelectedApps=new Set();
+function resetLibraryFilters(){
+ if($('search'))$('search').value='';
+ librarySelectedCats.clear();librarySelectedLevels.clear();librarySelectedApps.clear();
+ if(typeof syncAllLibraryFilterBars==='function')syncAllLibraryFilterBars();
+ renderLibrary();
+}
 function libraryLevel(action){
  const source=action.sourceLevel||'';
  if(/Advanced 2/.test(source))return '高级2';
@@ -953,13 +979,12 @@ function matchesLibraryCategory(action,item,category){
  return Array.isArray(action.suggestedCategories)&&action.suggestedCategories.includes(category);
 }
 function filteredCards(categoryOverride=null){
- const query=$('search').value.trim().toLowerCase();
- const status=$('statusFilter').value;
+ clearAutofilledSearch();
+ const query=($('search')?.value||'').trim().toLowerCase();
  const cats=categoryOverride===null?librarySelectedCats:(categoryOverride?new Set([categoryOverride]):new Set());
  return CARDS.filter(action=>{
   const item=record(action.id);
   return (!query||[action.name,action.cn].some(name=>name?.toLowerCase().includes(query)))
-   &&(!status||(status==='pending'?item.status!=='done':item.status===status))
    &&(!cats.size||[...cats].some(cat=>matchesLibraryCategory(action,item,cat)))
    &&(!librarySelectedLevels.size||librarySelectedLevels.has(libraryLevel(action)))
    &&(!librarySelectedApps.size||librarySelectedApps.has(item.apparatus||apparatusFor(action.id)));
@@ -982,8 +1007,8 @@ function openFullImage(action,index=0){
  $('viewerPrev').disabled=index===0;$('viewerNext').disabled=index===action.images.length-1;
  if(!$('viewer').open)$('viewer').showModal();
 }
-function renderLibrary(){syncLibraryCategoryCounts();const list=filteredCards();$('libraryGrid').replaceChildren();if(!list.length){const p=document.createElement('p');p.className='empty';p.textContent='当前筛选下暂无动作';$('libraryGrid').append(p);return;}const appLabel=k=>APPS.find(x=>x[0]===k)?.[1]||k;const queueIds=list.map(x=>x.id);for(const a of list){const r=record(a.id);const row=makeButton('',async()=>{row.disabled=true;window.__libraryReturn={actionId:a.id,scrollY:window.scrollY};try{if(window.polestarNotes){await window.polestarNotes.openAction(a.id,{queue:queueIds});window.scrollTo({top:0,behavior:'instant'});}else edit(a.id);}catch{edit(a.id);}finally{row.disabled=false;}},'library-row');row.dataset.actionId=a.id;const thumb=document.createElement('span');thumb.className='library-row-thumb';thumb.setAttribute('aria-hidden','true');thumb.append(artwork(a));const body=document.createElement('span');body.className='library-row-body';const title=document.createElement('span');title.className='library-row-title';title.textContent=actionTitleFor(a);const cn=document.createElement('span');cn.className='library-row-cn';cn.textContent=a.cn||'';const meta=document.createElement('span');meta.className='library-row-meta';const levelName=libraryLevel(a);const lv=document.createElement('span');lv.className='level-pill';lv.dataset.level=levelName;lv.innerHTML='<i class="level-dot" data-level="'+levelName+'" aria-hidden="true"></i>'+levelName;const app=document.createElement('span');app.textContent=appLabel(r.apparatus||apparatusFor(a.id));meta.append(lv,app);body.append(title,cn,meta);const arrow=document.createElement('span');arrow.className='library-row-arrow';arrow.setAttribute('aria-hidden','true');arrow.textContent='›';row.append(thumb,body,arrow);$('libraryGrid').append(row);}}
-const matrixApparatus = new Set();
+function renderLibrary(){syncLibraryCategoryCounts();const list=filteredCards();$('libraryGrid').replaceChildren();if(!list.length){const box=document.createElement('div');box.className='empty-state-card';const p=document.createElement('p');p.textContent='当前筛选条件下暂无动作';const resetBtn=makeButton('重置全部筛选',resetLibraryFilters,'primary');box.append(p,resetBtn);$('libraryGrid').append(box);return;}const appLabel=k=>UNIFIED_APP_NAMES[k]||APPS.find(x=>x[0]===k)?.[1]||k;const queueIds=list.map(x=>x.id);for(const a of list){const r=record(a.id);const row=makeButton('',async()=>{row.disabled=true;window.__libraryReturn={actionId:a.id,scrollY:window.scrollY};try{if(window.polestarNotes){await window.polestarNotes.openAction(a.id,{queue:queueIds});window.scrollTo({top:0,behavior:'instant'});}else edit(a.id);}catch{edit(a.id);}finally{row.disabled=false;}},'library-row');row.dataset.actionId=a.id;const thumb=document.createElement('span');thumb.className='library-row-thumb';thumb.setAttribute('aria-hidden','true');thumb.append(artwork(a));const body=document.createElement('span');body.className='library-row-body';const title=document.createElement('span');title.className='library-row-title';title.textContent=actionTitleFor(a);const cn=document.createElement('span');cn.className='library-row-cn';cn.textContent=a.cn||'';const meta=document.createElement('span');meta.className='library-row-meta';const levelName=libraryLevel(a);const lv=document.createElement('span');lv.className='level-pill';lv.dataset.level=levelName;lv.innerHTML='<i class="level-dot" data-level="'+levelName+'" aria-hidden="true"></i>'+levelName;const app=document.createElement('span');app.textContent=appLabel(r.apparatus||apparatusFor(a.id));meta.append(lv,app);body.append(title,cn,meta);const arrow=document.createElement('span');arrow.className='library-row-arrow';arrow.setAttribute('aria-hidden','true');arrow.textContent='›';row.append(thumb,body,arrow);$('libraryGrid').append(row);}}
+const matrixApparatus = new Set(), matrixLevels = new Set();
 let matrixDrag = null;
 function moveMatrixPair(source, category, level) {
  const saved = record(source.id);
@@ -1094,24 +1119,53 @@ function showMatrixEdit(action,onSaved) {
 }
 
 function renderMatrix() {
- const appLabels = new Map(APPS);
- const filters = [['','全部器械'], ...APPS];
+ const appLabels = new Map(UNIFIED_APPS);
+ const lvFilters = [['','全部级别'], ...UNIFIED_LEVELS.map(l => [l, l])];
+ $('matrixLevelBar').replaceChildren(...lvFilters.map(([key,label]) => {
+  const button = createUnifiedChip(key, label, true);
+  button.onclick = () => {
+   if (!key) matrixLevels.clear();
+   else if (matrixLevels.has(key)) matrixLevels.delete(key);
+   else matrixLevels.add(key);
+   renderMatrix();
+  };
+  button.setAttribute('aria-pressed', String(key ? matrixLevels.has(key) : !matrixLevels.size));
+  return button;
+ }));
+ const filters = [['','全部器械'], ...UNIFIED_APPS];
  $('matrixApparatus').replaceChildren(...filters.map(([key,label]) => {
-  const button = makeButton(label, () => {
+  const button = createUnifiedChip(key, label, false);
+  button.onclick = () => {
    if (!key) matrixApparatus.clear();
    else if (matrixApparatus.has(key)) matrixApparatus.delete(key);
    else matrixApparatus.add(key);
    renderMatrix();
-   [...$('matrixApparatus').children].find(chip => chip.dataset.apparatus === key)?.focus();
-  }, 'matrix-apparatus-chip');
+  };
   button.dataset.apparatus = key;
   button.setAttribute('aria-pressed', String(key ? matrixApparatus.has(key) : !matrixApparatus.size));
   return button;
  }));
+ const doneAny = CARDS.some(a => record(a.id).status === 'done');
  const cards = CARDS.filter(action => {
   const saved = record(action.id);
-  return saved.status === 'done' && (!matrixApparatus.size || matrixApparatus.has(saved.apparatus));
+  if (doneAny && saved.status !== 'done') return false;
+  const app = saved.apparatus || apparatusFor(action.id);
+  const lv = libraryLevel(action);
+  return (!matrixApparatus.size || matrixApparatus.has(app))
+   && (!matrixLevels.size || matrixLevels.has(lv));
  });
+ if (!cards.length) {
+  const box = document.createElement('div');
+  box.className = 'empty-state-card';
+  const p = document.createElement('p');
+  p.textContent = '当前筛选条件下暂无匹配动作';
+  const btn = makeButton('重置筛选', () => { matrixApparatus.clear(); matrixLevels.clear(); renderMatrix(); }, 'primary');
+  box.append(p, btn);
+  $('matrixTable').replaceChildren(box);
+  $('matrixExport').disabled = true;
+  $('matrixPending').textContent = '当前显示 0 个动作';
+  return;
+ }
  const displayed = new Set();
  const table = document.createElement('table');
  const header = table.createTHead().insertRow();
@@ -1149,12 +1203,16 @@ function renderMatrix() {
    };
    for (const action of cards) {
     const saved = record(action.id);
-    if (!studyCore.matchesClassification(saved, category, level)) continue;
+    const matched = doneAny
+     ? studyCore.matchesClassification(saved, category, level)
+     : (matchesLibraryCategory(action, saved, category) && (level === '高级' ? /^高级/.test(libraryLevel(action)) : libraryLevel(action) === level));
+    if (!matched) continue;
     displayed.add(action);
-    const apparatus = appLabels.get(saved.apparatus) || saved.apparatus;
+    const appKey = saved.apparatus || apparatusFor(action.id);
+    const apparatus = appLabels.get(appKey) || appKey;
     const title = allVariantTitle(action);
     const button = makeButton(title, () => showMatrixEdit(action), 'matrix-apparatus-chip matrix-action');
-    button.dataset.apparatus = saved.apparatus;
+    button.dataset.apparatus = appKey;
     button.dataset.actionId = action.id;
     button.title = apparatus+' · 拖动换格，点击编辑';
     button.setAttribute('aria-label', title+' · '+apparatus);
@@ -1190,7 +1248,9 @@ function renderMatrix() {
  $('matrixExport').disabled = !displayed.size;
  $('matrixExport').onclick = () => exportCsv([...displayed]);
  const pending = CARDS.filter(action => record(action.id).status !== 'done').length;
- $('matrixPending').textContent = `当前显示 ${displayed.size} 个动作 · 未完成 ${pending} 张。`;
+ $('matrixPending').textContent = doneAny
+  ? `当前显示 ${displayed.size} 个动作 · 未完成 ${pending} 张。`
+  : `当前暂按教材默认分类展示全部 ${displayed.size} 个动作；整理动作后将按你的归类汇总。`;
 }
 const exportTargetReady=(async()=>{
  if(hostedMode)return false;
@@ -1303,28 +1363,39 @@ function showQuizFeedback(correct,detail,practice=false){$('quizResult').dataset
 $('quizResultClose').onclick=clearQuizFeedback;
 $('quizResultNext').onclick=()=>newPracticeQuestion();
 function renderNameQuestion(target){clearQuizFeedback();nameQuestion={target,options:questionOptions(target),answered:false};$('nameOptions').replaceChildren();nameQuestion.options.forEach((a,index)=>{const button=makeButton('',()=>{if(nameQuestion.answered)return;nameQuestion.answered=true;recordAnswer(a.id===target.id,target.id,'card');setNameVisibility(true);showQuizFeedback(a.id===target.id,'正确答案：'+('ABCD'[nameQuestion.options.findIndex(x=>x.id===target.id)])+' · '+actionTitleFor(target));if(audioPrefs.enabled)speakActionTitle(target);},'name-option');const letter=document.createElement('span');letter.className='option-letter';letter.textContent='ABCD'[index];button.append(letter,document.createTextNode(actionTitleFor(a)));button.dataset.id=a.id;$('nameOptions').append(button);});}
-const practiceScope={apparatus:[],levels:[]},practiceScopeControls=[];
-function practiceScopeIds(){return studyCore.filterPracticeScope(practiceScope).filter(a=>validIds.has(a.id)).map(a=>a.id);}
+const practiceScope={apparatus:[],levels:[],categories:[]},practiceScopeControls=[];
+function practiceScopeIds(){
+ return CARDS.filter(a=>{
+  const item=record(a.id);
+  const app=item.apparatus||apparatusFor(a.id);
+  const lv=libraryLevel(a);
+  return (!practiceScope.apparatus.length||practiceScope.apparatus.includes(app))
+   &&(!practiceScope.levels.length||practiceScope.levels.includes(lv))
+   &&(!practiceScope.categories.length||practiceScope.categories.some(cat=>matchesLibraryCategory(a,item,cat)));
+ }).map(a=>a.id);
+}
 function syncPracticeFilterSummary(){
- const count=practiceScopeIds().length,selectedCount=practiceScope.apparatus.length+practiceScope.levels.length;
+ const count=practiceScopeIds().length,selectedCount=practiceScope.apparatus.length+practiceScope.levels.length+practiceScope.categories.length;
  const applyBtn=$('practiceFilterApply');
  if(applyBtn){applyBtn.textContent=count?`应用范围（共 ${count} 个动作）`:'当前范围无匹配动作';applyBtn.disabled=!count;}
  const toggle=$('practiceFilterToggle');
  if(toggle)toggle.textContent=selectedCount?`筛选范围 (${selectedCount})`:'筛选范围';
 }
-function setupPracticeFilter(key,label,options){
+function setupPracticeFilter(key,label,options,withLevelDot=false){
  const group=document.createElement('div');
- group.className='practice-filter-tags';
+ group.className='library-chip-bar practice-filter-tags';
  group.id='practiceFilter-'+key;
  group.setAttribute('role','group');
  group.setAttribute('aria-label',label+'，可多选');
  const controls=[['',label],...options].map(([value,text])=>{
-  const button=makeButton(text,()=>{
+  const button=createUnifiedChip(value,text,withLevelDot);
+  button.className='practice-filter-tag';
+  button.onclick=()=>{
    const selected=practiceScope[key];
    practiceScope[key]=!value?[]:selected.includes(value)?selected.filter(item=>item!==value):[...selected,value];
    sync();
    syncPracticeFilterSummary();
-  },'practice-filter-tag');
+  };
   group.append(button);
   return [value,button];
  });
@@ -1333,8 +1404,10 @@ function setupPracticeFilter(key,label,options){
  $('practiceFilters').append(group);
  sync();
 }
-setupPracticeFilter('apparatus','全部器械',APPS);setupPracticeFilter('levels','全部等级',LEVELS.map(x=>[x,x]));
-function resetPracticeScope(){practiceScope.apparatus=[];practiceScope.levels=[];for(const sync of practiceScopeControls)sync();syncPracticeFilterSummary();}
+setupPracticeFilter('levels','全部级别',UNIFIED_LEVELS.map(x=>[x,x]),true);
+setupPracticeFilter('apparatus','全部器械',UNIFIED_APPS,false);
+setupPracticeFilter('categories','全部分类',CATS.map(([v])=>[v,v]),false);
+function resetPracticeScope(){practiceScope.apparatus=[];practiceScope.levels=[];practiceScope.categories=[];for(const sync of practiceScopeControls)sync();syncPracticeFilterSummary();}
 let practiceScopeOwner='guest';window.addEventListener('polestar-cloud-state',()=>{const owner=window.polestarCloud?.active?window.polestarCloud.storageKey:'guest';if(owner!==practiceScopeOwner){practiceScopeOwner=owner;selectedActionVariants.clear();resetPracticeScope();}});
 const practiceApplyRow=document.createElement('div');practiceApplyRow.className='practice-apply-row';
 const practiceApplyBtn=makeButton('应用范围',()=>{$('practice').classList.remove('filters-open');$('practiceFilterToggle').setAttribute('aria-expanded','false');newPracticeQuestion();},'primary practice-apply-btn');
@@ -1709,20 +1782,97 @@ function showRelationChart(echarts,host,nodes,edges,focus) {
  },{notMerge:true});
 }
 
+const relationSelectedLevels = new Set(), relationSelectedApps = new Set();
+let relationSearchQuery = '', relationFiltersMounted = false;
+function mountRelationFilters(){
+ if (relationFiltersMounted) return;
+ const host = $('relationFilters');
+ if (!host) return;
+ relationFiltersMounted = true;
+ const input = document.createElement('input');
+ input.type = 'text';
+ input.inputMode = 'search';
+ input.autocomplete = 'new-password';
+ input.readOnly = true;
+ input.className = 'relation-filter-search';
+ input.placeholder = '搜索关联动作名（英文或中文）';
+ input.setAttribute('aria-label', '搜索关联动作');
+ input.addEventListener('focus', () => { input.readOnly = false; });
+ input.addEventListener('blur', () => { if (!input.value) input.readOnly = true; });
+ input.addEventListener('input', () => { relationSearchQuery = input.value.trim().toLowerCase(); renderActionNetwork(); });
+
+ const lvBar = document.createElement('div');
+ lvBar.className = 'library-chip-bar';
+ lvBar.id = 'relationLevelBar';
+ lvBar.setAttribute('role', 'group');
+ lvBar.setAttribute('aria-label', '按级别多选筛选');
+
+ const appBar = document.createElement('div');
+ appBar.className = 'library-chip-bar';
+ appBar.id = 'relationAppBar';
+ appBar.setAttribute('role', 'group');
+ appBar.setAttribute('aria-label', '按器械多选筛选');
+
+ const mountBar = (bar, items, set, withDot) => {
+  const sync = () => {
+   for (const b of bar.children) {
+    const v = b.dataset.value || '';
+    b.setAttribute('aria-pressed', String(v ? set.has(v) : !set.size));
+   }
+  };
+  for (const [val, label] of items) {
+   const b = typeof createUnifiedChip === 'function' ? createUnifiedChip(val, label, withDot) : makeButton(label, () => {});
+   b.dataset.value = val;
+   b.onclick = () => {
+    if (!val) set.clear();
+    else if (set.has(val)) set.delete(val);
+    else set.add(val);
+    sync();
+    renderActionNetwork();
+   };
+   bar.append(b);
+  }
+  sync();
+  return sync;
+ };
+ const syncLv = mountBar(lvBar, [['', '全部级别'], ...(typeof UNIFIED_LEVELS !== 'undefined' ? UNIFIED_LEVELS : ['初级','中级','高级1','高级2']).map(l => [l, l])], relationSelectedLevels, true);
+ const syncApp = mountBar(appBar, [['', '全部器械'], ...(typeof UNIFIED_APPS !== 'undefined' ? UNIFIED_APPS : APPS)], relationSelectedApps, false);
+ window.__resetRelationFilters = () => {
+  relationSearchQuery = '';
+  input.value = '';
+  relationSelectedLevels.clear();
+  relationSelectedApps.clear();
+  syncLv();
+  syncApp();
+  renderActionNetwork();
+ };
+ host.append(input, lvBar, appBar);
+}
+
 async function renderActionNetwork() {
+ mountRelationFilters();
  const version = ++relationRenderVersion;
  const edges = actionEdges();
- const ids = [...new Set(edges.flatMap(edge => [edge.from,edge.to]))];
+ const allIds = [...new Set(edges.flatMap(edge => [edge.from,edge.to]))];
+ const ids = allIds.filter(id => {
+  const a = CARDS.find(x => x.id === id);
+  if (!a) return false;
+  const lv = relationActionLevel(id);
+  const app = record(id).apparatus || apparatusFor(id);
+  if (relationSearchQuery && ![a.name, a.cn].some(n => n?.toLowerCase().includes(relationSearchQuery))) return false;
+  if (relationSelectedLevels.size && !relationSelectedLevels.has(lv)) return false;
+  if (relationSelectedApps.size && !relationSelectedApps.has(app)) return false;
+  return true;
+ });
  const select = $('relationFocus');
  const focus = ids.includes(select.value) ? select.value : (ids[0] || '');
  select.replaceChildren(...ids.map(id => new Option(relationActionLevel(id)+' · '+relationName(id),id)));
  if (focus) select.value = focus;
  $('relationOpen').disabled = !focus;
- const adjacent = focus ? edges.filter(edge => edge.from === focus || edge.to === focus) : edges;
- const nodes = focus ? [focus,...new Set(adjacent.flatMap(edge => [edge.from,edge.to]).filter(id => id !== focus))] : ids;
- const shown = focus ? adjacent : edges;
+ const adjacent = focus ? edges.filter(edge => edge.from === focus || edge.to === focus) : [];
+ const nodes = focus ? [focus,...new Set(adjacent.flatMap(edge => [edge.from,edge.to]).filter(id => id !== focus))] : [];
+ const shown = focus ? adjacent : [];
  $('relationSummary').innerHTML = '<span class="relation-legend"><span><i class="level-dot" data-level="初级"></i>初级</span><span><i class="level-dot" data-level="中级"></i>中级</span><span><i class="level-dot" data-level="高级1"></i>高级1</span><span><i class="level-dot" data-level="高级2"></i>高级2</span></span>';
- const section = $('relations');
  let oneHopHost = $('relationOneHop');
  if (!oneHopHost){
   oneHopHost = document.createElement('div');
@@ -1734,6 +1884,16 @@ async function renderActionNetwork() {
   oneHopHost.append(buildOneHopRelationCards(focus, edges, id => selectRelationNode(id), id => {
    if (window.polestarNotes) window.polestarNotes.openAction(id); else edit(id);
   }));
+ } else {
+  const box = document.createElement('div');
+  box.className = 'empty-state-card';
+  const p = document.createElement('p');
+  p.textContent = allIds.length ? '当前筛选条件下暂无关联动作' : '暂未建立关联动作';
+  box.append(p);
+  if (allIds.length && window.__resetRelationFilters) {
+   box.append(makeButton('重置筛选', window.__resetRelationFilters, 'primary'));
+  }
+  oneHopHost.append(box);
  }
  const host = $('relationGraph');
  let fold = $('relationGraphFold');
@@ -1822,7 +1982,7 @@ window.addEventListener('polestar-cloud-state', () => {
  if (document.body.dataset.activeTab === 'relations') renderActionNetwork();
 });
 
-load();refreshProgress();renderCard();applyHostedAccess();tab('play');
+load();refreshProgress();renderCard();applyHostedAccess();tab('library');
 const libraryCategories=$('libraryCategories');
 const syncCatBar=()=>{for(const btn of libraryCategories.children){const v=btn.dataset.category||'';btn.setAttribute('aria-pressed',String(v?librarySelectedCats.has(v):!librarySelectedCats.size));}};
 for(const [value,label] of [['','全部'],...CATS]){
@@ -1839,27 +1999,32 @@ for(const [value,label] of [['','全部'],...CATS]){
  libraryCategories.append(button);
 }
 syncCatBar();
+const libraryBarSyncers=[syncCatBar];
+function syncAllLibraryFilterBars(){for(const fn of libraryBarSyncers)fn();}
 fillSelect('appFilter','全部器械',APPS);
-const libraryLevels=['初级','中级','高级1','高级2'];
-fillSelect('levelFilter','全部级别',libraryLevels.map(level=>[level,level]));
-function mountMultiChipBar(hostId,items,selectedSet){
+fillSelect('levelFilter','全部级别',UNIFIED_LEVELS.map(level=>[level,level]));
+function mountMultiChipBar(hostId,items,selectedSet,withLevelDot=false){
  const host=$(hostId);if(!host)return;
  const sync=()=>{for(const btn of host.children){const v=btn.dataset.value||'';btn.setAttribute('aria-pressed',String(v?selectedSet.has(v):!selectedSet.size));}};
  for(const [val,label] of items){
-  const btn=makeButton(label,()=>{
+  const btn=createUnifiedChip(val,label,withLevelDot);
+  btn.onclick=()=>{
    if(!val)selectedSet.clear();
    else if(selectedSet.has(val))selectedSet.delete(val);
    else selectedSet.add(val);
    sync();renderLibrary();
-  });
-  btn.dataset.value=val;
+  };
   host.append(btn);
  }
+ libraryBarSyncers.push(sync);
  sync();
 }
-mountMultiChipBar('libraryLevelBar',[['','全部级别'],...libraryLevels.map(l=>[l,l])],librarySelectedLevels);
-const shortAppNames={'Mat':'垫上','Reformer':'核心床','Trapeze Table':'凯迪拉克','Chair':'稳踏椅','Ladder Barrel':'梯桶','Spine Corrector':'矫正器'};
-mountMultiChipBar('libraryAppBar',[['','全部器械'],...APPS.map(([v,l])=>[v,shortAppNames[v]||l])],librarySelectedApps);
+mountMultiChipBar('libraryLevelBar',[['','全部级别'],...UNIFIED_LEVELS.map(l=>[l,l])],librarySelectedLevels,true);
+mountMultiChipBar('libraryAppBar',[['','全部器械'],...UNIFIED_APPS],librarySelectedApps,false);
+if($('search')){
+ $('search').addEventListener('focus',()=>{ $('search').removeAttribute('readonly'); });
+ $('search').addEventListener('blur',()=>{ if(!$('search').value) $('search').setAttribute('readonly',''); });
+}
 document.querySelectorAll('[data-tab],[data-card-tab]').forEach(b=>b.addEventListener('click',()=>tab(b.matches('.nav [data-tab=play]')?'library':b.dataset.tab||b.dataset.cardTab)));
 $('prev').onclick=()=>{const i=CARDS.findIndex(a=>a.id===state.current);if(i>0)go(CARDS[i-1].id);};
 $('later').onclick=()=>{mutate('status','later');nextPending();};$('random').onclick=()=>nextPending(true);
@@ -1884,7 +2049,6 @@ if(nativeMode){$('checkUpdate').hidden=false;$('checkUpdate').onclick=()=>apiFet
 $('chooseFolder').onclick=()=>connectLocalFolder(diskEnabled?'change':true);
 function closeTools(){document.querySelector('header').classList.remove('menu-open');$('toolsToggle').setAttribute('aria-expanded','false');}
 $('toolsToggle').onclick=()=>{const open=document.querySelector('header').classList.toggle('menu-open');$('toolsToggle').setAttribute('aria-expanded',String(open));};
-document.body.dataset.activeTab='play';
 if(window.visualViewport){const checkKeyboard=()=>{document.documentElement.style.setProperty('--viewport-height',window.visualViewport.height+'px');document.body.classList.toggle('keyboard-open',window.innerHeight-window.visualViewport.height>150&&/INPUT|TEXTAREA|SELECT/.test(document.activeElement?.tagName));};checkKeyboard();window.visualViewport.addEventListener('resize',checkKeyboard);document.addEventListener('focusout',()=>setTimeout(checkKeyboard,100));}
 if(hostedMode){$('portable').hidden=true;$('saveState').textContent='已保存在此设备';$('saveState').dataset.syncState='synced';document.querySelector('#help .help').innerHTML='<p>登录账号后，手机和电脑可同步学习进度。顶部“存档”保存独立的云端快照，“读档”选择恢复；读档前会自动备份。</p><p>“更多 → 下载离线资源”可保存全部教材图片和英文语音，完成后没网也能练习。云端存档需要联网。</p><p>iPhone 用 Safari 打开此网页，从分享菜单选择“添加到主屏幕”，即可从桌面图标全屏打开。浏览器可能要求先点击喇叭才能播放声音。</p><p>未登录时记录只保存在当前设备。登录不会自动导入本机记录；本人需要时在账号面板中选择导入。</p>';}
 // 统一为所有弹窗提供“点击外部遮罩关闭”与“关闭后焦点归还”（提交中或有未保存防误关保护）
@@ -2100,7 +2264,7 @@ window.addEventListener('pagehide',()=>{if(!window.polestarCloud?.active&&diskEn
  function cache(){try{localStorage.setItem(controller.storageKey,JSON.stringify({payload:state,revision,pending:dirty}));return true;}catch{status('此设备缓存失败，请立即同步或导出 JSON 备份。',true);return false;}}
  function getNotes(){return controller.active&&state.notesStudy?JSON.parse(JSON.stringify(state.notesStudy)):null;}
  function setNotes(value){if(!controller.active)throw Error('请先登录账号。');if(!value||typeof value!=='object'||Array.isArray(value))throw Error('学习计划格式不正确');const text=JSON.stringify(value);if(text.length>2000000)throw Error('学习计划内容过大');state.notesStudy=JSON.parse(text);persist();return true;}
- function redraw(){window.dispatchEvent(new CustomEvent('polestar-cloud-state',{detail:{active:controller.active,accountId:controller.accountId}}));applyHostedAccess();refreshProgress();renderCard();practiceQuestion=null;renderPracticeStats();tab('library');}
+ function redraw(){const wasGuest=document.body.classList.contains('web-guest');window.dispatchEvent(new CustomEvent('polestar-cloud-state',{detail:{active:controller.active,accountId:controller.accountId}}));applyHostedAccess();refreshProgress();renderCard();practiceQuestion=null;renderPracticeStats();const cur=document.body.dataset.activeTab||'library';tab(wasGuest&&controller.active?'library':cur);}
  function setConflict(){conflict=true;el('cloudConflict').hidden=false;savedStatus('云端有另一份修改，请选择版本');status('同步冲突：当前记录已留在此设备。',true);}
  function schedule(){if(!controller.active)return;dirty=true;const cached=cache();savedStatus(cached?'☁ 待同步（已保存在此设备）':'☁ 缓存失败，请保持页面打开并同步');clearTimeout(timer);timer=setTimeout(()=>sync().catch(report),1200);}
  function report(e){status(e.message,true);if(user)savedStatus('☁ 尚未同步，请保持页面打开');}
