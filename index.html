@@ -350,7 +350,8 @@ body.quiz-result-open{padding-bottom:calc(var(--app-nav-h) + 180px + var(--safe-
 #library .library-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,280px),1fr));gap:10px}
 #library .library-row{display:flex;align-items:center;gap:12px;width:100%;padding:10px 12px;border-radius:15px;background:var(--surface);border:1px solid var(--line);box-shadow:var(--shadow-sm);text-align:left;transition:background-color .16s var(--ease),border-color .16s var(--ease),transform .14s var(--ease)}
 #library .library-row:hover{border-color:var(--line-strong);background:var(--surface-soft)}
-#library .library-row-thumb{width:72px;height:56px;flex:none;border-radius:10px;background:#fff;border:1px solid var(--line);object-fit:contain;padding:2px}
+#library .library-row-thumb{width:72px;height:56px;flex:none;border-radius:10px;background:#fff;border:1px solid var(--line);overflow:hidden;padding:3px;display:flex;align-items:center;justify-content:center}
+#library .library-row-thumb svg{width:100%;height:100%;display:block}
 #library .library-row-body{flex:1;min-width:0}
 #library .library-row-title{display:-webkit-box;-webkit-box-orient:vertical;-webkit-line-clamp:2;overflow:hidden;font-size:15.5px;font-weight:600;line-height:1.32;color:var(--ink);overflow-wrap:anywhere}
 #library .library-row-cn{display:block;font-size:13px;color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;margin-top:3px}
@@ -465,6 +466,41 @@ body[data-active-tab="notesStudy"] .nav,body.assessment-detail-open .nav{display
 }
 #assessments .assessment-goal{background:#fffbf0!important;border-color:rgba(244,168,37,.25)!important}
 #assessments .assessment-related-heading{font-size:15px;font-weight:650;margin:18px 0 10px!important;padding-left:2px}
+/* 小红书按钮恢复经典红底白字 */
+.xhs-search,.notes-xhs-logo{background:#ff2442!important;color:#fff!important;border:0!important;box-shadow:0 2px 8px rgba(255,36,66,.26)!important;gap:5px!important;padding:6px 12px!important;border-radius:999px!important}
+.xhs-search:hover,.notes-xhs-logo:hover{background:#e51c38!important;color:#fff!important}
+.xhs-mark{background:transparent!important;color:#fff!important;padding:0!important;min-height:0!important;font-size:12.5px!important;letter-spacing:0!important}
+.xhs-jump-icon{color:#fff!important;width:15px!important;height:15px!important;flex:0 0 15px!important}
+
+/* 全站统一等级分色圆点（初/中/高1/高2）与关联动作一跳分组卡片 */
+.level-dot{display:inline-block;width:9px;height:9px;border-radius:999px;flex:none;background:#6b7672}
+.level-dot[data-level="初级"]{background:#2D7A52}
+.level-dot[data-level="中级"]{background:#245CA6}
+.level-dot[data-level="高级1"],.level-dot[data-level="高级"]{background:#7045A3}
+.level-dot[data-level="高级2"]{background:#A24C15}
+.level-pill{display:inline-flex;align-items:center;gap:5px;padding:2px 8px;border-radius:999px;font-size:11.5px;font-weight:600;background:rgba(31,41,38,.05);color:var(--ink);white-space:nowrap}
+.level-pill[data-level="初级"]{background:#e8f4ed;color:#236342}
+.level-pill[data-level="中级"]{background:#e8f0fb;color:#1d4d8f}
+.level-pill[data-level="高级1"],.level-pill[data-level="高级"]{background:#f2ecfa;color:#5e378c}
+.level-pill[data-level="高级2"]{background:#faeee6;color:#8a3f10}
+.relation-legend{display:flex;align-items:center;flex-wrap:wrap;gap:10px 14px;margin:0 0 12px;font-size:12px;color:var(--muted)}
+.relation-legend span{display:inline-flex;align-items:center;gap:5px}
+.relation-onehop{display:grid;gap:12px;margin:0 0 14px}
+.relation-group{background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:12px 14px;box-shadow:var(--shadow-sm)}
+.relation-group-title{font-size:13px;font-weight:650;color:var(--muted);margin:0 0 8px;display:flex;align-items:center;justify-content:space-between}
+.relation-group-list{display:grid;gap:6px}
+.relation-item-row{display:flex;align-items:center;gap:8px;min-height:44px;padding:8px 10px;border-radius:12px;background:var(--surface-soft);border:1px solid var(--line)}
+.relation-item-main{flex:1;min-width:0;display:flex;align-items:center;gap:8px;border:0!important;background:transparent!important;padding:0!important;text-align:left;min-height:36px;box-shadow:none!important}
+.relation-item-name{flex:1;min-width:0;font-size:14px;font-weight:550;color:var(--ink);overflow-wrap:anywhere}
+.relation-item-study{flex:none;min-height:32px!important;padding:4px 10px!important;border-radius:999px!important;font-size:12px!important;background:var(--sun-light)!important;color:var(--sun-dark)!important;border-color:rgba(244,168,37,.4)!important}
+.relation-graph-fold{margin:12px 0;background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:10px 14px;box-shadow:var(--shadow-sm)}
+.relation-graph-fold>summary{font-size:13.5px;font-weight:600;color:var(--ink);min-height:36px;display:flex;align-items:center}
+.assessment-rel-row{display:flex!important;align-items:center;gap:8px;width:100%!important;min-height:44px;padding:8px 10px!important;margin:0 0 6px!important;border-radius:12px!important;background:var(--surface-soft)!important;border:1px solid var(--line)!important;text-align:left;text-decoration:none!important;color:var(--ink)!important;font-size:14px;font-weight:500}
+.assessment-rel-row:hover{background:var(--sun-light)!important;border-color:rgba(244,168,37,.45)!important}
+#assessments .assessment-stages ul{list-style:none!important;padding:0!important}
+#assessments .assessment-stages li{padding:0!important}
+.practice-apply-row{display:flex;align-items:center;gap:8px;margin-top:4px}
+.practice-apply-btn{flex:1;min-height:38px!important;border-radius:999px!important;font-size:13px!important}
 #notesStudy .notes-top,#notesStudy #notesPickerOpen,#notesStudy #notesFiltersHost,#notesStudy #notesListHost{display:none!important}
 #notesStudy .notes-layout{display:block!important}
 @media(max-width:700px){
@@ -481,7 +517,7 @@ body[data-active-tab="notesStudy"] .nav,body.assessment-detail-open .nav{display
  #library .library-row-cn{font-size:13px}
  #library .library-row-arrow{display:none}
 }
-</style><style>.category-suggestion{margin-top:12px;padding:10px 12px;background:#fff9e9;border-radius:8px;font-size:13px;line-height:1.65}.category-suggestion summary{cursor:pointer}.category-suggestion p{white-space:pre-wrap;color:#777;font-size:12px;margin:10px 0 0}</style><meta name="theme-color" content="#f6f5f0"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-status-bar-style" content="default"><link rel="manifest" href="./manifest.webmanifest"><link rel="icon" type="image/png" href="./icon-192.png"><link rel="apple-touch-icon" href="./icon-180.png"><meta name="polestar-build" content="57156d952c2b"></head><body class="web-guest"><div class="wrap">
+</style><style>.category-suggestion{margin-top:12px;padding:10px 12px;background:#fff9e9;border-radius:8px;font-size:13px;line-height:1.65}.category-suggestion summary{cursor:pointer}.category-suggestion p{white-space:pre-wrap;color:#777;font-size:12px;margin:10px 0 0}</style><meta name="theme-color" content="#f6f5f0"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-status-bar-style" content="default"><link rel="manifest" href="./manifest.webmanifest"><link rel="icon" type="image/png" href="./icon-192.png"><link rel="apple-touch-icon" href="./icon-180.png"><meta name="polestar-build" content="04b200c98d2f"></head><body class="web-guest"><div class="wrap">
 <header><div class="brand">普拉提动作库 <small>POLESTAR PILATES</small></div><div class="tools"><button type="button" id="variantToggle" class="variant-toggle" aria-pressed="true">显示变式</button><button id="soundToggle" class="sound-toggle" aria-label="静音" title="静音"></button><button id="saveGame" class="primary">存档</button><button id="loadGame">读档</button><button id="toolsToggle" aria-label="更多功能" aria-expanded="false">⋯</button><button id="portable" class="mobile-secondary">保存随身 HTML</button><button id="checkUpdate" class="mobile-secondary" hidden>检查更新</button><button id="helpOpen" class="mobile-secondary" aria-label="使用说明">?</button></div></header><div id="updateStatus" hidden role="status" aria-live="polite"><div class="inline"><strong id="updateMessage"></strong><span id="updateDetail"></span></div><progress id="updateProgress" max="100" aria-label="更新下载进度"></progress></div><p id="exportDestination" class="muted" style="font-size:11px;text-align:right;margin-top:6px" hidden></p>
 <div class="intro"><div><h1>动作练习</h1></div></div>
 <div id="folderBar" class="folder-bar" hidden><span id="folderHint">首次选择桌面的“普拉提动作库备份”文件夹，即可直接读写进度。</span><button id="chooseFolder">连接存档文件夹</button></div><div id="storageWarning" class="notice" hidden></div>
@@ -887,7 +923,7 @@ function openXhsSearch(event){
 function go(id){if(!validIds.has(id))return;state.current=id;persist();renderCard();if(matchMedia('(max-width:700px)').matches)window.scrollTo({top:0,behavior:'smooth'});}
 function nextPending(random=false){const currentIndex=CARDS.findIndex(a=>a.id===state.current),other=CARDS.filter(a=>a.id!==state.current&&record(a.id).status!=='done');if(!other.length){toast(record(state.current).status==='done'?'全部整理完成，去总览看看吧！':'只剩当前这一张未完成。');return;}let target=random?other[Math.floor(Math.random()*other.length)]:[...CARDS.slice(currentIndex+1),...CARDS.slice(0,currentIndex)].find(a=>record(a.id).status!=='done');go(target.id);}
 function applyHostedAccess(){if(!hostedMode)return;const guest=!window.polestarCloud?.active;document.body.classList.toggle('web-guest',guest);document.querySelector('.intro h1').textContent=guest?'动作练习':'翻一张，理清一个动作。';if(guest)for(const id of ['saveDialog','loadDialog','importDialog','notesImageDialog','notesPickerDialog','assessmentCardDialog'])if($(id)?.open)$(id).close();}
-function tab(name){if(name==='learningPlans')name='notesStudy';if(name==='tracking'){name='play';$('tracking').open=true;}window.polestarAssessments?.close();if(hostedMode&&!window.polestarCloud?.active&&name!=='practice')name='practice';if(name!=='notesStudy')window.polestarNotes?.onLeave();const changed=!!document.body.dataset.activeTab&&document.body.dataset.activeTab!==name;document.body.dataset.activeTab=name;closeTools();clearQuizFeedback();for(const n of ['play','library','matrix','relations','practice','notesStudy','learningPlans','assessments'])if($(n))$(n).hidden=n!==name;const inCards=['play','library','matrix','relations'].includes(name);$('cardNav').hidden=!inCards;document.querySelector('.intro').hidden=!inCards;document.querySelectorAll('[data-tab],[data-card-tab]').forEach(b=>{const current=(b.dataset.tab||b.dataset.cardTab)===name;const active=current||(b.closest('.nav')&&b.dataset.tab==='play'&&(inCards||name==='notesStudy'));b.classList.toggle('active',!!active);b.setAttribute('aria-current',current?'page':active?'true':'false');});if(name==='notesStudy'||name==='learningPlans')window.polestarNotes?.onOpen();if(name==='library')renderLibrary();if(name==='matrix')renderMatrix();if(name==='relations')renderActionNetwork();if(name==='practice'){if(!practiceQuestion)newPracticeQuestion();else renderPractice();}else stopSpeaking();if(changed&&matchMedia('(max-width:700px)').matches)window.scrollTo({top:Math.max(0,(inCards?$('cardNav'):$(name)).getBoundingClientRect().top+window.scrollY-document.querySelector('.nav').offsetHeight-14),behavior:'instant'});}
+function tab(name){if(name==='learningPlans')name='notesStudy';if(name==='tracking'){name='play';$('tracking').open=true;}window.polestarAssessments?.close();if(hostedMode&&!window.polestarCloud?.active&&name!=='practice')name='practice';if(name!=='notesStudy')window.polestarNotes?.onLeave();const changed=!!document.body.dataset.activeTab&&document.body.dataset.activeTab!==name;document.body.dataset.activeTab=name;closeTools();clearQuizFeedback();for(const n of ['play','library','matrix','relations','practice','notesStudy','learningPlans','assessments'])if($(n))$(n).hidden=n!==name;const inCards=['play','library','matrix','relations'].includes(name);$('cardNav').hidden=!inCards;document.querySelector('.intro').hidden=!inCards;document.querySelectorAll('[data-tab],[data-card-tab]').forEach(b=>{const current=(b.dataset.tab||b.dataset.cardTab)===name;const active=current||(b.closest('.nav')&&b.dataset.tab==='play'&&(inCards||name==='notesStudy'));b.classList.toggle('active',!!active);b.setAttribute('aria-current',current?'page':active?'true':'false');});if(name==='notesStudy'||name==='learningPlans')window.polestarNotes?.onOpen();if(name==='library'){renderLibrary();if(window.__libraryReturn){const ret=window.__libraryReturn;window.__libraryReturn=null;requestAnimationFrame(()=>{const target=document.querySelector(`#libraryGrid .library-row[data-action-id="${ret.actionId}"]`);if(target){target.scrollIntoView({block:'center',behavior:'instant'});target.focus({preventScroll:true});}else window.scrollTo({top:ret.scrollY||0,behavior:'instant'});});return;}}if(name==='matrix')renderMatrix();if(name==='relations')renderActionNetwork();if(name==='practice'){if(!practiceQuestion)newPracticeQuestion();else renderPractice();}else stopSpeaking();if(changed&&matchMedia('(max-width:700px)').matches)window.scrollTo({top:Math.max(0,(inCards?$('cardNav'):$(name)).getBoundingClientRect().top+window.scrollY-document.querySelector('.nav').offsetHeight-14),behavior:'instant'});}
 function renderTracking(){
  const done=CARDS.filter(a=>record(a.id).status==='done').length,later=CARDS.filter(a=>record(a.id).status==='later').length;
  $('statsDone').textContent=done;$('statsPending').textContent=CARDS.length-done-later;$('statsLater').textContent=later;
@@ -946,7 +982,7 @@ function openFullImage(action,index=0){
  $('viewerPrev').disabled=index===0;$('viewerNext').disabled=index===action.images.length-1;
  if(!$('viewer').open)$('viewer').showModal();
 }
-function renderLibrary(){syncLibraryCategoryCounts();const list=filteredCards();$('libraryGrid').replaceChildren();if(!list.length){const p=document.createElement('p');p.className='empty';p.textContent='当前筛选下暂无动作';$('libraryGrid').append(p);return;}const appLabel=k=>APPS.find(x=>x[0]===k)?.[1]||k;for(const a of list){const r=record(a.id);const row=makeButton('',async()=>{row.disabled=true;try{if(window.polestarNotes){await window.polestarNotes.openAction(a.id);window.scrollTo({top:0,behavior:'instant'});}else edit(a.id);}catch{edit(a.id);}finally{row.disabled=false;}},'library-row');const img=document.createElement('img');img.className='library-row-thumb';img.src=DATA.images[a.images[0].key];img.alt='';img.loading='lazy';const body=document.createElement('span');body.className='library-row-body';const title=document.createElement('span');title.className='library-row-title';title.textContent=actionTitleFor(a);const cn=document.createElement('span');cn.className='library-row-cn';cn.textContent=a.cn||'';const meta=document.createElement('span');meta.className='library-row-meta';const lv=document.createElement('span');lv.className='library-row-level';lv.textContent=libraryLevel(a);const app=document.createElement('span');app.textContent=appLabel(r.apparatus||apparatusFor(a.id));meta.append(lv,app);body.append(title,cn,meta);const arrow=document.createElement('span');arrow.className='library-row-arrow';arrow.setAttribute('aria-hidden','true');arrow.textContent='›';row.append(img,body,arrow);$('libraryGrid').append(row);}}
+function renderLibrary(){syncLibraryCategoryCounts();const list=filteredCards();$('libraryGrid').replaceChildren();if(!list.length){const p=document.createElement('p');p.className='empty';p.textContent='当前筛选下暂无动作';$('libraryGrid').append(p);return;}const appLabel=k=>APPS.find(x=>x[0]===k)?.[1]||k;const queueIds=list.map(x=>x.id);for(const a of list){const r=record(a.id);const row=makeButton('',async()=>{row.disabled=true;window.__libraryReturn={actionId:a.id,scrollY:window.scrollY};try{if(window.polestarNotes){await window.polestarNotes.openAction(a.id,{queue:queueIds});window.scrollTo({top:0,behavior:'instant'});}else edit(a.id);}catch{edit(a.id);}finally{row.disabled=false;}},'library-row');row.dataset.actionId=a.id;const thumb=document.createElement('span');thumb.className='library-row-thumb';thumb.setAttribute('aria-hidden','true');thumb.append(artwork(a));const body=document.createElement('span');body.className='library-row-body';const title=document.createElement('span');title.className='library-row-title';title.textContent=actionTitleFor(a);const cn=document.createElement('span');cn.className='library-row-cn';cn.textContent=a.cn||'';const meta=document.createElement('span');meta.className='library-row-meta';const levelName=libraryLevel(a);const lv=document.createElement('span');lv.className='level-pill';lv.dataset.level=levelName;lv.innerHTML='<i class="level-dot" data-level="'+levelName+'" aria-hidden="true"></i>'+levelName;const app=document.createElement('span');app.textContent=appLabel(r.apparatus||apparatusFor(a.id));meta.append(lv,app);body.append(title,cn,meta);const arrow=document.createElement('span');arrow.className='library-row-arrow';arrow.setAttribute('aria-hidden','true');arrow.textContent='›';row.append(thumb,body,arrow);$('libraryGrid').append(row);}}
 const matrixApparatus = new Set();
 let matrixDrag = null;
 function moveMatrixPair(source, category, level) {
@@ -1269,6 +1305,13 @@ $('quizResultNext').onclick=()=>newPracticeQuestion();
 function renderNameQuestion(target){clearQuizFeedback();nameQuestion={target,options:questionOptions(target),answered:false};$('nameOptions').replaceChildren();nameQuestion.options.forEach((a,index)=>{const button=makeButton('',()=>{if(nameQuestion.answered)return;nameQuestion.answered=true;recordAnswer(a.id===target.id,target.id,'card');setNameVisibility(true);showQuizFeedback(a.id===target.id,'正确答案：'+('ABCD'[nameQuestion.options.findIndex(x=>x.id===target.id)])+' · '+actionTitleFor(target));if(audioPrefs.enabled)speakActionTitle(target);},'name-option');const letter=document.createElement('span');letter.className='option-letter';letter.textContent='ABCD'[index];button.append(letter,document.createTextNode(actionTitleFor(a)));button.dataset.id=a.id;$('nameOptions').append(button);});}
 const practiceScope={apparatus:[],levels:[]},practiceScopeControls=[];
 function practiceScopeIds(){return studyCore.filterPracticeScope(practiceScope).filter(a=>validIds.has(a.id)).map(a=>a.id);}
+function syncPracticeFilterSummary(){
+ const count=practiceScopeIds().length,selectedCount=practiceScope.apparatus.length+practiceScope.levels.length;
+ const applyBtn=$('practiceFilterApply');
+ if(applyBtn){applyBtn.textContent=count?`应用范围（共 ${count} 个动作）`:'当前范围无匹配动作';applyBtn.disabled=!count;}
+ const toggle=$('practiceFilterToggle');
+ if(toggle)toggle.textContent=selectedCount?`筛选范围 (${selectedCount})`:'筛选范围';
+}
 function setupPracticeFilter(key,label,options){
  const group=document.createElement('div');
  group.className='practice-filter-tags';
@@ -1280,7 +1323,7 @@ function setupPracticeFilter(key,label,options){
    const selected=practiceScope[key];
    practiceScope[key]=!value?[]:selected.includes(value)?selected.filter(item=>item!==value):[...selected,value];
    sync();
-   newPracticeQuestion();
+   syncPracticeFilterSummary();
   },'practice-filter-tag');
   group.append(button);
   return [value,button];
@@ -1291,9 +1334,14 @@ function setupPracticeFilter(key,label,options){
  sync();
 }
 setupPracticeFilter('apparatus','全部器械',APPS);setupPracticeFilter('levels','全部等级',LEVELS.map(x=>[x,x]));
-function resetPracticeScope(){practiceScope.apparatus=[];practiceScope.levels=[];for(const sync of practiceScopeControls)sync();}
+function resetPracticeScope(){practiceScope.apparatus=[];practiceScope.levels=[];for(const sync of practiceScopeControls)sync();syncPracticeFilterSummary();}
 let practiceScopeOwner='guest';window.addEventListener('polestar-cloud-state',()=>{const owner=window.polestarCloud?.active?window.polestarCloud.storageKey:'guest';if(owner!==practiceScopeOwner){practiceScopeOwner=owner;selectedActionVariants.clear();resetPracticeScope();}});
-$('practiceFilters').append(makeButton('重置范围',()=>{resetPracticeScope();newPracticeQuestion();},'practice-filter-reset'));
+const practiceApplyRow=document.createElement('div');practiceApplyRow.className='practice-apply-row';
+const practiceApplyBtn=makeButton('应用范围',()=>{$('practice').classList.remove('filters-open');$('practiceFilterToggle').setAttribute('aria-expanded','false');newPracticeQuestion();},'primary practice-apply-btn');
+practiceApplyBtn.id='practiceFilterApply';
+practiceApplyRow.append(makeButton('重置',()=>{resetPracticeScope();newPracticeQuestion();},'practice-filter-reset'),practiceApplyBtn);
+$('practiceFilters').append(practiceApplyRow);
+syncPracticeFilterSummary();
 $('practiceFilterToggle').onclick=()=>{
  const expanded=$('practice').classList.toggle('filters-open');
  $('practiceFilterToggle').setAttribute('aria-expanded',String(expanded));
@@ -1534,6 +1582,86 @@ function selectRelationNode(id) {
  renderActionNetwork();
 }
 
+const relationLevelOrder = {'初级':0,'中级':1,'高级1':2,'高级':2,'高级2':3};
+const relationLevelColors = {'初级':'#2D7A52','中级':'#245CA6','高级1':'#7045A3','高级':'#7045A3','高级2':'#A24C15'};
+function relationActionLevel(id){
+ const action = CARDS.find(card => card.id === id);
+ if (!action) return '';
+ return typeof libraryLevel === 'function' ? libraryLevel(action) : (action.suggestedLevel || '初级');
+}
+function relationLevelColor(id){ return relationLevelColors[relationActionLevel(id)] || '#6b7672'; }
+function relationNeighborsByGroup(focus, edges){
+ const groups = {up:[], peer:[], down:[]};
+ const seen = new Set();
+ for (const edge of edges){
+  let other = null, dir = null;
+  if (edge.from === focus){ other = edge.to; dir = edge.type; }
+  else if (edge.to === focus){ other = edge.from; dir = reverseRelation[edge.type] || edge.type; }
+  if (!other || !groups[dir] || seen.has(dir+':'+other)) continue;
+  seen.add(dir+':'+other);
+  groups[dir].push(other);
+ }
+ for (const k of ['up','peer','down']){
+  groups[k].sort((a,b) => (relationLevelOrder[relationActionLevel(a)] ?? 9) - (relationLevelOrder[relationActionLevel(b)] ?? 9) || relationName(a).localeCompare(relationName(b)));
+ }
+ return groups;
+}
+function buildOneHopRelationCards(focus, edges, onSelect, onStudy){
+ const wrap = document.createElement('div');
+ wrap.className = 'relation-onehop';
+ const groups = relationNeighborsByGroup(focus, edges);
+ const meta = [['up','升阶 ↑'],['peer','同级 ↔'],['down','降阶 ↓']];
+ let total = 0;
+ for (const [key, title] of meta){
+  const list = groups[key];
+  if (!list.length) continue;
+  total += list.length;
+  const box = document.createElement('section');
+  box.className = 'relation-group';
+  const h = document.createElement('div');
+  h.className = 'relation-group-title';
+  h.innerHTML = '<span>'+title+'</span><span>'+list.length+'</span>';
+  const ul = document.createElement('div');
+  ul.className = 'relation-group-list';
+  for (const id of list){
+   const lv = relationActionLevel(id);
+   const row = document.createElement('div');
+   row.className = 'relation-item-row';
+   const main = makeButton('', () => onSelect(id), 'relation-item-main');
+   const pill = document.createElement('span');
+   pill.className = 'level-pill';
+   pill.dataset.level = lv;
+   pill.innerHTML = '<i class="level-dot" data-level="'+lv+'" aria-hidden="true"></i>'+lv;
+   const name = document.createElement('span');
+   name.className = 'relation-item-name';
+   name.textContent = relationName(id);
+   main.append(pill, name);
+   row.append(main);
+   if (onStudy){
+    const studyBtn = makeButton('学动作', () => onStudy(id), 'relation-item-study');
+    row.append(studyBtn);
+   }
+   ul.append(row);
+  }
+  box.append(h, ul);
+  wrap.append(box);
+ }
+ if (!total){
+  const empty = document.createElement('p');
+  empty.className = 'empty';
+  empty.textContent = '该动作暂无关联动作';
+  wrap.append(empty);
+ }
+ return wrap;
+}
+window.polestarRelationCards = (actionId, onStudy) => {
+ const edges = actionEdges();
+ const cid = canonicalAction(actionId);
+ const hasAny = edges.some(e => e.from === cid || e.to === cid);
+ if (!hasAny) return null;
+ return buildOneHopRelationCards(cid, edges, onStudy, null);
+};
+
 function showRelationChart(echarts,host,nodes,edges,focus) {
  if (!relationChart) {
   const stage = document.createElement('div');
@@ -1552,7 +1680,7 @@ function showRelationChart(echarts,host,nodes,edges,focus) {
    id, name:relationName(id),
    ...(focus ? {x:index ? Math.cos(angle)*140 : 0,y:index ? Math.sin(angle)*140 : 0} : {}),
    symbolSize:id===focus ? 28 : 18,
-   itemStyle:{color:id===focus ? '#284c72' : '#678eb4'}
+   itemStyle:{color:relationLevelColor(id),borderColor:id===focus?'#1f2926':'#ffffff',borderWidth:id===focus?3:1.5}
   };
  });
  const links = edges.map(edge => ({
@@ -1560,19 +1688,19 @@ function showRelationChart(echarts,host,nodes,edges,focus) {
   target:edge.type==='down' ? edge.from : edge.to,
   symbol:['none',edge.type==='peer' ? 'none' : 'arrow'],
   lineStyle:edge.type==='peer'
-   ? {type:'dashed',color:'#667684',curveness:-0.25}
-   : {type:'solid',color:'#4279a7',curveness:0.17}
+   ? {type:'dashed',color:'#85928e',curveness:-0.2}
+   : {type:'solid',color:'#b88424',curveness:0.15}
  }));
  relationChart.setOption({
   animation:false,
-  tooltip:{renderMode:'richText',confine:true,formatter:params=>params.dataType==='node'?params.name:''},
+  tooltip:{renderMode:'richText',confine:true,formatter:params=>params.dataType==='node'?(relationActionLevel(params.data.id)+' · '+params.name):''},
   series:[{
    type:'graph',layout:focus?'none':'force',roam:true,draggable:true,preserveAspect:'contain',
    left:'13%',right:'13%',top:'13%',bottom:'13%',
    scaleLimit:{min:0.45,max:3},
    force:{repulsion:[240,450],edgeLength:[95,165],gravity:0.12,layoutAnimation:false},
    data:points,links,edgeSymbolSize:[0,10],
-   label:{show:nodes.length<=32,position:'bottom',width:112,overflow:'truncate',color:'#24394c'},
+   label:{show:nodes.length<=24,position:'bottom',width:112,overflow:'truncate',color:'#1f2926'},
    lineStyle:{width:2,opacity:0.84},
    emphasis:{focus:'adjacency',label:{show:true}}
   }]
@@ -1584,27 +1712,42 @@ async function renderActionNetwork() {
  const edges = actionEdges();
  const ids = [...new Set(edges.flatMap(edge => [edge.from,edge.to]))];
  const select = $('relationFocus');
- const focus = ids.includes(select.value) ? select.value : '';
- select.replaceChildren(new Option('全部已关联动作',''), ...ids.map(id => new Option(relationName(id),id)));
- select.value = focus;
+ const focus = ids.includes(select.value) ? select.value : (ids[0] || '');
+ select.replaceChildren(...ids.map(id => new Option(relationActionLevel(id)+' · '+relationName(id),id)));
+ if (focus) select.value = focus;
  $('relationOpen').disabled = !focus;
  const adjacent = focus ? edges.filter(edge => edge.from === focus || edge.to === focus) : edges;
  const nodes = focus ? [focus,...new Set(adjacent.flatMap(edge => [edge.from,edge.to]).filter(id => id !== focus))] : ids;
- const nodeSet = new Set(nodes);
- const shown = edges.filter(edge => nodeSet.has(edge.from) && nodeSet.has(edge.to));
- $('relationSummary').textContent = edges.length
-  ? '实线箭头指向升阶动作，虚线表示同级。可拖动节点、缩放图谱，点击节点查看相邻动作。'
-  : '还没有关联。在「整理动作」中添加升阶、降阶或同级动作后，这里会显示关系。';
- if (!focus || focus === '43' || focus === '112') {
-  $('relationSummary').textContent += ' ' + classroomContext;
+ const shown = focus ? adjacent : edges;
+ $('relationSummary').innerHTML = '<span class="relation-legend"><span><i class="level-dot" data-level="初级"></i>初级</span><span><i class="level-dot" data-level="中级"></i>中级</span><span><i class="level-dot" data-level="高级1"></i>高级1</span><span><i class="level-dot" data-level="高级2"></i>高级2</span></span>';
+ const section = $('relations');
+ let oneHopHost = $('relationOneHop');
+ if (!oneHopHost){
+  oneHopHost = document.createElement('div');
+  oneHopHost.id = 'relationOneHop';
+  $('relationGraph').before(oneHopHost);
+ }
+ oneHopHost.replaceChildren();
+ if (focus){
+  oneHopHost.append(buildOneHopRelationCards(focus, edges, id => selectRelationNode(id), id => {
+   if (window.polestarNotes) window.polestarNotes.openAction(id); else edit(id);
+  }));
  }
  const host = $('relationGraph');
+ let fold = $('relationGraphFold');
+ if (!fold){
+  fold = document.createElement('details');
+  fold.id = 'relationGraphFold';
+  fold.className = 'relation-graph-fold';
+  const sum = document.createElement('summary');
+  sum.textContent = '查看关系图谱';
+  fold.append(sum);
+  host.before(fold);
+  fold.append(host);
+  fold.addEventListener('toggle', () => { if (fold.open) renderActionNetwork(); });
+ }
  host.hidden = !nodes.length;
- if (!nodes.length) {
-  relationChartObserver?.disconnect();
-  relationChart?.dispose();
-  relationChart = null;
-  host.replaceChildren();
+ if (!nodes.length || !fold.open) {
   return;
  }
  if (DATA.relationChart) {
@@ -1654,7 +1797,7 @@ function renderBasicRelationGraph(host,nodes,shown,focus) {
   title.textContent = name;
   const text = svgElement('text',{x,y:y+34,'text-anchor':'middle'});
   text.textContent = name.length>22 ? name.slice(0,21)+'…' : name;
-  node.append(title,svgElement('circle',{cx:x,cy:y,r:focus===id?15:12,fill:focus===id?'#2e6557':'#a6baad'}),text);
+  node.append(title,svgElement('circle',{cx:x,cy:y,r:focus===id?15:12,fill:relationLevelColor(id),stroke:focus===id?'#1f2926':'#ffffff','stroke-width':focus===id?3:1.5}),text);
   const selectNode = () => {
    selectRelationNode(id);
    $('relationFocus').focus();
@@ -8035,9 +8178,18 @@ const dialog=make('dialog',null,'assessment-dialog');dialog.id='assessmentCardDi
 function openCard(id,item){
  if(hostedMode&&!window.polestarCloud?.active)return;
  const action=CARDS.find(a=>a.id===id);if(!action){window.polestarNotes?.openEntry(item.noteId).catch(error=>toast(error.message));return;}
- content.replaceChildren(make('h2',actionTitleFor(action)),make('p',action.cn));const art=make('div',null,'assessment-art');art.append(artwork(action));content.append(art);
- const im=action.images[0];content.append(make('p','《'+im.manual+'》 · '+(im.printedPage?'教材 '+im.printedPage+' 页':'扫描页 '+im.scan),'assessment-intro'));
- const actions=make('div',null,'assessment-actions');const full=make('button','查看完整教材');full.onclick=()=>openFullImage(action);const study=make('button','学习此动作');study.onclick=()=>{dialog.close();window.polestarNotes?.openAction(id);};actions.append(full);if(window.polestarNotes)actions.append(study);content.append(actions);if(item){const evidence=make('section',null,'assessment-note-evidence');evidence.append(make('h4',item.level+'笔记第 '+item.pages.join('、')+' 页'),make('p','相关联评估动作：'+item.assessmentText));const note=make('button','查看这页笔记');note.disabled=!window.polestarNotes;note.onclick=async()=>{note.disabled=true;try{await window.polestarNotes.openEntry(item.noteId);dialog.close();}catch(error){toast(error.message);}finally{note.disabled=false;}};evidence.append(note);content.append(evidence);}if(!dialog.open)dialog.showModal();dialog.scrollTop=0;
+ const lv=typeof libraryLevel==='function'?libraryLevel(action):(action.suggestedLevel||'初级');
+ const pill=make('span',null,'level-pill');pill.dataset.level=lv;pill.innerHTML='<i class="level-dot" data-level="'+lv+'" aria-hidden="true"></i>'+lv;
+ content.replaceChildren(make('h2',actionTitleFor(action)),make('p',action.cn),pill);
+ if(item){const evidence=make('section',null,'assessment-note-evidence');evidence.append(make('h4',item.level+'笔记第 '+item.pages.join('、')+' 页'),make('p','关联评估：'+item.assessmentText));content.append(evidence);}
+ const actions=make('div',null,'assessment-actions');
+ const study=make('button','学习此动作','primary');
+ study.onclick=async()=>{study.disabled=true;study.textContent='打开中…';try{await window.polestarNotes?.openAction(id);dialog.close();}catch(err){toast(err.message||'暂无法打开学习页');}finally{study.disabled=false;study.textContent='学习此动作';}};
+ const full=make('button','查看教材原页');full.onclick=()=>openFullImage(action);
+ if(window.polestarNotes)actions.append(study);actions.append(full);
+ content.append(actions);
+ const art=make('div',null,'assessment-art');art.append(artwork(action));content.append(art);
+ if(!dialog.open)dialog.showModal();dialog.scrollTop=0;
 }
 const photoDialog=make('dialog',null,'assessment-dialog assessment-photo-dialog');
 photoDialog.id='assessmentPhotoDialog';
@@ -8124,7 +8276,36 @@ function render(){
  descriptions.append(purpose,how);
  intro.append(figure,descriptions);
  card.append(intro,make('h4','关联动作','assessment-related-heading'));
-  const stages=make('div',null,'assessment-stages');for(const stage of entry.stages){const section=make('section');section.append(make('h4',stage.label));const list=make('ul');for(const item of stage.items){const ids=item.actionIds.filter(id=>validIds.has(id));if(item.actionIds.length&&!ids.length)continue;const li=make('li');if(!ids.length){const note=make('a',item.text,'assessment-link');note.href='#note-'+item.noteId;note.dataset.noteId=item.noteId;note.onclick=e=>{e.preventDefault();openCard(null,item);};li.append(note);}for(const [version,id] of ids.entries()){const action=CARDS.find(a=>a.id===id);if(!action)continue;if(version)li.append(document.createTextNode('、'));const a=make('a',ids.length===1?item.text:action.name,'assessment-link');a.title=action.name;a.href='#assessment-card-'+id;a.dataset.actionId=id;a.dataset.noteId=item.noteId;a.onclick=e=>{e.preventDefault();openCard(id,item);};li.append(a);}list.append(li);}if(!stage.items.length)list.append(make('li','笔记未列出关联动作','assessment-intro'));section.append(list);stages.append(section);}card.append(stages);grid.append(card);
+ const stages=make('div',null,'assessment-stages');
+ for(const stage of entry.stages){
+  const section=make('section');section.append(make('h4',stage.label));
+  const ul=make('ul');
+  for(const item of stage.items){
+   const ids=item.actionIds.filter(id=>validIds.has(id));
+   if(item.actionIds.length&&!ids.length)continue;
+   if(!ids.length){
+    const li=make('li');
+    const note=make('button',item.text,'assessment-rel-row');note.type='button';note.dataset.noteId=item.noteId;
+    note.onclick=()=>openCard(null,item);
+    li.append(note);ul.append(li);
+   }
+   for(const id of ids){
+    const action=CARDS.find(a=>a.id===id);if(!action)continue;
+    const lv=typeof libraryLevel==='function'?libraryLevel(action):(action.suggestedLevel||'初级');
+    const li=make('li');
+    const row=make('button',null,'assessment-rel-row');row.type='button';row.dataset.actionId=id;row.dataset.noteId=item.noteId;
+    const dot=make('i',null,'level-dot');dot.dataset.level=lv;dot.setAttribute('aria-hidden','true');
+    const lvTag=make('span',lv,'level-pill');lvTag.dataset.level=lv;
+    const label=make('span',ids.length===1?item.text:action.name);
+    row.append(lvTag,label);
+    row.onclick=()=>openCard(id,item);
+    li.append(row);ul.append(li);
+   }
+  }
+  if(!stage.items.length)ul.append(make('li','笔记未列出关联动作','assessment-intro'));
+  section.append(ul);stages.append(section);
+ }
+ card.append(stages);grid.append(card);
 }
 render();
 window.polestarAssessments={close(){detailOpen=false;syncDetailView();if(dialog.open)dialog.close();if(photoDialog.open)photoDialog.close();},preparePortable(clone){clone.querySelectorAll('#assessments,#assessmentCardDialog,#assessmentPhotoDialog,[data-tab=assessments]').forEach(n=>n.remove());}};
@@ -8904,17 +9085,26 @@ function render(){stopVariationAudio();stopSpeaking();load();if(!notesAssessment
   const personal=make('section',undefined,'notes-block notes-inline-personal');
   personal.id='notesInlinePersonal';
   grid.append(personal);
+  if(typeof window.polestarRelationCards==='function'&&entry.actionId){
+   const relCards=window.polestarRelationCards(entry.actionId,targetId=>window.polestarNotes.openAction(targetId));
+   if(relCards){
+    const relSec=make('section',undefined,'notes-block');
+    relSec.append(make('h4','关联动作'),relCards);
+    grid.append(relSec);
+   }
+  }
   article.append(mountStudyTabs(entry,grid));
   const controls=make('div',undefined,'notes-read-controls');
   const read=make('button',saved.read[entry.id]?'✓ 已读':'标记已读');
   read.onclick=()=>{saved.read[entry.id]=true;planMark(entry.id,'read');persist();render();};
   const previous=make('button','← 上一个'),next=make('button','下一个 →');
   previous.id='notesPrevious';next.id='notesNext';
-  const visible=filtered(),index=visible.findIndex(item=>item.id===entry.id);
+  const queueEntries=(window.__studyQueue||[]).map(aid=>{const act=DATA.actions.find(a=>a.id===aid),cid=act?.identityAliasOf||aid;return data.entries.find(e=>e.actionId===cid)||data.entries.find(e=>e.actionId===aid);}).filter((e,i,arr)=>e&&arr.findIndex(x=>x.id===e.id)===i);
+  const visible=queueEntries.length?queueEntries:filtered(),index=visible.findIndex(item=>item.id===entry.id);
   previous.disabled=index<=0;next.disabled=index<0||index>=visible.length-1;
   previous.onclick=()=>openAdjacent(visible[index-1]);
   next.onclick=()=>openAdjacent(visible[index+1]);
-  function openAdjacent(item){saved.current=item.id;quizOpen=false;persist();render();article.scrollIntoView({block:'start',behavior:'smooth'});}
+  function openAdjacent(item){saved.current=item.id;quizOpen=false;persist();render();window.scrollTo({top:0,behavior:'instant'});}
   controls.append(previous,read,next);
   article.append(controls);
  }else renderQuestions(entry,article,true);
@@ -9287,13 +9477,14 @@ for(const id of ['springSearch','springApparatus','springBook'])el(id).addEventL
 el('notesEquipmentMode').onclick=()=>{if(notebookReturn&&!equipmentOpen){returnToNotebook();return;}equipmentOpen=!equipmentOpen;learnNav.classList.toggle('active',!equipmentOpen);notebookNav.classList.toggle('active',equipmentOpen);learnNav.setAttribute('aria-current',equipmentOpen?'false':'page');notebookNav.setAttribute('aria-current',equipmentOpen?'page':'false');if(equipmentOpen){plansOpen=false;root.classList.remove('plans-open');plansPanel.hidden=true;el('notesPlanMode').setAttribute('aria-pressed','false');stopVariationAudio();narration.stop();}root.classList.toggle('equipment-open',equipmentOpen);equipmentPanel.hidden=!equipmentOpen;el('notesEquipmentMode').setAttribute('aria-pressed',String(equipmentOpen));if(equipmentOpen)renderEquipment();};
 for(const id of ['notesExam','notesReview','notesPlanMode'])el(id).addEventListener('click',closeEquipment);
 
-window.polestarNotes={async openPracticeAction(actionId){closeEquipment();if(hostedMode&&!window.polestarCloud?.active)return false;await ensureData();load();const action=DATA.actions.find(a=>a.id===actionId),id=action?.identityAliasOf||actionId;const entry=data.entries.find(e=>e.actionId===id)||data.entries.find(e=>e.actionId===actionId);if(!entry)return false;saved.review=false;saved.mode='memory';tab('notesStudy');openRelatedEntry(entry);return true;},async openEntry(entryId){closeEquipment();if(hostedMode&&!window.polestarCloud?.active)return;await ensureData();load();const entry=data.entries.find(e=>e.id===entryId);if(!entry)throw Error('没有找到对应笔记');saved.review=false;saved.mode='memory';tab('notesStudy');openRelatedEntry(entry);},async openAction(actionId){
+window.polestarNotes={async openPracticeAction(actionId){closeEquipment();if(hostedMode&&!window.polestarCloud?.active)return false;await ensureData();load();const action=DATA.actions.find(a=>a.id===actionId),id=action?.identityAliasOf||actionId;const entry=data.entries.find(e=>e.actionId===id)||data.entries.find(e=>e.actionId===actionId);if(!entry)return false;saved.review=false;saved.mode='memory';tab('notesStudy');openRelatedEntry(entry);return true;},async openEntry(entryId){closeEquipment();if(hostedMode&&!window.polestarCloud?.active)return;await ensureData();load();const entry=data.entries.find(e=>e.id===entryId);if(!entry)throw Error('没有找到对应笔记');saved.review=false;saved.mode='memory';tab('notesStudy');openRelatedEntry(entry);},async openAction(actionId,opts){
  closeEquipment();
  if(hostedMode&&!window.polestarCloud?.active)return;
  await ensureData();load();
  const action=DATA.actions.find(a=>a.id===actionId),id=action?.identityAliasOf||actionId;
  const entry=data.entries.find(e=>e.actionId===id)||data.entries.find(e=>e.actionId===actionId);
  if(!entry){toast('这个动作暂时没有学习笔记。');return;}
+ if(opts&&Array.isArray(opts.queue))window.__studyQueue=opts.queue;
  saved.review=false;saved.mode='memory';tab('notesStudy');openRelatedEntry(entry);
 },async onOpen(){
  const isPlan=document.body.dataset.activeTab==='learningPlans';plansOpen=isPlan;plansPanel.hidden=!isPlan;const target=isPlan?planStatus:el('notesDetail');if(!data)target.textContent='正在载入…';
