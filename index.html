@@ -49,21 +49,12 @@ button:focus-visible,a:focus-visible,input:focus-visible,textarea:focus-visible,
 /* Shared phone layout; keep desktop proportions and interaction unchanged. */
 #toolsToggle{display:none}
 @media(max-width:700px){
- :root{--mobile-safe-b:env(safe-area-inset-bottom,0px);--mobile-actions-h:72px}
+ :root{--mobile-safe-b:env(safe-area-inset-bottom,0px);--mobile-actions-h:64px}
  html{scroll-padding-top:62px;-webkit-text-size-adjust:100%}
- body{padding-bottom:calc(var(--mobile-actions-h) + 20px + var(--mobile-safe-b));overscroll-behavior-y:none}
- .wrap{padding:calc(12px + env(safe-area-inset-top)) max(14px,env(safe-area-inset-right)) 20px max(14px,env(safe-area-inset-left));min-width:0}
- header{display:block}.brand{font-size:20px;line-height:1.5;margin-bottom:12px}
- .tools{display:flex;width:100%;gap:6px;flex-wrap:wrap;align-items:center;margin:0}
- .tools button{min-height:44px;font-size:13px;padding:9px 10px;border-radius:12px;line-height:1.4}
- #soundToggle{order:0;flex:0 0 44px}#saveGame{order:1}#loadGame{order:2}
- #cloudOpen{order:3;flex:1 1 0;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
- #toolsToggle{order:4;display:block;flex:0 0 44px;padding:8px;font-size:21px;line-height:1}
- .tools .mobile-secondary{display:none}.menu-open .tools .mobile-secondary:not([hidden]){display:block;flex:1 1 40%}
- #portable{order:5}#offlineDownload{order:6}#checkUpdate{order:7}#helpOpen{order:8;width:auto}
- .intro{margin-top:18px}h1{font-size:23px}.progress-meta{margin-top:7px}
- .nav{display:flex;flex-wrap:nowrap;justify-content:flex-start;gap:8px;overflow-x:auto;scrollbar-width:none;padding:6px 2px 8px;top:0;scroll-padding:12px;background:rgba(246,245,240,.88);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px)}.nav::-webkit-scrollbar{display:none}
- .nav button{flex-shrink:0;min-height:44px;font-size:13px;white-space:nowrap;padding:8px 13px}
+ body{padding-bottom:calc(var(--app-nav-h,74px) + var(--mobile-actions-h) + 22px + var(--mobile-safe-b));overscroll-behavior-y:none}
+ .wrap{padding:calc(10px + env(safe-area-inset-top)) max(14px,env(safe-area-inset-right)) 20px max(14px,env(safe-area-inset-left));min-width:0}
+ .panel>.actions{bottom:calc(var(--app-nav-h,74px) + 10px + var(--mobile-safe-b))!important;left:10px!important;right:10px!important;border-radius:16px!important;border:1px solid var(--line-strong)!important;box-shadow:var(--shadow-md)!important;padding:8px 10px!important;z-index:55!important}
+ .intro{margin-top:14px}h1{font-size:23px}.progress-meta{margin-top:7px}
  .workspace{gap:12px}.card,.panel{min-width:0}.name-option{min-height:56px;font-size:13px;overflow-wrap:anywhere}
  .card-pages{padding:0 14px 12px}.card-pages button{min-height:44px}.main-art{height:clamp(210px,60vw,300px)}
  .image-button img{height:clamp(240px,76vw,380px)}.source strong{overflow-wrap:anywhere}
@@ -99,9 +90,9 @@ button:focus-visible,a:focus-visible,input:focus-visible,textarea:focus-visible,
  #viewer{width:calc(100% - 12px);max-width:100%;padding:10px;border-radius:14px}#viewer .dialog-top{top:-10px;gap:8px;padding:4px 0}
  #viewerTitle{font-size:13px;max-width:calc(100% - 85px)}#viewerControls{position:sticky;top:52px;background:#fff;z-index:2;margin:0;padding:5px 0 10px}
  #viewer img{max-height:calc(100dvh - 160px);height:auto}#viewer.is-zoomed #viewerImage{max-height:none;max-width:none}#viewerArt{height:calc(100dvh - 120px)}
- #quizResult{bottom:calc(12px + var(--mobile-safe-b));padding:18px 14px 15px;gap:10px;max-height:40dvh;overflow:auto}
- body[data-active-tab=play] #quizResult{bottom:calc(var(--mobile-actions-h) + 16px + var(--mobile-safe-b))}
- body.quiz-result-open{padding-bottom:calc(var(--mobile-actions-h) + 188px + var(--mobile-safe-b))}
+ #quizResult{bottom:calc(var(--app-nav-h,74px) + 12px + var(--mobile-safe-b));padding:16px 14px 14px;gap:10px;max-height:38dvh;overflow:auto}
+ body[data-active-tab=play] #quizResult{bottom:calc(var(--app-nav-h,74px) + var(--mobile-actions-h) + 18px + var(--mobile-safe-b))}
+ body.quiz-result-open{padding-bottom:calc(var(--app-nav-h,74px) + var(--mobile-actions-h) + 188px + var(--mobile-safe-b))}
  body.keyboard-open #quizResult{bottom:12px}body.keyboard-open{padding-bottom:24px}#quizResultTitle{font-size:21px}#quizResultDetail{font-size:14px;line-height:1.45}#quizResultNext{min-height:48px}#quizResultClose{width:44px;height:38px;top:-2px;right:-2px}
  #quizResult .result-copy{padding-right:8px}#toast{z-index:100;font-size:13px;overflow-wrap:anywhere}
 }
@@ -182,67 +173,125 @@ body.web-guest #relations{display:none!important}
 
 .intro[hidden]{display:none!important}#tracking{margin:0 0 14px}#tracking .progress{width:100%;max-width:600px;margin:16px 0 24px}
 
-/* === 现代治愈系极简视觉与弹窗/交互精修 === */
+/* === 现代 App 级交互重构与治愈系极简视觉 === */
 :root{
   --canvas:#f6f5f0;--surface:#ffffff;--surface-soft:#faf9f5;
+  --glass:rgba(255,255,255,.86);--glass-canvas:rgba(246,245,240,.88);
   --ink:#1f2926;--muted:#6b7672;--line:rgba(31,41,38,.09);--line-strong:rgba(31,41,38,.16);
   --sun:#f4a825;--sun-hover:#e59712;--sun-dark:#7d4900;--sun-light:#fff6e2;
   --shadow-sm:0 1px 2px rgba(24,33,30,.04),0 2px 8px rgba(24,33,30,.04);
   --shadow-md:0 8px 24px rgba(24,33,30,.08),0 2px 6px rgba(24,33,30,.04);
   --shadow-lg:0 22px 54px rgba(15,23,42,.20),0 4px 16px rgba(15,23,42,.08);
   --ease:cubic-bezier(.22,1,.36,1);
+  --safe-b:env(safe-area-inset-bottom,0px);
+  --app-nav-h:74px;
 }
-body{background:var(--canvas);color:var(--ink);-webkit-font-smoothing:antialiased}
+body.web-guest{--app-nav-h:0px}
+body{background:var(--canvas);color:var(--ink);-webkit-font-smoothing:antialiased;padding-bottom:calc(var(--app-nav-h) + 28px + var(--safe-b))}
 body:has(dialog[open]){overflow:hidden}
+body.keyboard-open{--app-nav-h:0px;padding-bottom:24px}
+.wrap{padding-top:14px}
 button,.button{border-color:var(--line-strong);border-radius:11px;background:var(--surface);transition:background-color .18s var(--ease),border-color .18s var(--ease),box-shadow .18s var(--ease),transform .14s var(--ease),color .18s var(--ease)}
 button:hover:not(:disabled),.button:hover{border-color:rgba(31,41,38,.28);background:var(--surface-soft)}
 button:active:not(:disabled){transform:scale(.98)}
 .primary{background:var(--sun);border-color:transparent;color:#332000;font-weight:600;box-shadow:0 2px 10px rgba(244,168,37,.28)}
 .primary:hover:not(:disabled){background:var(--sun-hover);border-color:transparent;box-shadow:0 4px 14px rgba(244,168,37,.34)}
+
+/* 1. 极简顶栏 + 收纳式工具浮层（桌面与手机统一清爽） */
+header{position:relative;display:flex!important;align-items:center!important;justify-content:space-between!important;gap:12px;margin-bottom:16px;padding-bottom:12px;border-bottom:1px solid var(--line)}
 .brand::before{display:none}
-.brand{letter-spacing:.3px;color:var(--ink)}
-.brand small{color:var(--muted);letter-spacing:1.4px}
-.tools button{border-radius:999px;padding:7px 13px;background:var(--surface);border-color:var(--line-strong);box-shadow:var(--shadow-sm)}
+.brand{font-size:20px!important;font-weight:650;letter-spacing:.2px;color:var(--ink);margin:0!important;white-space:nowrap}
+.brand small{display:none!important}
+.tools{position:relative;display:flex!important;align-items:center;justify-content:flex-end;gap:8px;flex-wrap:nowrap!important;width:auto!important;margin:0!important}
+.tools button{border-radius:999px;min-height:38px;padding:6px 13px;background:var(--surface);border:1px solid var(--line-strong);box-shadow:var(--shadow-sm);font-size:13px}
 .tools button.primary{border-color:transparent}
-.nav{border-bottom:1px solid var(--line);gap:8px;padding-bottom:8px;margin-bottom:20px}
-.nav button{border-radius:999px;padding:8px 15px;border:1px solid transparent;color:var(--muted);font-weight:500}
-.nav button:hover:not(.active){background:rgba(31,41,38,.05);color:var(--ink);border-color:transparent}
-.nav button.active{background:var(--sun-light);color:var(--sun-dark);border-color:rgba(244,168,37,.45);border-bottom-width:1px;font-weight:600}
-.card-subnav{gap:6px;margin:-6px 0 18px}
-.card-subnav button{border-radius:999px;background:transparent;border-color:transparent}
-.card-subnav button:hover:not(.active){background:rgba(31,41,38,.05);color:var(--ink)}
-.card-subnav button.active{background:var(--surface);border-color:var(--line-strong);color:var(--ink);box-shadow:var(--shadow-sm)}
+#soundToggle{order:0;width:38px;height:38px;min-width:38px;min-height:38px;padding:0;flex:0 0 38px}
+#cloudOpen{order:1;max-width:190px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+#toolsToggle{order:2;display:inline-flex!important;align-items:center;justify-content:center;width:38px;height:38px;min-width:38px;min-height:38px;padding:0;flex:0 0 38px;font-size:18px;line-height:1}
+header.menu-open #toolsToggle{background:var(--sun-light);border-color:var(--sun);color:var(--sun-dark)}
+/* 低频工具统一收纳进优雅浮层卡片 */
+.tools-drawer{position:absolute;top:calc(100% + 10px);right:0;z-index:85;width:min(260px,calc(100vw - 28px));padding:10px;border-radius:18px;background:var(--surface);border:1px solid var(--line-strong);box-shadow:var(--shadow-lg);display:none;grid-template-columns:1fr;gap:6px;animation:polestarDialogIn .18s var(--ease)}
+header.menu-open .tools-drawer{display:grid}
+.tools-drawer button{display:flex!important;align-items:center;justify-content:space-between;width:100%!important;min-height:42px;padding:9px 14px;border-radius:12px;border:1px solid var(--line);background:var(--surface-soft);box-shadow:none;text-align:left;font-size:13.5px}
+.tools-drawer button:hover:not(:disabled){background:var(--sun-light);border-color:rgba(244,168,37,.45);color:var(--sun-dark)}
+.tools-drawer button.primary{background:var(--sun);color:#332000;border-color:transparent;justify-content:center}
+.tools-drawer button[hidden]{display:none!important}
+.tools-drawer .tools-drawer-label{font-size:11px;font-weight:600;color:var(--muted);padding:4px 6px 2px;letter-spacing:.04em}
+
+/* 去掉大块占高标题，首屏直达核心学习 */
+.intro{display:none!important}
+
+/* 2. 底部悬浮毛玻璃胶囊主导航（现代 App 感） */
+body.web-guest .nav{display:none!important}
+body.keyboard-open .nav{display:none!important}
+.nav{
+  position:fixed!important;left:50%!important;right:auto!important;top:auto!important;
+  bottom:max(10px,var(--safe-b))!important;transform:translateX(-50%);z-index:60!important;
+  width:min(540px,calc(100vw - 20px));margin:0!important;padding:6px!important;
+  display:grid!important;grid-auto-flow:column;grid-auto-columns:minmax(0,1fr);gap:4px!important;
+  background:var(--glass)!important;backdrop-filter:blur(22px);-webkit-backdrop-filter:blur(22px);
+  border:1px solid var(--line-strong)!important;border-radius:22px!important;
+  box-shadow:var(--shadow-lg)!important;overflow:visible!important;
+}
+.nav button{
+  display:flex!important;flex-direction:column;align-items:center;justify-content:center;gap:3px;
+  min-height:50px!important;padding:6px 4px!important;border:0!important;border-radius:16px!important;
+  background:transparent!important;color:var(--muted)!important;font-size:11px!important;font-weight:500;
+  white-space:nowrap;overflow:hidden;text-overflow:ellipsis;
+}
+.nav button svg{width:19px;height:19px;flex:none;stroke:currentColor;fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round;transition:transform .2s var(--ease)}
+.nav button:hover:not(.active){background:rgba(31,41,38,.05)!important;color:var(--ink)!important}
+.nav button.active{background:var(--sun-light)!important;color:var(--sun-dark)!important;font-weight:650!important;border:0!important}
+.nav button.active svg{transform:translateY(-1px);stroke-width:2.1}
+
+/* 二级分段胶囊导航（动作分类子视图） */
+.card-subnav{display:inline-flex;gap:4px;padding:4px;margin:0 0 16px;background:rgba(31,41,38,.055);border-radius:14px;max-width:100%;overflow-x:auto}
+.card-subnav button{min-height:36px;padding:6px 14px;border-radius:10px;background:transparent;border:0;color:var(--muted);font-size:13px;font-weight:500}
+.card-subnav button:hover:not(.active){color:var(--ink)}
+.card-subnav button.active{background:var(--surface);color:var(--ink);font-weight:600;box-shadow:var(--shadow-sm)}
+
+/* 3. 卡片、练习与沉浸式交互控件 */
 .card,.panel,.progress-stat,.apparatus-progress,.notes-detail,.notes-list,.notes-plan-card,.table-scroll{background:var(--surface);border:1px solid var(--line);border-radius:18px;box-shadow:var(--shadow-sm)}
 .image-stage{background:var(--surface-soft);padding:12px}
 .image-button{border-radius:12px;border:1px solid var(--line)}
 .mini{border-radius:16px;background:var(--surface);border-color:var(--line);box-shadow:var(--shadow-sm);transition:transform .2s var(--ease),box-shadow .2s var(--ease),border-color .2s var(--ease)}
 .mini:hover{transform:translateY(-2px);box-shadow:var(--shadow-md);border-color:var(--line-strong)}
+#tracking>summary{display:inline-flex;align-items:center;gap:8px;padding:7px 14px;border-radius:999px;background:var(--surface);border:1px solid var(--line-strong);font-size:13px;font-weight:500;color:var(--ink);box-shadow:var(--shadow-sm);list-style:none}
+#tracking>summary::-webkit-details-marker{display:none}
+#tracking[open]>summary{background:var(--sun-light);border-color:rgba(244,168,37,.45);color:var(--sun-dark);margin-bottom:12px}
+
+/* 听力/看图练习分段控制器与沉浸卡片 */
+.practice-toolbar{background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:10px 12px;box-shadow:var(--shadow-sm);margin-bottom:12px!important}
+.practice-modes{display:flex;align-items:center;gap:6px;flex-wrap:wrap}
+.practice-modes button{border-radius:999px;min-height:36px!important;padding:6px 13px!important;font-size:13px!important}
+.practice-modes [aria-pressed=true]{background:var(--ink);color:#fff;border-color:var(--ink)}
+.practice-auto-btn[aria-pressed=true]{background:var(--sun-light)!important;color:var(--sun-dark)!important;border-color:var(--sun)!important}
+.practice-filters{background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:12px 14px;box-shadow:var(--shadow-sm);margin-bottom:12px!important}
 .picture-answer{border-radius:16px;border:1.5px solid var(--line);box-shadow:var(--shadow-sm);transition:transform .16s var(--ease),box-shadow .18s var(--ease),border-color .18s var(--ease)}
 .picture-answer:hover:not(:disabled){border-color:rgba(244,168,37,.6);box-shadow:var(--shadow-md);transform:translateY(-1px)}
 .picture-letter{background:var(--surface-soft);border:1px solid var(--line);color:var(--muted);font-weight:600}
-.practice-modes button{border-radius:999px}
-.practice-modes [aria-pressed=true]{background:var(--ink);color:#fff;border-color:var(--ink)}
 .choice,.name-option{border-radius:12px;border-color:var(--line-strong);background:var(--surface)}
 .choice[aria-pressed=true],.levels .choice[aria-pressed=true][data-value="中级"],.levels .choice[aria-pressed=true][data-value="高级"]{background:var(--sun-light);border-color:var(--sun);box-shadow:inset 0 0 0 1px var(--sun);color:var(--sun-dark)}
 input,select,textarea{border-radius:11px;border-color:var(--line-strong);background:var(--surface)}
 input:focus,select:focus,textarea:focus{border-color:var(--sun);outline:none;box-shadow:0 0 0 3px rgba(244,168,37,.22)}
-/* 弹窗与背景清晰区分 */
+
+/* 4. 弹窗与遮罩层清晰区分 + 答题反馈与提示精准避让底部导航 */
 dialog{border:1px solid var(--line-strong);border-radius:20px;background:var(--surface);color:var(--ink);box-shadow:var(--shadow-lg)}
 dialog[open]{animation:polestarDialogIn .22s var(--ease)}
 @keyframes polestarDialogIn{from{opacity:0;transform:scale(.96) translateY(8px)}to{opacity:1;transform:none}}
 dialog::backdrop{background:rgba(15,23,42,.44);backdrop-filter:blur(4px);-webkit-backdrop-filter:blur(4px)}
 dialog .dialog-top button{border-radius:999px;background:var(--surface-soft);border-color:var(--line);padding:6px 12px;font-size:13px}
 dialog .dialog-top button:hover{background:var(--sun-light);border-color:rgba(244,168,37,.45);color:var(--sun-dark)}
-#quizResult{border-radius:20px;box-shadow:var(--shadow-lg)}
-#toast{background:rgba(31,41,38,.94);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);border-radius:999px;box-shadow:var(--shadow-md);padding:10px 20px}
-/* 常规同步/自动保存静默不打扰，仅在错误、冲突或待同步时显现 */
+#quizResult{border-radius:20px;box-shadow:var(--shadow-lg);bottom:calc(var(--app-nav-h) + 14px + var(--safe-b))!important;z-index:75!important}
+body.quiz-result-open{padding-bottom:calc(var(--app-nav-h) + 180px + var(--safe-b))!important}
+#toast{background:rgba(31,41,38,.94);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);border-radius:999px;box-shadow:var(--shadow-md);padding:10px 20px;bottom:calc(var(--app-nav-h) + 18px + var(--safe-b))!important;z-index:95!important}
 #saveState[data-sync-state="synced"]{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip-path:inset(50%);white-space:nowrap;border:0}
-@media(prefers-reduced-motion:reduce){dialog[open],.mini,.picture-answer,button{animation:none!important;transition:none!important;transform:none!important}}
-</style><style>.category-suggestion{margin-top:12px;padding:10px 12px;background:#fff9e9;border-radius:8px;font-size:13px;line-height:1.65}.category-suggestion summary{cursor:pointer}.category-suggestion p{white-space:pre-wrap;color:#777;font-size:12px;margin:10px 0 0}</style><meta name="theme-color" content="#ffffff"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-status-bar-style" content="default"><link rel="manifest" href="./manifest.webmanifest"><link rel="apple-touch-icon" href="./icon-180.png"><meta name="polestar-build" content="99f47c32ff04"></head><body class="web-guest"><div class="wrap">
+@media(prefers-reduced-motion:reduce){dialog[open],.mini,.picture-answer,button,.tools-drawer{animation:none!important;transition:none!important;transform:none!important}}
+</style><style>.category-suggestion{margin-top:12px;padding:10px 12px;background:#fff9e9;border-radius:8px;font-size:13px;line-height:1.65}.category-suggestion summary{cursor:pointer}.category-suggestion p{white-space:pre-wrap;color:#777;font-size:12px;margin:10px 0 0}</style><meta name="theme-color" content="#ffffff"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-status-bar-style" content="default"><link rel="manifest" href="./manifest.webmanifest"><link rel="apple-touch-icon" href="./icon-180.png"><meta name="polestar-build" content="4afcfb912919"></head><body class="web-guest"><div class="wrap">
 <header><div class="brand">普拉提动作库 <small>POLESTAR PILATES</small></div><div class="tools"><button type="button" id="variantToggle" class="variant-toggle" aria-pressed="true">显示变式</button><button id="soundToggle" class="sound-toggle" aria-label="静音" title="静音"></button><button id="saveGame" class="primary">存档</button><button id="loadGame">读档</button><button id="toolsToggle" aria-label="更多功能" aria-expanded="false">⋯</button><button id="portable" class="mobile-secondary">保存随身 HTML</button><button id="checkUpdate" class="mobile-secondary" hidden>检查更新</button><button id="helpOpen" class="mobile-secondary" aria-label="使用说明">?</button></div></header><div id="updateStatus" hidden role="status" aria-live="polite"><div class="inline"><strong id="updateMessage"></strong><span id="updateDetail"></span></div><progress id="updateProgress" max="100" aria-label="更新下载进度"></progress></div><p id="exportDestination" class="muted" style="font-size:11px;text-align:right;margin-top:6px" hidden></p>
 <div class="intro"><div><h1>动作练习</h1></div></div>
 <div id="folderBar" class="folder-bar" hidden><span id="folderHint">首次选择桌面的“普拉提动作库备份”文件夹，即可直接读写进度。</span><button id="chooseFolder">连接存档文件夹</button></div><div id="storageWarning" class="notice" hidden></div>
-<nav class="nav" aria-label="主导航"><button data-tab="play" class="active">动作分类</button><button data-tab="practice">听力练习</button></nav><nav id="cardNav" class="card-subnav" aria-label="动作分类二级导航"><button data-tab="matrix">分类 × 等级</button><button data-tab="relations">关联动作</button><button data-card-tab="play" class="active">整理动作</button></nav>
+<nav class="nav" aria-label="主导航"><button data-tab="play" class="active">动作分类</button><button data-tab="practice">听力练习</button></nav><nav id="cardNav" class="card-subnav" aria-label="动作分类二级导航"><button data-tab="matrix">分类 × 等级</button><button data-tab="relations">关联动作</button><button data-card-tab="play" class="active">整理动作</button><button data-tab="library">动作库</button></nav>
 <section id="play"><details id="tracking"><summary>整理进度</summary><div class="progress-detail"><div class="progress"><p><span>已整理 <strong id="doneCount">0</strong> / <span id="progressTotal"></span></span><span id="percent">0%</span></p><div class="track" id="overallProgress" role="progressbar" aria-label="总体整理进度" aria-valuemin="0" aria-valuemax="0" aria-valuenow="0"><div class="fill" id="progressFill"></div></div><div class="progress-meta"><span id="remainingCount">未完成</span><span id="laterCount">稍后再想 0 张</span></div></div><div class="progress-stats"><div class="progress-stat"><span>已完成</span><strong id="statsDone">0</strong></div><div class="progress-stat"><span>待整理</span><strong id="statsPending">149</strong></div><div class="progress-stat"><span>稍后再想</span><strong id="statsLater">0</strong></div></div><h2>各器械整理进度</h2><p class="muted" style="font-size:12px">按原资料器械版本统计，每张卡片只计一次。</p><div class="apparatus-progress" id="apparatusProgress"></div><div class="progress-bottom"><p id="progressSavedAt"></p><button class="primary" id="resumeProgress">继续未完成的卡片 →</button></div></div></details><div class="workspace"><article class="card"><div class="card-head"><div class="inline"><span class="eyebrow" id="cardNumber"></span><span class="badge" id="cardStatus"></span></div><div class="name-row"><button id="nameToggle" class="name-toggle" aria-expanded="false" aria-controls="nameText"><span id="namePrompt">选择动作名称</span><span id="nameText" hidden><span id="cardName" class="name-english"></span><span class="muted name-chinese" id="cardCn"></span></span></button><button id="learnCurrentAction" type="button" class="learn-action">学动作</button><button id="speakName" class="speak-name" aria-label="朗读英文动作名称" aria-pressed="false" title="朗读英文动作名称"><svg width="21" height="21" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M11 5 6 9H3v6h3l5 4z"/><path d="M15 8a6 6 0 0 1 0 8M18 5a10 10 0 0 1 0 14"/></svg></button></div><div id="nameOptions" class="name-options"></div></div><div class="card-pages" role="group" aria-label="卡片图片页面"><button id="actionPage" aria-pressed="true">1 动作图</button><button id="sourcePage" aria-pressed="false">2 完整教材</button></div><div class="image-stage"><button class="image-button" id="imageOpen" aria-label="放大教材图片"><div id="cardQuizArt" class="quiz-art main-art"></div><img id="cardImage" alt=""></button></div><div class="source"><strong id="manualName"></strong><div id="scanPage"></div><div class="image-nav" id="imageNav"></div><a id="xhsSearch" class="xhs-search" target="_blank" rel="noopener noreferrer" referrerpolicy="no-referrer" aria-label="在小红书搜索当前动作"><span class="xhs-mark" aria-hidden="true">小红书</span><svg class="xhs-jump-icon" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="10.5" cy="10.5" r="6.5"/><path d="m16 16 4.5 4.5"/></svg></a></div></article>
 <aside class="panel"><div class="apparatus-readonly"><span>教材器械</span><strong id="apparatusValue"></strong></div><fieldset><legend>分类与等级<span class="hint">可添加多组</span></legend><div id="classificationPairs"></div><button type="button" id="addClassification" class="quiet">＋ 添加组合</button><div id="categorySuggestion" class="category-suggestion"><p id="categorySuggestionTitle"></p><div id="categorySupplementary"></div></div><div id="levelSuggestion" hidden><p id="levelSuggestionTitle"></p><p id="levelSuggestionSource"></p></div></fieldset>
 <details id="relatedDetails"><summary>＋ 关联动作</summary><div id="relatedEditor"></div></details>
@@ -1444,6 +1493,101 @@ if(hostedMode){$('portable').hidden=true;$('saveState').textContent='已保存�
    else if(node instanceof Element)node.querySelectorAll?.('dialog').forEach(bindDialog);
   }
  }).observe(document.body,{childList:true,subtree:true});
+})();
+// === App 级交互重构：底部胶囊导航图标、工具抽屉收纳、练习自动下一题、卡片滑动切卡 ===
+(()=>{
+ // 1. 把低频工具按钮收进顶栏优雅浮层抽屉（保留所有原始按钮 ID 与事件）
+ const tools=document.querySelector('header .tools');
+ if(tools){
+  const drawer=document.createElement('div');
+  drawer.className='tools-drawer';
+  drawer.setAttribute('role','menu');
+  const label=document.createElement('div');
+  label.className='tools-drawer-label';
+  label.textContent='常用工具与存档';
+  drawer.append(label);
+  tools.append(drawer);
+  const moveIntoDrawer=()=>{
+   for(const id of ['saveGame','loadGame','variantToggle','offlineDownload','portable','checkUpdate','helpOpen']){
+    const btn=$(id);
+    if(btn&&btn.parentElement!==drawer)drawer.append(btn);
+   }
+   const cloudBtn=$('cloudOpen'),toggleBtn=$('toolsToggle');
+   if(cloudBtn&&cloudBtn.parentElement!==tools)tools.insertBefore(cloudBtn,toggleBtn||drawer);
+  };
+  moveIntoDrawer();
+  new MutationObserver(moveIntoDrawer).observe(tools,{childList:true});
+  new MutationObserver(moveIntoDrawer).observe(drawer,{childList:true});
+  drawer.addEventListener('click',e=>{if(e.target.closest('button'))closeTools();});
+  document.addEventListener('click',e=>{
+   const header=document.querySelector('header');
+   if(header?.classList.contains('menu-open')&&!e.target.closest('header .tools'))closeTools();
+  });
+ }
+ // 2. 为底部悬浮胶囊主导航自动注入极简线性 SVG 图标
+ const navIcons={
+  play:'<svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="3" width="7" height="7" rx="1.8"/><rect x="14" y="3" width="7" height="7" rx="1.8"/><rect x="3" y="14" width="7" height="7" rx="1.8"/><rect x="14" y="14" width="7" height="7" rx="1.8"/></svg>',
+  notesStudy:'<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>',
+  practice:'<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 18v-6a9 9 0 0 1 18 0v6"/><path d="M21 19a2 2 0 0 1-2 2h-1a2 2 0 0 1-2-2v-3a2 2 0 0 1 2-2h3zM3 19a2 2 0 0 0 2 2h1a2 2 0 0 0 2-2v-3a2 2 0 0 0-2-2H3z"/></svg>',
+  assessments:'<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>',
+  learningPlans:'<svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg>'
+ };
+ const navEl=document.querySelector('.nav');
+ const decorateNav=()=>{
+  if(!navEl)return;
+  navEl.querySelectorAll('button[data-tab]').forEach(btn=>{
+   if(btn.dataset.iconized)return;
+   const icon=navIcons[btn.dataset.tab];
+   if(!icon)return;
+   btn.dataset.iconized='1';
+   const label=btn.textContent.trim();
+   btn.innerHTML=icon+'<span>'+label+'</span>';
+  });
+ };
+ decorateNav();
+ if(navEl)new MutationObserver(decorateNav).observe(navEl,{childList:true});
+ // 3. 听力练习新增「答对自动下一题」快捷开关
+ const modes=document.querySelector('.practice-modes');
+ if(modes){
+  const autoKey='polestar-auto-next-v1';
+  let autoNext=false;
+  try{autoNext=localStorage.getItem(autoKey)==='1';}catch{}
+  const autoBtn=makeButton('自动下一题',()=>{
+   autoNext=!autoNext;
+   try{localStorage.setItem(autoKey,autoNext?'1':'0');}catch{}
+   autoBtn.setAttribute('aria-pressed',String(autoNext));
+   toast(autoNext?'已开启：答对后自动切下一题':'已关闭自动下一题');
+  },'practice-auto-btn');
+  autoBtn.setAttribute('aria-pressed',String(autoNext));
+  modes.append(autoBtn);
+  let autoTimer=null;
+  const resultEl=$('quizResult');
+  if(resultEl)new MutationObserver(()=>{
+   clearTimeout(autoTimer);
+   if(!autoNext||resultEl.hidden||document.body.dataset.activeTab!=='practice')return;
+   if(resultEl.dataset.result!=='wrong'&&practiceQuestion?.answered){
+    autoTimer=setTimeout(()=>{if(!resultEl.hidden&&document.body.dataset.activeTab==='practice')newPracticeQuestion();},950);
+   }
+  }).observe(resultEl,{attributes:true,attributeFilter:['hidden','data-result']});
+ }
+ // 4. 整理动作卡片支持手机端左右滑动切卡
+ const cardEl=document.querySelector('#play .card');
+ if(cardEl){
+  let sx=0,sy=0,trackingSwipe=false;
+  cardEl.addEventListener('touchstart',e=>{
+   if(e.touches.length!==1||e.target.closest('button,a,input,select'))return;
+   sx=e.touches[0].clientX;sy=e.touches[0].clientY;trackingSwipe=true;
+  },{passive:true});
+  cardEl.addEventListener('touchend',e=>{
+   if(!trackingSwipe)return;trackingSwipe=false;
+   const t=e.changedTouches[0];if(!t)return;
+   const dx=t.clientX-sx,dy=Math.abs(t.clientY-sy);
+   if(Math.abs(dx)<68||dy>Math.abs(dx)*.65)return;
+   const idx=CARDS.findIndex(a=>a.id===state.current);
+   if(dx<0&&idx>=0&&idx<CARDS.length-1)go(CARDS[idx+1].id);
+   else if(dx>0&&idx>0)go(CARDS[idx-1].id);
+  },{passive:true});
+ }
 })();
 $('saveGame').onclick=()=>{if(!diskAvailable())return;const cloud=window.polestarCloud?.active;$('saveTitle').textContent=cloud?'保存云端存档':'保存存档';$('saveHint').textContent=cloud?'每份存档单独保留，同账号的其他设备也可读取。':'每份存档单独保留，保存在已连接的本机存档文件夹。';$('saveLabel').value='存档 '+new Date().toLocaleString('zh-CN',{hour12:false});$('saveSummary').textContent=`当前已完成 ${CARDS.filter(a=>record(a.id).status==='done').length} / 149 · 第 ${state.current} 张`;$('saveError').textContent='';$('saveDialog').showModal();};
 $('saveClose').onclick=()=>$('saveDialog').close();$('loadClose').onclick=()=>$('loadDialog').close();
@@ -7764,7 +7908,14 @@ window.polestarAssessments={close(){if(dialog.open)dialog.close();if(photoDialog
 
 @media(max-width:900px){#notesStudy .notes-read-controls{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:6px}#notesStudy .notes-read-controls button{width:100%;min-width:0}}
 
-@media(max-width:900px) and (min-height:501px){#notesStudy{padding-bottom:240px}#notesStudy .notes-narration{bottom:calc(128px + env(safe-area-inset-bottom))}#notesStudy .notes-narration-error:not(:empty){bottom:225px}}
+@media(max-width:900px) and (min-height:501px){
+ #notesStudy{padding-bottom:calc(var(--app-nav-h,74px) + 170px)}
+ #notesStudy .notes-read-controls{bottom:calc(var(--app-nav-h,74px) + 10px + var(--safe-b,env(safe-area-inset-bottom,0px)));padding:6px;border-radius:14px;background:rgba(255,255,255,.92);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);z-index:52}
+ #notesStudy .notes-read-controls button{min-height:38px;padding:6px;font-size:12.5px}
+ #notesStudy .notes-narration{bottom:calc(var(--app-nav-h,74px) + 66px + var(--safe-b,env(safe-area-inset-bottom,0px)));padding:6px 10px;border-radius:14px;background:rgba(255,255,255,.92);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);z-index:52}
+ #notesStudy .notes-narration button{min-height:36px;padding:5px 9px;font-size:12.5px}
+ #notesStudy .notes-narration-error:not(:empty){bottom:calc(var(--app-nav-h,74px) + 132px + var(--safe-b,env(safe-area-inset-bottom,0px)))}
+}
 
 #notesImageDialog [hidden]{display:none!important}#notesImageStatus{flex:0 0 auto;display:flex;align-items:center;justify-content:center;gap:12px;padding:12px;font-size:14px;color:#777;background:#fffaf0}#notesImageRetry{min-height:44px}
 
