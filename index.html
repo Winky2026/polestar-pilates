@@ -856,7 +856,7 @@ body[data-active-tab="notesStudy"] .nav,body.assessment-detail-open .nav{display
  #matrixTable .matrix-entry{grid-template-columns:minmax(0,1fr) 40px;align-items:center}
  #matrixTable .matrix-tool.matrix-speak{min-height:40px!important;width:40px;border-radius:10px;margin:0}
 }
-</style><style>.category-suggestion{margin-top:12px;padding:10px 12px;background:#fff9e9;border-radius:8px;font-size:13px;line-height:1.65}.category-suggestion summary{cursor:pointer}.category-suggestion p{white-space:pre-wrap;color:#777;font-size:12px;margin:10px 0 0}</style><meta name="theme-color" content="#f6f5f0"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-status-bar-style" content="default"><link rel="manifest" href="./manifest.webmanifest"><link rel="icon" type="image/png" href="./icon-192.png"><link rel="apple-touch-icon" href="./icon-180.png"><meta name="polestar-build" content="24ecb9defdb6"></head><body class="web-guest"><div class="wrap">
+</style><style>.category-suggestion{margin-top:12px;padding:10px 12px;background:#fff9e9;border-radius:8px;font-size:13px;line-height:1.65}.category-suggestion summary{cursor:pointer}.category-suggestion p{white-space:pre-wrap;color:#777;font-size:12px;margin:10px 0 0}</style><meta name="theme-color" content="#f6f5f0"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-status-bar-style" content="default"><link rel="manifest" href="./manifest.webmanifest"><link rel="icon" type="image/png" href="./icon-192.png"><link rel="apple-touch-icon" href="./icon-180.png"><meta name="polestar-build" content="c8e435026c5b"></head><body class="web-guest"><div class="wrap">
 <header><div class="brand">普拉提动作库 <small>POLESTAR PILATES</small></div><div class="tools"><button type="button" id="variantToggle" class="variant-toggle" aria-pressed="true">显示变式</button><button id="soundToggle" class="sound-toggle" aria-label="静音" title="静音"></button><button id="saveGame" class="primary">存档</button><button id="loadGame">读档</button><button id="toolsToggle" aria-label="更多功能" aria-expanded="false">⋯</button><button id="portable" class="mobile-secondary">保存随身 HTML</button><button id="checkUpdate" class="mobile-secondary" hidden>检查更新</button><button id="helpOpen" class="mobile-secondary" aria-label="使用说明">?</button></div></header><div id="updateStatus" hidden role="status" aria-live="polite"><div class="inline"><strong id="updateMessage"></strong><span id="updateDetail"></span></div><progress id="updateProgress" max="100" aria-label="更新下载进度"></progress></div><p id="exportDestination" class="muted" style="font-size:11px;text-align:right;margin-top:6px" hidden></p>
 <div class="intro"><div><h1>动作练习</h1></div></div>
 <div id="folderBar" class="folder-bar" hidden><span id="folderHint">首次选择桌面的“普拉提动作库备份”文件夹，即可直接读写进度。</span><button id="chooseFolder">连接存档文件夹</button></div><div id="storageWarning" class="notice" hidden></div>
@@ -3432,6 +3432,12 @@ window.addEventListener('pagehide',()=>{if(!window.polestarCloud?.active&&diskEn
 .hm-col-label{display:inline-block;writing-mode:vertical-rl;transform:rotate(180deg);white-space:nowrap;font-size:11px;font-weight:600;color:#2c2540;line-height:1.1;letter-spacing:.01em}
 .hm-row-head{position:sticky;left:0;z-index:1;background:#fff;color:#1f1a2e;font-size:12px;font-weight:600;text-align:left;padding:6px 12px!important;border-right:1px solid #e6e3ee;white-space:nowrap;max-width:200px;overflow:hidden;text-overflow:ellipsis}
 .hm-table tbody tr:hover .hm-row-head{background:#faf8ff}
+.hm-table th.hm-row-head,.hm-table th.hm-col-head{padding:0!important}
+.hm-table .hm-row-button,.hm-table .hm-col-button{width:100%;margin:0!important;border:0!important;border-radius:0!important;background:transparent!important;box-shadow:none!important;color:inherit}
+.hm-table .hm-row-button{display:block;min-height:44px!important;padding:5px 12px!important;text-align:left;white-space:normal;overflow-wrap:anywhere;font-size:inherit;font-weight:inherit;line-height:1.25}
+.hm-table .hm-col-button{display:grid;place-items:center;min-height:132px;padding:6px 2px!important}
+.hm-table .hm-row-button:hover,.hm-table .hm-col-button:hover{background:#f3eefe!important;color:#4c1d95}
+.hm-table .hm-row-button:focus-visible,.hm-table .hm-col-button:focus-visible{outline:2px solid #7c3aed;outline-offset:-3px}
 .hm-cell-td{text-align:center;padding:2px!important}
 .hm-cell-hit{display:inline-flex!important;align-items:center;justify-content:center;width:34px;height:34px;min-width:34px!important;min-height:34px!important;padding:0!important;margin:0!important;border:0!important;border-radius:8px!important;background:transparent!important;box-shadow:none!important;cursor:pointer}
 .hm-cell-hit:hover{background:#f3effe!important}
@@ -3443,32 +3449,33 @@ window.addEventListener('pagehide',()=>{if(!window.polestarCloud?.active&&diskEn
 .hm-detail-dialog{width:min(520px,calc(100vw - 28px));max-height:88dvh;padding:0;border:1px solid rgba(91,33,182,.2);border-radius:22px;background:#fff;color:#1f1a2e;overflow:hidden;box-shadow:0 28px 70px -16px rgba(32,12,68,.32),0 10px 26px -8px rgba(32,12,68,.16)}
 .hm-detail-dialog[open]{display:flex;flex-direction:column}
 .hm-detail-dialog::before{content:"";display:block;height:4px;flex:none;background:linear-gradient(90deg,#4c1d95 0%,#7c3aed 55%,#a78bfa 100%)}
-.hm-dialog-top{display:flex;align-items:center;justify-content:space-between;gap:12px;margin:0;padding:15px 18px 13px;background:#faf8ff;border-bottom:1px solid #e9e2f8;flex:none}
-.hm-eyebrow{color:#6d28d9!important}
+.hm-dialog-top{display:flex;align-items:center;justify-content:space-between;gap:12px;margin:0;padding:15px 18px 13px;background:#faf8ff;border-bottom:1px solid #ece6f7;flex:none}
 .hm-close-btn{background:#f3eefe!important;border-color:#ddd4f7!important;color:#3b1f78!important;position:relative;z-index:1}
 .hm-close-btn:hover{background:#e7defc!important;color:#2e1065!important}
-.hm-detail-body{flex:1 1 auto;min-height:0;overflow:auto;overscroll-behavior:contain;-webkit-overflow-scrolling:touch;padding:16px 18px 18px;display:grid;gap:12px;align-content:start}
-.hm-pair-banner{padding:12px 14px;border-radius:14px;background:linear-gradient(135deg,#faf7ff 0%,#f3eefe 100%);border:1px solid #e2d8f8;display:grid;gap:10px}
-.hm-type-badge{display:inline-flex;align-items:center;gap:6px;width:fit-content;padding:4px 10px;border-radius:999px;font-size:12px;font-weight:700;letter-spacing:.01em}
+.hm-eyebrow{color:#6d28d9!important}
+.hm-detail-summary{font-size:12px;color:#6d5c94}
+.hm-detail-body{flex:1 1 auto;min-height:0;position:relative;overflow:auto;overscroll-behavior:contain;-webkit-overflow-scrolling:touch;padding:16px 18px 18px;display:grid;gap:18px;align-content:start}
+.hm-detail-group-heading{position:sticky;top:0;z-index:1;background:#fff;padding:4px 0}
+.hm-type-badge{display:inline-flex;align-items:center;gap:6px;width:fit-content;margin:0;padding:4px 10px;border-radius:999px;font-size:12px;font-weight:700;letter-spacing:.01em}
 .hm-type-badge::before{content:"";width:7px;height:7px;border-radius:999px;background:currentColor}
 .hm-type-badge.is-both{background:#4c1d95;color:#fff}
 .hm-type-badge.is-improve{background:#7c3aed;color:#fff}
 .hm-type-badge.is-require{background:#e9e1fe;color:#4c1d95}
-.hm-type-badge.is-none{background:#f1f0f4;color:#5f5a6d}
-.hm-pair-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
-.hm-pair-cell{background:#fff;border:1px solid #e7dff8;border-radius:10px;padding:8px 10px;min-width:0}
-.hm-pair-k{display:block;font-size:10.5px;font-weight:700;letter-spacing:.04em;text-transform:uppercase;color:#74698e;margin-bottom:3px}
-.hm-pair-v{display:block;font-size:13.5px;font-weight:650;color:#1f1a2e;line-height:1.35;overflow-wrap:anywhere}
-.hm-detail-list{margin:0;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:9px}
-.hm-detail-item{grid-column:1/-1;padding:10px 12px;border-radius:12px;background:#faf9fc;border:1px solid #eeeaf7}
-.hm-detail-item.is-compact{grid-column:auto}
-.hm-detail-item.is-quote{background:#f7f4fe;border:1px solid #e4dcf8;border-left:3px solid #7c3aed;border-radius:4px 12px 12px 4px}
-.hm-detail-item dt{font-size:11px;font-weight:700;letter-spacing:.02em;color:#6d5c94;margin:0 0 4px}
-.hm-detail-item dd{font-size:13.5px;line-height:1.62;color:#1f1a2e;margin:0;overflow-wrap:anywhere}
+.hm-group-list{display:grid;gap:8px;list-style:none;margin:4px 0 0;padding:0}
+.hm-relation-item{padding:8px 12px 12px;border:1px solid #e7dff8;border-radius:12px;background:#faf9fc}
+.hm-relation-item.is-highlighted{border-color:#7c3aed;background:#f3eefe}
+.hm-relation-head{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:0 8px;margin-bottom:3px}
+.hm-relation-head h4{margin:0;font-size:15px;line-height:1.35;overflow-wrap:anywhere}
+.hm-relation-head .hm-item-link{min-height:44px!important;padding:4px 8px!important;border:0!important;background:transparent!important;color:#5b21b6!important;box-shadow:none!important;font-size:12px;font-weight:650}
+.hm-relation-head .hm-item-link:hover{background:#e9e1fe!important}
+.hm-detail-list{margin:0;display:grid;gap:6px}
+.hm-detail-item{display:grid;grid-template-columns:7.4em minmax(0,1fr);align-items:baseline;gap:6px}
+.hm-detail-item.is-quote{padding:6px 8px;background:#f7f4fe;border-left:3px solid #7c3aed;border-radius:4px 8px 8px 4px}
+.hm-detail-item dt{font-size:11.5px;font-weight:700;color:#6d5c94;margin:0}
+.hm-detail-item dd{font-size:13.5px;line-height:1.57;color:#1f1a2e;margin:0;overflow-wrap:anywhere;white-space:pre-wrap}
 .hm-detail-actions{flex:none;display:flex;flex-wrap:wrap;gap:8px;padding:12px 18px max(14px,env(safe-area-inset-bottom));background:rgba(255,255,255,.95);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);border-top:1px solid #ece6f7}
 .hm-detail-actions:empty{display:none}
-.hm-detail-actions button{flex:1 1 130px;min-height:44px!important;border-radius:12px!important;font-size:13.5px!important;font-weight:650;border:1px solid #d7cff0;background:#faf8ff;color:#3b1f78}
-.hm-detail-actions button:hover{background:#efeafe;border-color:#a78bfa}
+.hm-detail-actions button{flex:1 1 130px;min-height:44px!important;border-radius:12px!important;font-size:13.5px!important;font-weight:650}
 .hm-detail-actions .hm-jump-primary{background:#5b21b6!important;border-color:#5b21b6!important;color:#fff!important;box-shadow:0 4px 12px rgba(91,33,182,.26)}
 .hm-detail-actions .hm-jump-primary:hover{background:#4c1d95!important}
 
@@ -3508,9 +3515,10 @@ window.addEventListener('pagehide',()=>{if(!window.polestarCloud?.active&&diskEn
  .hm-controls-close{min-height:32px!important;padding:4px 12px!important;border-radius:999px!important;border:1px solid #ddd4f7!important;background:#f5f2ff!important;color:#4c1d95!important;font-size:12px!important;font-weight:650}
  .hm-corner,.hm-row-head{min-width:128px;max-width:146px;padding:6px 8px!important;font-size:11.5px}
  .hm-col-head{height:118px;min-width:34px}
+ .hm-table .hm-row-button{padding-inline:8px!important}
+ .hm-table .hm-col-button{min-height:118px}
  .hm-cell-hit{width:34px;height:34px;min-width:34px!important;min-height:34px!important}
  .hm-cell{width:22px;height:22px;min-width:22px!important;min-height:22px!important}
- .hm-pair-grid,.hm-detail-list{grid-template-columns:1fr}
 }
 @keyframes polestarFilterDrop{from{opacity:0;transform:translateY(-6px) scale(.985)}to{opacity:1;transform:none}}
 </style><script id="assessmentData" type="application/json">{
@@ -10554,9 +10562,10 @@ const hmDialogTop=make('div',null,'dialog-top hm-dialog-top');
 const hmTitleGroup=make('div',null,'dialog-title-group');
 const hmEyebrow=make('span','关联矩阵 · 详情','dialog-eyebrow hm-eyebrow');
 const hmDialogTitle=make('strong','关联详情','dialog-heading');
+const hmDialogSummary=make('span',null,'hm-detail-summary');
 hmDialogTitle.id='assessmentHeatmapDialogTitle';
 hmDialog.setAttribute('aria-labelledby',hmDialogTitle.id);
-hmTitleGroup.append(hmEyebrow,hmDialogTitle);
+hmTitleGroup.append(hmEyebrow,hmDialogTitle,hmDialogSummary);
 const hmDialogClose=make('button','×','dialog-close-btn hm-close-btn');
 hmDialogClose.type='button';hmDialogClose.setAttribute('aria-label','关闭关联详情');
 hmDialogClose.onclick=event=>{event.stopPropagation();hmDialog.close();};
@@ -10572,57 +10581,99 @@ const hmTypeLabels={both:'要求分数且提升分数',improve:'提升分数',re
 const hmFilters={apparatus:'',level:'',category:'',assessment:'',relationType:'all'};
 let hmMounted=false;
 
-function openHeatmapDetail(row,assessmentName,cell){
- hmDialogBody.replaceChildren();
- hmDialogActions.replaceChildren();
- hmDialogTitle.textContent=row.exercise+' × '+assessmentName;
- // 顶部配对摘要条 + 紫系关联类型徽章
- const pairCard=make('div',null,'hm-pair-banner');
- const pairGrid=make('div',null,'hm-pair-grid');
- const exBox=make('div',null,'hm-pair-cell');exBox.append(make('span','Exercise','hm-pair-k'),make('strong',row.exercise,'hm-pair-v'));
- const asBox=make('div',null,'hm-pair-cell');asBox.append(make('span','Assessment','hm-pair-k'),make('strong',assessmentName,'hm-pair-v'));
- pairGrid.append(exBox,asBox);
- const badge=make('span',hmTypeLabels[cell.type]||'','hm-type-badge is-'+(cell.type||'none'));
- pairCard.append(badge,pairGrid);
- hmDialogBody.append(pairCard);
-
+function hmDetailFields(cell){
  const dl=make('dl',null,'hm-detail-list');
  const fields=[
-  ['关联原因',cell.reason||'',''],
-  cell.minScore?['最低分数要求',cell.minScore,'is-compact']:null,
-  cell.variant?['适用变体',cell.variant,'is-compact']:null,
-  cell.modification?['修正方式',cell.modification,'']:null,
-  cell.quote?['老师原话',cell.quote,'is-quote']:null,
-  ['课程日期及时间戳',cell.courseDate||row.courseDate||'','']
- ].filter(Boolean);
- for(const [k,v,cls] of fields){
-  if(!v)continue;
-  const item=make('div',null,'hm-detail-item'+(cls?' '+cls:''));
-  item.append(make('dt',k),make('dd',v));
+  ['关联原因',cell.reason],
+  ['最低分数要求',cell.minScore],
+  ['适用变体',cell.variant],
+  ['修正方式',cell.modification],
+  ['老师原话',cell.quote,'is-quote'],
+  ['课程日期及时间戳',cell.courseDate]
+ ];
+ for(const [label,value,cls] of fields){
+  if(!value)continue;
+  const item=make('div',null,cls?'hm-detail-item '+cls:'hm-detail-item');
+  item.append(make('dt',label),make('dd',value));
   dl.append(item);
  }
- hmDialogBody.append(dl);
- if(row.actionId&&window.polestarNotes){
-  const goAction=make('button','查看动作详情 →','hm-jump-primary');
-  goAction.type='button';
-  goAction.onclick=async()=>{
-   goAction.disabled=true;
-   window.polestarNav?.push({from:'assessmentTab',label:'关联矩阵',tabIndex:2,scrollY:window.scrollY});
-   try{await window.polestarNotes.openAction(String(row.actionId));window.scrollTo({top:0,behavior:'instant'});hmDialog.close();}
-   catch(err){if(window.polestarNav?.peek()?.tabIndex===2)window.polestarNav.clear();toast(err?.message||'暂无法打开动作详情');}
-   finally{goAction.disabled=false;}
-  };
-  hmDialogActions.append(goAction);
- }
+ return dl;
+}
+
+function hmActionButton(row){
+ if(!row.actionId||!window.polestarNotes)return null;
+ const goAction=make('button','查看动作详情');
+ goAction.type='button';
+ goAction.onclick=async()=>{
+  goAction.disabled=true;
+  window.polestarNav?.push({from:'assessmentTab',label:'关联矩阵',tabIndex:2,scrollY:window.scrollY});
+  try{await window.polestarNotes.openAction(String(row.actionId));window.scrollTo({top:0,behavior:'instant'});hmDialog.close();}
+  catch(err){if(window.polestarNav?.peek()?.tabIndex===2)window.polestarNav.clear();toast(err?.message||'暂无法打开动作详情');}
+  finally{goAction.disabled=false;}
+ };
+ return goAction;
+}
+
+function hmAssessmentButton(assessmentName){
  const targetAssessment=source.entries.find(e=>e.name.toLowerCase()===String(assessmentName||'').toLowerCase());
- if(targetAssessment){
-  const goAssess=make('button','查看评估详情');
-  goAssess.type='button';
-  goAssess.onclick=()=>{hmDialog.close();openEntry(targetAssessment.id,{sourceTab:2,label:'关联矩阵'});};
-  hmDialogActions.append(goAssess);
+ if(!targetAssessment)return null;
+ const goAssess=make('button','查看评估详情');
+ goAssess.type='button';
+ goAssess.onclick=()=>{hmDialog.close();openEntry(targetAssessment.id,{sourceTab:2,label:'关联矩阵'});};
+ return goAssess;
+}
+
+function openHeatmapDetail({title,relations,assessmentTopic=false,highlight='',topicButton}){
+ hmDialogTitle.textContent=title;
+ hmDialogSummary.textContent=assessmentTopic?`关联 ${relations.length} 个练习动作`:`关联 ${relations.length} 项评估`;
+ hmDialogBody.replaceChildren();
+ hmDialogActions.replaceChildren();
+ if(topicButton){
+  topicButton.classList.add('hm-jump-primary');
+  hmDialogActions.append(topicButton);
  }
+ let highlightedItem=null;
+ for(const [type,label] of Object.entries(hmTypeLabels)){
+  const group=relations.filter(({cell})=>cell.type===type);
+  if(!group.length)continue;
+  const section=make('section',null,'hm-detail-group');
+  const heading=make('div',null,'hm-detail-group-heading');
+  heading.append(make('h3',label,'hm-type-badge is-'+type));
+  section.append(heading);
+  const list=make('ul',null,'hm-group-list');
+  for(const {name,cell,row} of group){
+   const item=make('li',null,'hm-relation-item');
+   const head=make('div',null,'hm-relation-head');
+   head.append(make('h4',name));
+   const button=assessmentTopic?hmActionButton(row):hmAssessmentButton(name);
+   if(button){
+    button.classList.add('hm-item-link');
+    head.append(button);
+   }
+   if(name===highlight){
+    item.classList.add('is-highlighted');
+    highlightedItem=item;
+   }
+   item.append(head,hmDetailFields(cell));
+   list.append(item);
+  }
+  section.append(list);
+  hmDialogBody.append(section);
+ }
+ if(!relations.length)hmDialogBody.append(make('p','矩阵暂无相关练习动作。','hm-empty'));
  if(!hmDialog.open)hmDialog.showModal();
  hmDialogBody.scrollTop=0;hmDialog.scrollTop=0;
+ if(highlightedItem){
+  const item=highlightedItem.getBoundingClientRect();
+  const body=hmDialogBody.getBoundingClientRect();
+  const heading=highlightedItem.closest('.hm-detail-group').firstElementChild;
+  if(item.bottom>body.bottom)hmDialogBody.scrollTop=highlightedItem.offsetTop-heading.offsetHeight-8;
+ }
+}
+
+function openHeatmapRow(row,highlight){
+ const relations=Object.entries(row.cells||{}).map(([name,cell])=>({name,cell}));
+ openHeatmapDetail({title:row.exercise,relations,highlight,topicButton:hmActionButton(row)});
 }
 
 function hmCellMatchesType(cell,filterType){
@@ -10705,9 +10756,9 @@ function renderHeatmap(){
   bar.append(filterToggle,statusEl,resetTop);
 
   const legend=make('div',null,'hm-legend');
-  for(const [cls,text] of [['is-both','要求分数且提升分数'],['is-improve','提升分数'],['is-require','要求分数'],['is-none','无关联']]){
+  for(const [type,text] of [...Object.entries(hmTypeLabels),['none','无关联']]){
    const item=make('span',null,'hm-legend-item');
-   const swatch=make('span',null,'hm-swatch '+cls);
+   const swatch=make('span',null,'hm-swatch is-'+type);
    swatch.setAttribute('aria-hidden','true');
    item.append(swatch,document.createTextNode(text));
    legend.append(item);
@@ -10777,16 +10828,28 @@ function renderHeatmapTable(){
  for(const aName of cols){
   const th=make('th',null,'hm-col-head');
   th.scope='col';
-  const span=make('span',aName,'hm-col-label');
-  th.append(span);
+  const button=make('button',null,'hm-col-button');
+  button.type='button';
+  button.setAttribute('aria-haspopup','dialog');
+  button.append(make('span',aName,'hm-col-label'));
+  button.onclick=()=>{
+   const relations=enrichedRows.filter(row=>row.cells?.[aName]).map(row=>({name:row.exercise,cell:row.cells[aName],row}));
+   openHeatmapDetail({title:aName,relations,assessmentTopic:true,topicButton:hmAssessmentButton(aName)});
+  };
+  th.append(button);
   thead.append(th);
  }
 
  const tbody=table.createTBody();
  for(const row of filteredRows){
   const tr=tbody.insertRow();
-  const th=make('th',row.exercise,'hm-row-head');
+  const th=make('th',null,'hm-row-head');
   th.scope='row';
+  const rowButton=make('button',row.exercise,'hm-row-button');
+  rowButton.type='button';
+  rowButton.setAttribute('aria-haspopup','dialog');
+  rowButton.onclick=()=>openHeatmapRow(row);
+  th.append(rowButton);
   tr.append(th);
   for(const aName of cols){
    const td=tr.insertCell();
@@ -10796,11 +10859,12 @@ function renderHeatmapTable(){
    if(visibleCell){
     const btn=make('button',null,'hm-cell-hit');
     btn.type='button';
+    btn.setAttribute('aria-haspopup','dialog');
     btn.setAttribute('aria-label',`${row.exercise} - ${aName}: ${hmTypeLabels[visibleCell.type]}`);
     const dot=make('span',null,'hm-cell is-'+visibleCell.type);
     dot.setAttribute('aria-hidden','true');
     btn.append(dot);
-    btn.onclick=()=>openHeatmapDetail(row,aName,visibleCell);
+    btn.onclick=()=>openHeatmapRow(row,aName);
     td.append(btn);
    }else{
     const blank=make('span',null,'hm-cell is-none');
