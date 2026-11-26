@@ -375,6 +375,51 @@ html,body{overscroll-behavior-y:none}
 .relation-combo-opt-cn{font-size:11.5px;color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .relation-combo-empty{padding:14px 10px;text-align:center;color:var(--muted);font-size:13px}
 #relationFocus{display:none!important}
+/* === 北极星普拉提｜动作身份证卡片 === */
+.passport-card{background:var(--surface);border:1px solid var(--line-strong);border-radius:20px;padding:18px;margin:0 0 14px;box-shadow:var(--shadow-sm)}
+.passport-head{padding-bottom:14px;border-bottom:1px solid var(--line);margin-bottom:14px}
+.passport-title{margin:0 0 12px!important;font-size:17px!important;font-weight:700!important;letter-spacing:.01em;color:var(--ink)}
+.passport-meta-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,148px),1fr));gap:8px;margin:0}
+.passport-meta-item{background:var(--surface-soft);border:1px solid var(--line);border-radius:11px;padding:7px 10px}
+.passport-meta-item dt{font-size:11px;color:var(--muted);margin:0 0 2px}
+.passport-meta-item dd{font-size:13px;font-weight:600;color:var(--ink);margin:0;overflow-wrap:anywhere;line-height:1.38}
+.passport-section{padding:12px 0;border-bottom:1px solid var(--line)}
+.passport-section:last-child{padding-bottom:0;border-bottom:0}
+.passport-sec-title{margin:0 0 8px!important;font-size:14.5px!important;font-weight:700!important;color:var(--ink);display:flex;align-items:center;gap:4px}
+.passport-sec-num{font-variant-numeric:tabular-nums;color:var(--sun-dark)}
+.passport-section p{margin:0 0 6px;font-size:14px;line-height:1.72;color:var(--ink);overflow-wrap:anywhere}
+.passport-section p:last-child{margin-bottom:0}
+.passport-subblock{margin-bottom:8px}
+.passport-subblock:last-child{margin-bottom:0}
+.passport-subblock strong{display:block;font-size:13px;color:var(--ink);margin-bottom:3px}
+.passport-list{margin:0;padding-left:18px;display:grid;gap:6px;font-size:14px;line-height:1.68;color:var(--ink)}
+.passport-evidence-tag{display:inline-block;padding:0 5px;margin-right:4px;border-radius:5px;font-size:11.5px;font-weight:600;vertical-align:1px}
+.passport-evidence-tag[data-kind="confirmed"]{background:#e8f4ed;color:#236342}
+.passport-evidence-tag[data-kind="derived"]{background:#eef1f8;color:#344e86}
+.passport-evidence-tag[data-kind="pending"]{background:#f4f3ef;color:#6c6a64}
+.passport-table{width:100%;min-width:0!important;border-collapse:collapse;font-size:13px;line-height:1.55}
+.passport-table th,.passport-table td{text-align:left;padding:8px 9px;border-bottom:1px solid var(--line);vertical-align:top;overflow-wrap:anywhere}
+.passport-table thead th{background:var(--surface-soft);color:var(--muted);font-weight:600;font-size:12px}
+.passport-flow{display:grid;gap:6px;margin-bottom:8px}
+.passport-flow-node{display:flex;align-items:center;justify-content:space-between;gap:8px;width:100%;padding:9px 12px;border-radius:12px;background:var(--surface-soft);border:1px solid var(--line);text-align:left}
+.passport-flow-node.is-current{background:var(--sun-light);border-color:var(--sun)}
+.passport-flow-node.is-link:hover{border-color:var(--sun);background:var(--sun-light)}
+.passport-flow-node strong{font-size:13.5px;color:var(--ink);overflow-wrap:anywhere}
+.passport-flow-level{font-size:11.5px;color:var(--muted);white-space:nowrap}
+.passport-flow-arrow{display:flex;align-items:center;gap:8px;padding:2px 10px;font-size:12.5px;color:var(--muted)}
+.passport-arrow-glyph{font-weight:700;color:var(--sun-dark);font-size:14px}
+.passport-quote{margin:0 0 8px;padding:10px 12px;border-left:3px solid var(--sun);background:var(--surface-soft);border-radius:0 10px 10px 0}
+.passport-quote footer{margin-top:4px;font-size:12px;color:var(--muted)}
+.passport-quote-status,.passport-note{font-size:13px!important;color:var(--muted)!important}
+@media(max-width:640px){
+ .passport-card{padding:14px}
+ .passport-table thead{display:none}
+ .passport-table,.passport-table tbody,.passport-table tr,.passport-table td{display:block;width:100%}
+ .passport-table tr{background:var(--surface-soft);border:1px solid var(--line);border-radius:12px;padding:9px 11px;margin-bottom:8px}
+ .passport-table tr:last-child{margin-bottom:0}
+ .passport-table td{border:0;padding:3px 0}
+ .passport-table td::before{content:attr(data-label) "：";font-weight:600;color:var(--muted);font-size:12px}
+}
 .library-browser{display:grid;grid-template-columns:clamp(74px,16vw,108px) minmax(0,1fr);gap:10px;align-items:start;margin-top:4px}
 #libraryCategories{display:grid;gap:3px;position:sticky;top:10px;max-height:calc(100dvh - var(--app-nav-h) - 110px);overflow:auto;scrollbar-width:none;background:rgba(31,41,38,.045);border-radius:14px;padding:4px}
 #libraryCategories::-webkit-scrollbar{display:none}
@@ -554,7 +599,7 @@ body[data-active-tab="notesStudy"] .nav,body.assessment-detail-open .nav{display
  #library .library-row-cn{font-size:13px}
  #library .library-row-arrow{display:none}
 }
-</style><style>.category-suggestion{margin-top:12px;padding:10px 12px;background:#fff9e9;border-radius:8px;font-size:13px;line-height:1.65}.category-suggestion summary{cursor:pointer}.category-suggestion p{white-space:pre-wrap;color:#777;font-size:12px;margin:10px 0 0}</style><meta name="theme-color" content="#f6f5f0"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-status-bar-style" content="default"><link rel="manifest" href="./manifest.webmanifest"><link rel="icon" type="image/png" href="./icon-192.png"><link rel="apple-touch-icon" href="./icon-180.png"><meta name="polestar-build" content="d430cd70ab71"></head><body class="web-guest"><div class="wrap">
+</style><style>.category-suggestion{margin-top:12px;padding:10px 12px;background:#fff9e9;border-radius:8px;font-size:13px;line-height:1.65}.category-suggestion summary{cursor:pointer}.category-suggestion p{white-space:pre-wrap;color:#777;font-size:12px;margin:10px 0 0}</style><meta name="theme-color" content="#f6f5f0"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-status-bar-style" content="default"><link rel="manifest" href="./manifest.webmanifest"><link rel="icon" type="image/png" href="./icon-192.png"><link rel="apple-touch-icon" href="./icon-180.png"><meta name="polestar-build" content="813eec072c5e"></head><body class="web-guest"><div class="wrap">
 <header><div class="brand">普拉提动作库 <small>POLESTAR PILATES</small></div><div class="tools"><button type="button" id="variantToggle" class="variant-toggle" aria-pressed="true">显示变式</button><button id="soundToggle" class="sound-toggle" aria-label="静音" title="静音"></button><button id="saveGame" class="primary">存档</button><button id="loadGame">读档</button><button id="toolsToggle" aria-label="更多功能" aria-expanded="false">⋯</button><button id="portable" class="mobile-secondary">保存随身 HTML</button><button id="checkUpdate" class="mobile-secondary" hidden>检查更新</button><button id="helpOpen" class="mobile-secondary" aria-label="使用说明">?</button></div></header><div id="updateStatus" hidden role="status" aria-live="polite"><div class="inline"><strong id="updateMessage"></strong><span id="updateDetail"></span></div><progress id="updateProgress" max="100" aria-label="更新下载进度"></progress></div><p id="exportDestination" class="muted" style="font-size:11px;text-align:right;margin-top:6px" hidden></p>
 <div class="intro"><div><h1>动作练习</h1></div></div>
 <div id="folderBar" class="folder-bar" hidden><span id="folderHint">首次选择桌面的“普拉提动作库备份”文件夹，即可直接读写进度。</span><button id="chooseFolder">连接存档文件夹</button></div><div id="storageWarning" class="notice" hidden></div>
@@ -890,34 +935,13 @@ function toast(text){clearTimeout(toastTimer);$('toast').textContent=text;$('toa
 function makeButton(text,click,cls=''){const b=document.createElement('button');b.type='button';b.textContent=text;b.className=cls;b.addEventListener('click',click);return b;}
 function refreshProgress(){const n=CARDS.filter(a=>record(a.id).status==='done').length;$('doneCount').textContent=n;$('progressTotal').textContent=CARDS.length;$('overallProgress').setAttribute('aria-valuemax',CARDS.length);$('percent').textContent=Math.round(n/CARDS.length*100)+'%';$('progressFill').style.width=n/CARDS.length*100+'%';$('overallProgress').setAttribute('aria-valuenow',n);$('remainingCount').textContent=`未完成 ${CARDS.length-n} 张`;$('laterCount').textContent=`稍后再想 ${CARDS.filter(a=>record(a.id).status==='later').length} 张`;renderTracking();}
 function renderStatus(){const r=record(state.current);$('cardStatus').textContent=r.status==='done'?'✓ 已整理':r.status==='later'?'稍后再想':'待整理';}
-const classroomClassificationReferences = {"43": "SEATED · 坐姿；一般放在课程中段，难度随对象调整。", "45": "SLEI · 仰卧下肢；以骨盆稳定和髋分离为重点。", "83": "SLEI · 仰卧下肢；可按能力放在初级或中级。", "112": "SEATED · 坐姿；以坐姿中立和下肢排列为重点。", "115": "STANDING · 站姿；站立腿承重、踏板腿活动。", "118": "特殊拉伸类；体位是站姿，日常可用于课程中段，也可按需要收尾。", "137": "特殊拉伸类；体位是站姿，日常按需安排，通常偏前段。", "55": "STANDING · 初级站姿；方案可注明 Basic，保留扶杆，不做图五脱手摆臂。", "49": "STANDING · 站姿，也兼具拉伸属性；可作初级站姿或收尾动作。", "47": "SUEI · 初级仰卧上肢。", "48": "Hundred：SUEI · 初级仰卧上肢，也可用于中高级。Coordination：SUEI · 高级仰卧上肢。", "144": "伸展类；非常基础的伸展练习。", "145": "伸展类；通常用于初级伸展。动作整合原则与 FBI 分类分别判断。", "134": "站姿或伸展类。以伸展为重点，可放在课程最后；本次没有指定固定等级。", "135": "STANDING · 以站姿为主。动作同时有大幅伸展与屈曲。", "44": "Bridging (Reformer)：初级｜SLEI 仰卧下肢。", "136": "Bridging (LB)：中级｜伸展为主。下肢力量、排列、柔韧性特别差时，也可能作为中级FBI；通常归伸展。教材P122。", "68": "Short Box Series：中级｜SEATED 坐姿。本部分不含Climb a Tree；包含爬树时整个系列归FBI。Round Back、Flat Back、Rotation、Side Bend及LB Fold Up等。；Climb a Tree：中高级｜FBI 全身整合，偏中级。考试通常单独使用；Short Box Series含爬树时整个系列归FBI。", "142": "Short Box Series：中级｜SEATED 坐姿。本部分不含Climb a Tree；包含爬树时整个系列归FBI。Round Back、Flat Back、Rotation、Side Bend及LB Fold Up等。；Climb a Tree：中高级｜FBI 全身整合，偏中级。考试通常单独使用；Short Box Series含爬树时整个系列归FBI。"};
-function renderSupplementaryReferences(host,references=[],actionId){
- host.replaceChildren();host.className='classification-references';
- const values=[];for(const ref of references){const text=ref.category+' · '+(CATS.find(c=>c[0]===ref.category)?.[1]||ref.category)+' · '+ref.level;const item=text+'（'+ref.term+'）';if(!values.includes(item))values.push(item);}
- if(values.length){const row=document.createElement('p');row.className='classification-reference-line';row.textContent='参考2：'+values.join('；');host.append(row);}
- const classroom=classroomClassificationReferences[String(actionId)];
- if(classroom){
-  const row=document.createElement('p');
-  row.className='classification-reference-line';
-  row.textContent='课堂参考：'+classroom;
-  host.append(row);
- }
-
-}
+function renderSupplementaryReferences(host){if(host)host.replaceChildren();}
 window.PolestarReferences={render:renderSupplementaryReferences};
 
 function renderChoices(){
  const r=record(state.current),action=CARDS.find(a=>a.id===state.current);
- $('categorySuggestionTitle').className='classification-reference-line';
- $('categorySuggestionTitle').textContent='参考1：'+(action.suggestedCategories?.length?action.suggestedCategories.map(c=>c+' · '+(CATS.find(x=>x[0]===c)?.[1]||c)).join(' / '):'待核对')+' · '+(action.suggestedLevel||'待核对')+(action.levelSourceLabel?'（'+action.levelSourceLabel+'）':'');
- renderSupplementaryReferences($('categorySupplementary'),action.supplementaryReferences||[],action.id);
- const revealSuggestions=studyCore.classifications(r).some(p=>p.category&&p.level);
- $('categorySuggestion').hidden=!revealSuggestions;
- $('levelSuggestion').hidden=true;
- $('categorySuggestion').open=false;
- $('levelSuggestionTitle').textContent='建议等级：'+(action.suggestedLevel||'待核对');
- $('levelSuggestionSource').textContent=action.levelSourceLabel?'书本等级：'+action.levelSourceLabel:'';
- $('levelSuggestion').open=false;
+ if($('categorySuggestion'))$('categorySuggestion').hidden=true;
+ if($('levelSuggestion'))$('levelSuggestion').hidden=true;
  $('apparatusValue').textContent=(APPS.find(a=>a[0]===r.apparatus)?.[1]||'')+' · '+r.apparatus;
  const pairs=studyCore.classifications(r),rows=pairs.length?pairs:[{category:'',level:''}];$('classificationPairs').replaceChildren();
  rows.forEach((pair,index)=>{
@@ -2795,6 +2819,48 @@ window.addEventListener('pagehide',()=>{if(!window.polestarCloud?.active&&diskEn
  .assessment-purpose-group tbody tr{display:block;padding:10px 12px;margin-bottom:8px;border:1px solid var(--line,rgba(31,41,38,.09));border-radius:14px;background:var(--surface,#fff)}
  .assessment-purpose-group td{display:block;width:auto!important;border:0;padding:3px 0}
  .assessment-purpose-group td:first-child{font-weight:600;color:var(--ink,#1f2926);margin-bottom:4px}
+}
+
+/* === 评估关联矩阵（纯紫色系、极简高密度、无 Icon、无黄色） === */
+.assessment-heatmap-panel{display:grid;gap:12px}
+.hm-controls{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,142px),1fr));gap:8px;padding:12px;border-radius:14px;background:#fff;border:1px solid #e6e3ee}
+.hm-filter-field{display:grid;gap:4px;font-size:11.5px;color:#5f5a6d;font-weight:600}
+.hm-filter-field select{width:100%;min-height:36px!important;height:36px;padding:5px 8px!important;border-radius:8px;border:1px solid #dcd7e8;background:#faf9fc;color:#231d33;font-size:13px!important}
+.hm-filter-field select:focus{outline:2px solid #7c3aed;outline-offset:1px;border-color:#7c3aed}
+.hm-legend{display:flex;flex-wrap:wrap;align-items:center;gap:10px 16px;font-size:12px;color:#4f4960;padding:2px 2px 0}
+.hm-legend-item{display:inline-flex;align-items:center;gap:6px}
+.hm-swatch{display:inline-block;width:14px;height:14px;border-radius:4px;flex:none}
+.hm-swatch.is-both,.hm-cell.is-both{background:#4c1d95}
+.hm-swatch.is-improve,.hm-cell.is-improve{background:#8b5cf6}
+.hm-swatch.is-require,.hm-cell.is-require{background:#ddd6fe}
+.hm-swatch.is-none,.hm-cell.is-none{background:#f1f0f4}
+.hm-table-wrap{overflow:auto;max-height:70dvh;border:1px solid #e6e3ee;border-radius:14px;background:#fff;-webkit-overflow-scrolling:touch}
+.hm-table{border-collapse:separate;border-spacing:0;width:max-content;min-width:100%;background:#fff}
+.hm-table th,.hm-table td{padding:4px 5px;border-bottom:1px solid #f1eff6;vertical-align:middle}
+.hm-corner{position:sticky;left:0;top:0;z-index:4;background:#faf9fc;color:#5f5a6d;font-size:11.5px;font-weight:600;text-align:left;padding:10px 12px!important;border-right:1px solid #e6e3ee;min-width:152px}
+.hm-col-head{position:sticky;top:0;z-index:2;background:#faf9fc;padding:8px 3px 6px!important;height:132px;vertical-align:bottom;text-align:center;min-width:34px}
+.hm-col-label{display:inline-block;writing-mode:vertical-rl;transform:rotate(180deg);white-space:nowrap;font-size:11px;font-weight:600;color:#2c2540;line-height:1.1;letter-spacing:.01em}
+.hm-row-head{position:sticky;left:0;z-index:1;background:#fff;color:#1f1a2e;font-size:12px;font-weight:600;text-align:left;padding:6px 12px!important;border-right:1px solid #e6e3ee;white-space:nowrap;max-width:200px;overflow:hidden;text-overflow:ellipsis}
+.hm-table tbody tr:hover .hm-row-head{background:#faf8ff}
+.hm-cell-td{text-align:center;padding:4px 5px!important}
+.hm-cell{display:block;width:24px;height:24px;min-width:24px!important;min-height:24px!important;padding:0!important;margin:auto;border:0!important;border-radius:5px!important;box-shadow:none!important}
+button.hm-cell{cursor:pointer;transition:transform .12s ease,opacity .12s ease}
+button.hm-cell:hover{transform:scale(1.12)}
+button.hm-cell:focus-visible{outline:2px solid #4c1d95;outline-offset:2px}
+.hm-empty{padding:32px 16px;text-align:center;color:#5f5a6d;font-size:13.5px;display:grid;gap:10px;justify-items:center}
+.hm-reset-btn{background:#5b21b6!important;color:#fff!important;border:0!important;border-radius:999px!important;padding:7px 16px!important;font-size:13px!important;min-height:36px!important}
+.hm-detail-dialog{width:min(460px,calc(100vw - 24px));border:1px solid #e2ddf0;border-radius:18px;padding:18px;background:#fff;color:#1f1a2e}
+.hm-detail-dialog .dialog-top{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px;padding-bottom:10px;border-bottom:1px solid #eeeaf7}
+.hm-detail-dialog .dialog-top button{border:1px solid #dcd7e8;background:#faf9fc;color:#2c2540;border-radius:999px;padding:5px 12px;font-size:12.5px}
+.hm-detail-list{margin:0;display:grid;gap:9px}
+.hm-detail-item{padding:8px 10px;border-radius:10px;background:#faf9fc;border:1px solid #eeeaf7}
+.hm-detail-item dt{font-size:11px;font-weight:600;color:#6b647d;margin:0 0 3px}
+.hm-detail-item dd{font-size:13.5px;line-height:1.55;color:#1f1a2e;margin:0;overflow-wrap:anywhere}
+@media(max-width:700px){
+ .hm-controls{grid-template-columns:1fr 1fr;gap:6px;padding:10px}
+ .hm-corner,.hm-row-head{min-width:128px;max-width:146px;padding:6px 8px!important;font-size:11.5px}
+ .hm-col-head{height:118px;min-width:30px}
+ .hm-cell{width:22px;height:22px;min-width:22px!important;min-height:22px!important}
 }
 </style><script id="assessmentData" type="application/json">{
   "source": "初级、中级、高级扫描笔记：相关联评估动作栏",
@@ -8539,6 +8605,819 @@ window.addEventListener('pagehide',()=>{if(!window.polestarCloud?.active&&diskEn
         "how": "俯卧抓脚，保持骨盆组织并尝试抬大腿。"
       }
     ]
+  },
+  "heatmap": {
+    "version": 1,
+    "policy": "严格依据课堂老师结论建立关联：不补充未提及评估、不收录否定关联、不设待确认状态、不划分主次。",
+    "assessments": [
+      "Half Squat",
+      "Full Squat",
+      "Heel Raise",
+      "Goal Post",
+      "Long Sit",
+      "Seated Hip Abduction",
+      "Z-Sitting",
+      "Roll Up",
+      "Hundred",
+      "Side Lift",
+      "Push Up",
+      "Superman",
+      "Prone Shoulder Flexion",
+      "Prone Press Up",
+      "Prone Knee Bend"
+    ],
+    "rows": [
+      {
+        "actionId": 43,
+        "exercise": "Seated Footwork",
+        "courseDate": "历史课堂整理（Foundation P50）",
+        "cells": {
+          "Half Squat": {
+            "type": "improve",
+            "reason": "提升下肢排列与髋膝伸展控制",
+            "minScore": "",
+            "variant": "",
+            "modification": "",
+            "quote": "课堂整理记录：可帮助提升 Half Squat、Full Squat 和 Heel Raise，无特定评估分数门槛。",
+            "courseDate": "Foundation P50（时间戳未核对）"
+          },
+          "Full Squat": {
+            "type": "improve",
+            "reason": "提升下肢肌力与下肢排列",
+            "minScore": "",
+            "variant": "",
+            "modification": "",
+            "quote": "课堂整理记录：可帮助提升 Half Squat、Full Squat 和 Heel Raise。",
+            "courseDate": "Foundation P50（时间戳未核对）"
+          },
+          "Heel Raise": {
+            "type": "improve",
+            "reason": "前脚掌持续贴面时训练足踝控制与跖屈",
+            "minScore": "",
+            "variant": "仅前脚掌持续贴面版本（仅放脚跟版本无法提升）",
+            "modification": "",
+            "quote": "课堂整理记录：Heel Raise 的关联以前脚掌持续贴面为条件，仅放脚跟的版本无法提升这一项。",
+            "courseDate": "Foundation P50（时间戳未核对）"
+          }
+        }
+      },
+      {
+        "actionId": 44,
+        "exercise": "Bridging (Reformer)",
+        "courseDate": "2026-11-24",
+        "cells": {
+          "Full Squat": {
+            "type": "improve",
+            "reason": "双脚承重时练下肢排列和髋伸力量",
+            "minScore": "",
+            "variant": "",
+            "modification": "",
+            "quote": "课堂整理记录：提升 Full Squat、Prone Knee Bend、Roll Up。",
+            "courseDate": "2026-11-24（时间戳未核对）"
+          },
+          "Roll Up": {
+            "type": "improve",
+            "reason": "共享脊柱屈曲分节控制",
+            "minScore": "",
+            "variant": "",
+            "modification": "",
+            "quote": "课堂整理记录：提升 Full Squat、Prone Knee Bend、Roll Up。",
+            "courseDate": "2026-11-24（时间戳未核对）"
+          },
+          "Prone Knee Bend": {
+            "type": "improve",
+            "reason": "关注髋伸时的髋前侧长度",
+            "minScore": "",
+            "variant": "",
+            "modification": "",
+            "quote": "课堂整理记录：提升 Full Squat、Prone Knee Bend、Roll Up。",
+            "courseDate": "2026-11-24（时间戳未核对）"
+          },
+          "Heel Raise": {
+            "type": "improve",
+            "reason": "提踵版本涉及主动跖屈和足踝稳定",
+            "minScore": "",
+            "variant": "仅提踵版本",
+            "modification": "",
+            "quote": "课堂整理记录：Heel Raise 仅提踵版本关联。",
+            "courseDate": "2026-11-24（时间戳未核对）"
+          }
+        }
+      },
+      {
+        "actionId": 45,
+        "exercise": "Feet in Straps",
+        "courseDate": "历史课堂整理（P52）",
+        "cells": {
+          "Half Squat": {
+            "type": "improve",
+            "reason": "脊柱中立位下练髋活动与髋分离",
+            "minScore": "",
+            "variant": "",
+            "modification": "",
+            "quote": "课堂整理记录：可帮助提升 Half Squat、Full Squat、Long Sit、Seated Hip Abduction、Z-Sitting。",
+            "courseDate": "课本 P52（时间戳未核对）"
+          },
+          "Full Squat": {
+            "type": "improve",
+            "reason": "脊柱中立位下练下肢排列与髋伸力量",
+            "minScore": "",
+            "variant": "",
+            "modification": "",
+            "quote": "课堂整理记录：可帮助提升 Half Squat、Full Squat、Long Sit、Seated Hip Abduction、Z-Sitting。",
+            "courseDate": "课本 P52（时间戳未核对）"
+          },
+          "Long Sit": {
+            "type": "improve",
+            "reason": "对应腘绳肌长度，不设 2 分门槛",
+            "minScore": "",
+            "variant": "",
+            "modification": "分数偏低、腘绳肌较紧时可把腿放低，不必到 90°",
+            "quote": "课堂整理记录：不设 Long Sit 2 分门槛；分数偏低、腘绳肌较紧时可把腿放低。",
+            "courseDate": "课本 P52（时间戳未核对）"
+          },
+          "Seated Hip Abduction": {
+            "type": "improve",
+            "reason": "Circle 画圈对应髋外展与控制",
+            "minScore": "",
+            "variant": "Circle 画圈变化",
+            "modification": "",
+            "quote": "课堂整理记录：Seated Hip Abduction 对应画圈。",
+            "courseDate": "课本 P52（时间戳未核对）"
+          },
+          "Z-Sitting": {
+            "type": "improve",
+            "reason": "对应髋外旋活动与控制",
+            "minScore": "",
+            "variant": "",
+            "modification": "",
+            "quote": "课堂整理记录：Z-Sitting 对应外旋。",
+            "courseDate": "课本 P52（时间戳未核对）"
+          }
+        }
+      },
+      {
+        "actionId": 47,
+        "exercise": "Supine Arm Series",
+        "courseDate": "2026-11-18",
+        "cells": {
+          "Hundred": {
+            "type": "improve",
+            "reason": "帮助提升仰卧位核心控制",
+            "minScore": "",
+            "variant": "",
+            "modification": "",
+            "quote": "课堂整理记录：帮助提升 Hundred 的核心控制与 Goal Post 的肩关节活动。",
+            "courseDate": "2026-11-18（时间戳未核对）"
+          },
+          "Goal Post": {
+            "type": "improve",
+            "reason": "帮助提升肩关节活动与肩带组织",
+            "minScore": "",
+            "variant": "",
+            "modification": "",
+            "quote": "课堂整理记录：帮助提升 Hundred 的核心控制与 Goal Post 的肩关节活动。",
+            "courseDate": "2026-11-18（时间戳未核对）"
+          }
+        }
+      },
+      {
+        "actionId": 48,
+        "exercise": "Hundred / Coordination",
+        "courseDate": "2026-11-18",
+        "cells": {
+          "Hundred": {
+            "type": "both",
+            "reason": "分数低影响卷腹维持与执行，做好也直接帮助提升该项",
+            "minScore": "",
+            "variant": "",
+            "modification": "卷腹不足可先练 Chest Lift、减弹簧或调整腿伸出范围",
+            "quote": "课堂整理记录：主要为 Hundred，分数低影响执行，做好也帮助提升该项，未给固定分数门槛。",
+            "courseDate": "2026-11-18（时间戳未核对）"
+          }
+        }
+      },
+      {
+        "actionId": 49,
+        "exercise": "Eve's Lunge",
+        "courseDate": "2026-11-17",
+        "cells": {
+          "Long Sit": {
+            "type": "improve",
+            "reason": "改善腘绳肌长度",
+            "minScore": "",
+            "variant": "",
+            "modification": "",
+            "quote": "课堂整理记录：改善 Long Sit 的腘绳肌长度、Half Squat 与 Full Squat 的下肢排列和力量、Prone Knee Bend 的髋屈肌柔韧性。",
+            "courseDate": "2026-11-17（时间戳未核对）"
+          },
+          "Half Squat": {
+            "type": "improve",
+            "reason": "改善下肢排列与髋活动控制",
+            "minScore": "",
+            "variant": "",
+            "modification": "",
+            "quote": "课堂整理记录：改善 Half Squat 与 Full Squat 的下肢排列和力量。",
+            "courseDate": "2026-11-17（时间戳未核对）"
+          },
+          "Full Squat": {
+            "type": "improve",
+            "reason": "改善下肢排列与下肢力量",
+            "minScore": "",
+            "variant": "",
+            "modification": "",
+            "quote": "课堂整理记录：改善 Half Squat 与 Full Squat 的下肢排列和力量。",
+            "courseDate": "2026-11-17（时间戳未核对）"
+          },
+          "Prone Knee Bend": {
+            "type": "improve",
+            "reason": "改善髋屈肌柔韧性",
+            "minScore": "",
+            "variant": "",
+            "modification": "",
+            "quote": "课堂整理记录：改善 Prone Knee Bend 的髋屈肌柔韧性。",
+            "courseDate": "2026-11-17（时间戳未核对）"
+          }
+        }
+      },
+      {
+        "actionId": 55,
+        "exercise": "Scooter",
+        "courseDate": "2026-11-17",
+        "cells": {
+          "Half Squat": {
+            "type": "improve",
+            "reason": "改善髋分离与下肢排列",
+            "minScore": "",
+            "variant": "",
+            "modification": "",
+            "quote": "课堂整理记录：改善 Half Squat 的髋分离与排列。",
+            "courseDate": "2026-11-17（时间戳未核对）"
+          },
+          "Full Squat": {
+            "type": "improve",
+            "reason": "改善下肢排列与力量",
+            "minScore": "",
+            "variant": "",
+            "modification": "",
+            "quote": "课堂整理记录：改善 Full Squat 的排列与力量。",
+            "courseDate": "2026-11-17（时间戳未核对）"
+          },
+          "Heel Raise": {
+            "type": "both",
+            "reason": "改善单腿平衡；图五脱手摆臂需要足够单腿平衡能力",
+            "minScore": "图五脱手摆臂通常需 Heel Raise 3分",
+            "variant": "图五脱手摆臂版本要求 3 分",
+            "modification": "未达到 3 分时保留扶杆，方案备注 Basic",
+            "quote": "课堂整理记录：要求图五脱手摆臂通常需 Heel Raise 3分，未达到时方案备注 Basic。",
+            "courseDate": "2026-11-17（时间戳未核对）"
+          },
+          "Prone Knee Bend": {
+            "type": "improve",
+            "reason": "通过髋伸交互抑制改善髋屈肌柔韧性",
+            "minScore": "",
+            "variant": "",
+            "modification": "",
+            "quote": "课堂整理记录：改善 Prone Knee Bend 对应的髋屈肌柔韧性（交互抑制）。",
+            "courseDate": "2026-11-17（时间戳未核对）"
+          }
+        }
+      },
+      {
+        "actionId": 68,
+        "exercise": "Short Box Series (Reformer)",
+        "courseDate": "2026-11-25",
+        "cells": {
+          "Goal Post": {
+            "type": "require",
+            "reason": "手完全过头变化需要足够的肩关节活动与组织能力",
+            "minScore": "手完全过头建议 Goal Post 3分",
+            "variant": "手完全过头变化",
+            "modification": "不足 3 分时降低手位",
+            "quote": "课堂整理记录：手完全过头建议 Goal Post 3分，否则降手位。",
+            "courseDate": "2026-11-25（时间戳未核对）"
+          },
+          "Roll Up": {
+            "type": "improve",
+            "reason": "提升脊柱分节屈曲控制",
+            "minScore": "",
+            "variant": "",
+            "modification": "",
+            "quote": "课堂整理记录：提升 Roll Up、Hundred 及 LB 大伸展版本的 Prone Press Up。",
+            "courseDate": "2026-11-25（时间戳未核对）"
+          },
+          "Hundred": {
+            "type": "improve",
+            "reason": "提升坐姿后倾与躯干核心控制",
+            "minScore": "",
+            "variant": "",
+            "modification": "",
+            "quote": "课堂整理记录：提升 Roll Up、Hundred。",
+            "courseDate": "2026-11-25（时间戳未核对）"
+          }
+        }
+      },
+      {
+        "actionId": 83,
+        "exercise": "Leg Spring Series Supine",
+        "courseDate": "历史课堂整理（P110）",
+        "cells": {
+          "Half Squat": {
+            "type": "improve",
+            "reason": "脊柱中立位下练髋分离",
+            "minScore": "",
+            "variant": "",
+            "modification": "",
+            "quote": "课堂整理记录：可帮助提升 Half Squat、Full Squat、Long Sit、Seated Hip Abduction、Z-Sitting。",
+            "courseDate": "课本 P110（时间戳未核对）"
+          },
+          "Full Squat": {
+            "type": "improve",
+            "reason": "独立弹簧训练左右下肢排列与力量",
+            "minScore": "",
+            "variant": "",
+            "modification": "",
+            "quote": "课堂整理记录：可帮助提升 Half Squat、Full Squat、Long Sit、Seated Hip Abduction、Z-Sitting。",
+            "courseDate": "课本 P110（时间戳未核对）"
+          },
+          "Long Sit": {
+            "type": "both",
+            "reason": "改善腘绳肌长度；分数低可能影响 Scissors 抬腿幅度",
+            "minScore": "",
+            "variant": "Scissors 抬腿幅度受影响",
+            "modification": "腘绳肌紧时可以把腿放低",
+            "quote": "课堂整理记录：Long Sit 分数低可能影响 Scissors 的抬腿幅度，腘绳肌紧时可以把腿放低。",
+            "courseDate": "课本 P110（时间戳未核对）"
+          },
+          "Seated Hip Abduction": {
+            "type": "improve",
+            "reason": "脊柱中立位下练髋外展与画圈控制",
+            "minScore": "",
+            "variant": "",
+            "modification": "",
+            "quote": "课堂整理记录：可帮助提升 Seated Hip Abduction。",
+            "courseDate": "课本 P110（时间戳未核对）"
+          },
+          "Z-Sitting": {
+            "type": "improve",
+            "reason": "脊柱中立位下练髋旋转控制",
+            "minScore": "",
+            "variant": "",
+            "modification": "",
+            "quote": "课堂整理记录：可帮助提升 Z-Sitting。",
+            "courseDate": "课本 P110（时间戳未核对）"
+          }
+        }
+      },
+      {
+        "actionId": 112,
+        "exercise": "Double Leg Pump",
+        "courseDate": "历史课堂整理（P58）",
+        "cells": {
+          "Half Squat": {
+            "type": "improve",
+            "reason": "坐姿中立位下训练下肢排列与髋膝活动",
+            "minScore": "",
+            "variant": "",
+            "modification": "",
+            "quote": "课堂整理记录：可帮助提升 Half Squat、Full Squat；课堂未给出固定分数门槛。",
+            "courseDate": "教材 P58（时间戳未核对）"
+          },
+          "Full Squat": {
+            "type": "improve",
+            "reason": "训练下肢排列与腿部肌力",
+            "minScore": "",
+            "variant": "",
+            "modification": "",
+            "quote": "课堂整理记录：可帮助提升 Half Squat、Full Squat。",
+            "courseDate": "教材 P58（时间戳未核对）"
+          },
+          "Heel Raise": {
+            "type": "improve",
+            "reason": "带提踵变化时关联足踝控制",
+            "minScore": "",
+            "variant": "带提踵变化",
+            "modification": "",
+            "quote": "课堂整理记录：带提踵变化时也可关联 Heel Raise。",
+            "courseDate": "教材 P58（时间戳未核对）"
+          }
+        }
+      },
+      {
+        "actionId": 115,
+        "exercise": "Standing Leg Pump",
+        "courseDate": "历史课堂整理（P120）",
+        "cells": {
+          "Half Squat": {
+            "type": "improve",
+            "reason": "改善站姿下肢排列与骨盆控制",
+            "minScore": "",
+            "variant": "",
+            "modification": "",
+            "quote": "课堂整理记录：可帮助提升 Half Squat、Full Squat；基础做法 Heel Raise 不列为直接关联。",
+            "courseDate": "教材 P120（时间戳未核对）"
+          },
+          "Full Squat": {
+            "type": "improve",
+            "reason": "改善单腿承重排列与下肢力量",
+            "minScore": "",
+            "variant": "",
+            "modification": "",
+            "quote": "课堂整理记录：可帮助提升 Half Squat、Full Squat。",
+            "courseDate": "教材 P120（时间戳未核对）"
+          }
+        }
+      },
+      {
+        "actionId": 118,
+        "exercise": "Achilles Stretch",
+        "courseDate": "2026-11-16",
+        "cells": {
+          "Half Squat": {
+            "type": "improve",
+            "reason": "针对踝背屈受限造成的失分",
+            "minScore": "",
+            "variant": "",
+            "modification": "",
+            "quote": "课堂整理记录：Half Squat 针对踝背屈受限造成的失分，未设分数门槛。",
+            "courseDate": "2026-11-16（时间戳未核对）"
+          },
+          "Heel Raise": {
+            "type": "improve",
+            "reason": "针对足踝排列造成的失分",
+            "minScore": "",
+            "variant": "",
+            "modification": "",
+            "quote": "课堂整理记录：Heel Raise 针对足踝排列造成的失分，未设分数门槛。",
+            "courseDate": "2026-11-16（时间戳未核对）"
+          }
+        }
+      },
+      {
+        "actionId": 134,
+        "exercise": "Supine Stretch (LB)",
+        "courseDate": "2026-11-23",
+        "cells": {
+          "Hundred": {
+            "type": "both",
+            "reason": "影响回程核心控制，练习亦可帮助提升",
+            "minScore": "",
+            "variant": "",
+            "modification": "",
+            "quote": "课堂整理记录：影响执行及可帮助提升 Hundred、Roll Up、Prone Press Up、Prone Shoulder Flexion、Prone Knee Bend。",
+            "courseDate": "2026-11-23（时间戳未核对）"
+          },
+          "Roll Up": {
+            "type": "both",
+            "reason": "影响回程逐节屈曲，练习亦可帮助提升",
+            "minScore": "",
+            "variant": "",
+            "modification": "",
+            "quote": "课堂整理记录：影响执行及可帮助提升 Roll Up（逐节屈曲）。",
+            "courseDate": "2026-11-23（时间戳未核对）"
+          },
+          "Prone Press Up": {
+            "type": "both",
+            "reason": "影响胸椎伸展，练习亦可帮助提升",
+            "minScore": "",
+            "variant": "",
+            "modification": "可垫枕头或抱头保持后颈空间",
+            "quote": "课堂整理记录：影响执行及可帮助提升 Prone Press Up（胸椎伸展）。",
+            "courseDate": "2026-11-23（时间戳未核对）"
+          },
+          "Prone Shoulder Flexion": {
+            "type": "both",
+            "reason": "影响抓杆肩屈，练习亦可帮助提升",
+            "minScore": "Prone Shoulder Flexion 只有1分时需要修改手位或抱头",
+            "variant": "抓杆肩屈版本",
+            "modification": "只有 1 分时修改手位、缩小肩屈或抱头",
+            "quote": "课堂整理记录：Prone Shoulder Flexion 只有1分时需要修改手位或抱头，未给统一执行门槛。",
+            "courseDate": "2026-11-23（时间戳未核对）"
+          },
+          "Prone Knee Bend": {
+            "type": "both",
+            "reason": "影响髋屈肌长度与骨盆摆位，练习亦可帮助提升",
+            "minScore": "",
+            "variant": "",
+            "modification": "髋屈肌紧导致腰部前倾时用屈膝、脚踩箱子版本",
+            "quote": "课堂整理记录：影响执行及可帮助提升 Prone Knee Bend（髋屈肌长度）。",
+            "courseDate": "2026-11-23（时间戳未核对）"
+          }
+        }
+      },
+      {
+        "actionId": 135,
+        "exercise": "Back to Forward Bend",
+        "courseDate": "2026-11-23",
+        "cells": {
+          "Hundred": {
+            "type": "both",
+            "reason": "影响执行及可帮助提升核心控制",
+            "minScore": "",
+            "variant": "",
+            "modification": "",
+            "quote": "课堂整理记录：影响执行及可帮助提升 Hundred、Roll Up、Prone Shoulder Flexion、Prone Press Up、Long Sit、Prone Knee Bend。",
+            "courseDate": "2026-11-23（时间戳未核对）"
+          },
+          "Roll Up": {
+            "type": "both",
+            "reason": "影响执行及可帮助提升脊柱逐节屈曲",
+            "minScore": "",
+            "variant": "",
+            "modification": "",
+            "quote": "课堂整理记录：影响执行及可帮助提升 Roll Up。",
+            "courseDate": "2026-11-23（时间戳未核对）"
+          },
+          "Prone Shoulder Flexion": {
+            "type": "both",
+            "reason": "影响执行及可帮助提升肩屈",
+            "minScore": "",
+            "variant": "",
+            "modification": "肩屈不足时需修正手位",
+            "quote": "课堂整理记录：肩屈不足时需修正手位。",
+            "courseDate": "2026-11-23（时间戳未核对）"
+          },
+          "Prone Press Up": {
+            "type": "both",
+            "reason": "影响执行及可帮助提升胸椎伸展",
+            "minScore": "",
+            "variant": "",
+            "modification": "",
+            "quote": "课堂整理记录：影响执行及可帮助提升 Prone Press Up。",
+            "courseDate": "2026-11-23（时间戳未核对）"
+          },
+          "Long Sit": {
+            "type": "both",
+            "reason": "影响前屈幅度并可帮助提升腘绳肌长度",
+            "minScore": "至少2分（只有1分时课堂不建议用这个动作）",
+            "variant": "",
+            "modification": "Long Sit 或 Prone Knee Bend 仅 1 分时课堂不建议安排本动作",
+            "quote": "课堂整理记录：Long Sit 或 Prone Knee Bend 其中一项只有1分时，课堂不建议用这个动作；两项至少2分才有机会完成相应幅度。",
+            "courseDate": "2026-11-23（时间戳未核对）"
+          },
+          "Prone Knee Bend": {
+            "type": "both",
+            "reason": "影响后伸髋屈肌长度并可帮助提升",
+            "minScore": "至少2分（只有1分时课堂不建议用这个动作）",
+            "variant": "",
+            "modification": "Long Sit 或 Prone Knee Bend 仅 1 分时课堂不建议安排本动作",
+            "quote": "课堂整理记录：Long Sit 或 Prone Knee Bend 其中一项只有1分时，课堂不建议用这个动作；两项至少2分才有机会完成相应幅度。",
+            "courseDate": "2026-11-23（时间戳未核对）"
+          }
+        }
+      },
+      {
+        "actionId": 136,
+        "exercise": "Bridging (LB)",
+        "courseDate": "2026-11-24",
+        "cells": {
+          "Full Squat": {
+            "type": "improve",
+            "reason": "关注下肢排列与髋伸力量",
+            "minScore": "",
+            "variant": "",
+            "modification": "",
+            "quote": "课堂整理记录：与核心床桥式共享 Full Squat、Prone Knee Bend、Roll Up 关联。",
+            "courseDate": "2026-11-24（时间戳未核对）"
+          },
+          "Roll Up": {
+            "type": "improve",
+            "reason": "共享脊柱分节控制",
+            "minScore": "",
+            "variant": "",
+            "modification": "",
+            "quote": "课堂整理记录：共同提升 Full Squat、Prone Knee Bend、Roll Up。",
+            "courseDate": "2026-11-24（时间戳未核对）"
+          },
+          "Prone Knee Bend": {
+            "type": "improve",
+            "reason": "关注髋前侧长度",
+            "minScore": "",
+            "variant": "",
+            "modification": "",
+            "quote": "课堂整理记录：共同提升 Full Squat、Prone Knee Bend、Roll Up。",
+            "courseDate": "2026-11-24（时间戳未核对）"
+          },
+          "Prone Press Up": {
+            "type": "improve",
+            "reason": "下降阶段新增胸椎伸展活动度关联",
+            "minScore": "",
+            "variant": "",
+            "modification": "胸椎伸展不足可先给头部承托",
+            "quote": "课堂整理记录：新增 Prone Press Up 及肩屈变体的 Prone Shoulder Flexion。",
+            "courseDate": "2026-11-24（时间戳未核对）"
+          },
+          "Prone Shoulder Flexion": {
+            "type": "improve",
+            "reason": "肩屈变体涉及上肢肩屈活动",
+            "minScore": "",
+            "variant": "仅肩屈变体",
+            "modification": "",
+            "quote": "课堂整理记录：新增肩屈变体的 Prone Shoulder Flexion。",
+            "courseDate": "2026-11-24（时间戳未核对）"
+          }
+        }
+      },
+      {
+        "actionId": 137,
+        "exercise": "Leg Stretch Series (LB)",
+        "courseDate": "2026-11-16",
+        "cells": {
+          "Long Sit": {
+            "type": "improve",
+            "reason": "图一、二对应后侧链腘绳肌长度",
+            "minScore": "",
+            "variant": "图一、图二",
+            "modification": "有害神经紧绷时避开图二或微屈膝",
+            "quote": "课堂整理记录：图一、二对应 Long Sit；属于辅助改善，未设前置分数。",
+            "courseDate": "2026-11-16（时间戳未核对）"
+          },
+          "Z-Sitting": {
+            "type": "improve",
+            "reason": "图三辅助髋旋转所需活动度",
+            "minScore": "",
+            "variant": "图三",
+            "modification": "膝不适可尝试膝外侧承托，仍不适跳过",
+            "quote": "课堂整理记录：图三可辅助 Z-Sitting 所需的髋旋转。",
+            "courseDate": "2026-11-16（时间戳未核对）"
+          },
+          "Seated Hip Abduction": {
+            "type": "improve",
+            "reason": "图四、五对应内收肌长度",
+            "minScore": "",
+            "variant": "图四、图五",
+            "modification": "",
+            "quote": "课堂整理记录：图四、五对应 Seated Hip Abduction。",
+            "courseDate": "2026-11-16（时间戳未核对）"
+          },
+          "Prone Knee Bend": {
+            "type": "improve",
+            "reason": "图六、七对应髋屈肌长度",
+            "minScore": "",
+            "variant": "图六、图七",
+            "modification": "图七屈膝不适时跳过",
+            "quote": "课堂整理记录：图六、七对应 Prone Knee Bend 所需的髋屈肌长度。",
+            "courseDate": "2026-11-16（时间戳未核对）"
+          }
+        }
+      },
+      {
+        "actionId": 142,
+        "exercise": "Short Box Series (LB)",
+        "courseDate": "2026-11-25",
+        "cells": {
+          "Goal Post": {
+            "type": "require",
+            "reason": "手完全过头变化需要足够的肩关节活动",
+            "minScore": "手完全过头建议 Goal Post 3分",
+            "variant": "手完全过头变化",
+            "modification": "不足 3 分时降低手位",
+            "quote": "课堂整理记录：手完全过头建议 Goal Post 3分，否则降手位。",
+            "courseDate": "2026-11-25（时间戳未核对）"
+          },
+          "Prone Press Up": {
+            "type": "both",
+            "reason": "LB Fold Up 大伸展版本既要求胸椎伸展能力，也能帮助提升",
+            "minScore": "LB Fold Up 大伸展 Prone Press Up 至少2分",
+            "variant": "LB Fold Up 大伸展版本",
+            "modification": "1 分时取消或修正",
+            "quote": "课堂整理记录：LB Fold Up 大伸展 Prone Press Up 至少2分，1分取消或修正；提升 LB 大伸展版本的 Prone Press Up。",
+            "courseDate": "2026-11-25（时间戳未核对）"
+          },
+          "Roll Up": {
+            "type": "improve",
+            "reason": "提升脊柱分节屈曲控制",
+            "minScore": "",
+            "variant": "",
+            "modification": "",
+            "quote": "课堂整理记录：提升 Roll Up、Hundred 及 LB 大伸展版本的 Prone Press Up。",
+            "courseDate": "2026-11-25（时间戳未核对）"
+          },
+          "Hundred": {
+            "type": "improve",
+            "reason": "提升躯干核心控制",
+            "minScore": "",
+            "variant": "",
+            "modification": "",
+            "quote": "课堂整理记录：提升 Roll Up、Hundred。",
+            "courseDate": "2026-11-25（时间戳未核对）"
+          }
+        }
+      },
+      {
+        "actionId": 144,
+        "exercise": "Supine Stretch (SC)",
+        "courseDate": "2026-11-19",
+        "cells": {
+          "Long Sit": {
+            "type": "require",
+            "reason": "对应腘绳肌长度，影响图一直腿起始位",
+            "minScore": "Long Sit 不足2分需修正",
+            "variant": "图一直腿起始位",
+            "modification": "不足 2 分时改为屈膝或图六钻石腿修正",
+            "quote": "课堂整理记录：Long Sit 不足2分时，图一直腿起始位需屈膝或钻石腿修正。",
+            "courseDate": "2026-11-19（时间戳未核对）"
+          },
+          "Prone Press Up": {
+            "type": "both",
+            "reason": "影响胸椎伸展幅度，练习亦可帮助提升",
+            "minScore": "Prone Press Up 低于3分需垫枕头",
+            "variant": "",
+            "modification": "低于 3 分时使用图五垫枕头修正，方案标注",
+            "quote": "课堂整理记录：Prone Press Up 低于3分需垫枕头；帮助提升 Prone Press Up。",
+            "courseDate": "2026-11-19（时间戳未核对）"
+          },
+          "Roll Up": {
+            "type": "both",
+            "reason": "分节屈曲影响回程，练习亦可帮助提升",
+            "minScore": "",
+            "variant": "",
+            "modification": "回程困难可抬手、画圈、抱头或由教练辅助",
+            "quote": "课堂整理记录：Roll Up 的分节屈曲与 Hundred 的核心控制影响回程；帮助提升 Roll Up、Hundred。",
+            "courseDate": "2026-11-19（时间戳未核对）"
+          },
+          "Hundred": {
+            "type": "both",
+            "reason": "核心控制影响回程，练习亦可帮助提升",
+            "minScore": "",
+            "variant": "",
+            "modification": "",
+            "quote": "课堂整理记录：Roll Up 的分节屈曲与 Hundred 的核心控制影响回程；帮助提升 Roll Up、Hundred。",
+            "courseDate": "2026-11-19（时间戳未核对）"
+          },
+          "Prone Shoulder Flexion": {
+            "type": "improve",
+            "reason": "肩屈可获得一定辅助训练",
+            "minScore": "",
+            "variant": "",
+            "modification": "",
+            "quote": "课堂整理记录：Prone Shoulder Flexion 可获一定辅助。",
+            "courseDate": "2026-11-19（时间戳未核对）"
+          }
+        }
+      },
+      {
+        "actionId": 145,
+        "exercise": "Rolldown / Reach",
+        "courseDate": "2026-11-19",
+        "cells": {
+          "Prone Press Up": {
+            "type": "both",
+            "reason": "胸椎伸展影响执行，练习亦可帮助提升",
+            "minScore": "",
+            "variant": "",
+            "modification": "胸椎伸展不足时可垫枕头修正",
+            "quote": "课堂整理记录：影响执行及帮助提升 Prone Press Up、Roll Up、Hundred、Superman。",
+            "courseDate": "2026-11-19（时间戳未核对）"
+          },
+          "Roll Up": {
+            "type": "both",
+            "reason": "分节屈曲影响回程执行，练习亦可帮助提升",
+            "minScore": "",
+            "variant": "",
+            "modification": "",
+            "quote": "课堂整理记录：影响执行及帮助提升 Prone Press Up、Roll Up、Hundred、Superman。",
+            "courseDate": "2026-11-19（时间戳未核对）"
+          },
+          "Hundred": {
+            "type": "both",
+            "reason": "核心控制影响执行，练习亦可帮助提升",
+            "minScore": "",
+            "variant": "",
+            "modification": "",
+            "quote": "课堂整理记录：影响执行及帮助提升 Prone Press Up、Roll Up、Hundred、Superman。",
+            "courseDate": "2026-11-19（时间戳未核对）"
+          },
+          "Superman": {
+            "type": "both",
+            "reason": "整体伸展能力影响图四伸髋延伸，练习亦可帮助提升",
+            "minScore": "",
+            "variant": "图四手腿向两端延伸与伸髋",
+            "modification": "",
+            "quote": "课堂整理记录：影响执行及帮助提升 Superman 的整体伸展能力。",
+            "courseDate": "2026-11-19（时间戳未核对）"
+          },
+          "Prone Shoulder Flexion": {
+            "type": "improve",
+            "reason": "肩屈可获辅助训练",
+            "minScore": "",
+            "variant": "",
+            "modification": "",
+            "quote": "课堂整理记录：Prone Shoulder Flexion 可获辅助。",
+            "courseDate": "2026-11-19（时间戳未核对）"
+          },
+          "Prone Knee Bend": {
+            "type": "improve",
+            "reason": "髋伸可对髋屈肌柔韧性提供辅助",
+            "minScore": "",
+            "variant": "",
+            "modification": "",
+            "quote": "课堂整理记录：Prone Knee Bend 对应的髋屈肌柔韧性可获辅助。",
+            "courseDate": "2026-11-19（时间戳未核对）"
+          }
+        }
+      }
+    ]
   }
 }
 </script><script>(()=>{
@@ -8554,14 +9433,17 @@ const library=make('section');
 library.id='assessmentLibrary';
 const index=make('section',null,'assessment-dimensions');
 index.id='assessmentPurpose';
+const heatmapPanel=make('section',null,'assessment-heatmap-panel');
+heatmapPanel.id='assessmentHeatmap';
 const grid=make('div',null,'assessment-grid');
 const list=make('div',null,'assessment-library-list');
 const entries=new Map(source.entries.map(entry=>[entry.id,entry]));
 const assetPrefix=hostedMode?'./assets/':'./assessments/textbook/';
 let selected=1,detailOpen=false;
-const tabsButtons=['动作列表','评估目的'].map((name,i)=>{
+const panels=[library,index,heatmapPanel];
+const tabsButtons=['动作列表','评估目的','关联矩阵'].map((name,i)=>{
  const button=make('button',name);
- const panel=[library,index][i];
+ const panel=panels[i];
  button.type='button';
  button.id='assessmentTab'+i;
  button.setAttribute('role','tab');
@@ -8572,7 +9454,7 @@ const tabsButtons=['动作列表','评估目的'].map((name,i)=>{
  button.onkeydown=event=>{
   if(!['ArrowLeft','ArrowRight','Home','End'].includes(event.key))return;
   event.preventDefault();
-  const next=event.key==='Home'?0:event.key==='End'?1:1-i;
+  const next=event.key==='Home'?0:event.key==='End'?panels.length-1:(i+(event.key==='ArrowRight'?1:-1)+panels.length)%panels.length;
   if(next===0)showList();else switchTab(next);
   tabsButtons[next].focus();
  };
@@ -8593,18 +9475,19 @@ function showList(){
 }
 function switchTab(i){
  if(i!==0)detailOpen=false;
- [library,index].forEach((panel,j)=>{
+ panels.forEach((panel,j)=>{
   panel.hidden=i!==j;
   tabsButtons[j].setAttribute('aria-selected',String(i===j));
   tabsButtons[j].tabIndex=i===j?0:-1;
  });
+ if(i===2)renderHeatmap();
  syncDetailView();
 }
 function asset(id,kind){return assetPrefix+'assessment-'+String(id).padStart(2,'0')+'-'+kind+'.webp';}
 function openEntry(id){
  selected=id;
  detailOpen=true;
- [library,index].forEach((panel,j)=>{
+ panels.forEach((panel,j)=>{
   panel.hidden=j!==0;
   tabsButtons[j].setAttribute('aria-selected',String(j===0));
   tabsButtons[j].tabIndex=j===0?0:-1;
@@ -8630,7 +9513,7 @@ for(const entry of source.entries){
 }
 tabs.append(...tabsButtons);
 library.append(list,grid);
-root.append(top,tabs,library,index);
+root.append(top,tabs,library,index,heatmapPanel);
 switchTab(0);
 document.querySelector('.wrap').append(root);
 const nav=make('button','评估动作');nav.dataset.tab='assessments';nav.onclick=()=>tab('assessments');document.querySelector('.nav [data-tab=practice]').after(nav);
@@ -8767,8 +9650,195 @@ function render(){
  }
  card.append(stages);grid.append(card);
 }
+// === 评估关联矩阵（纯紫色系极简热力图） ===
+const hmDialog=make('dialog',null,'hm-detail-dialog');
+hmDialog.id='assessmentHeatmapDialog';
+const hmDialogTop=make('div',null,'dialog-top');
+const hmDialogTitle=make('strong','关联详情');
+const hmDialogClose=make('button','关闭');
+hmDialogClose.type='button';
+hmDialogClose.onclick=()=>hmDialog.close();
+hmDialogTop.append(hmDialogTitle,hmDialogClose);
+const hmDialogBody=make('div',null,'hm-detail-body');
+hmDialog.append(hmDialogTop,hmDialogBody);
+document.body.append(hmDialog);
+
+const hmTypeLabels={both:'要求分数且提升分数',improve:'提升分数',require:'要求分数'};
+const hmFilters={apparatus:'',level:'',category:'',assessment:'',relationType:'all'};
+let hmMounted=false;
+
+function openHeatmapDetail(row,assessmentName,cell){
+ hmDialogBody.replaceChildren();
+ const dl=make('dl',null,'hm-detail-list');
+ const fields=[
+  ['Exercise',row.exercise],
+  ['Assessment',assessmentName],
+  ['关联类型',hmTypeLabels[cell.type]||''],
+  ['关联原因',cell.reason||''],
+  cell.minScore?['最低分数要求',cell.minScore]:null,
+  cell.variant?['适用变体',cell.variant]:null,
+  cell.modification?['修正方式',cell.modification]:null,
+  ['老师原话',cell.quote||''],
+  ['课程日期及时间戳',cell.courseDate||row.courseDate||'']
+ ].filter(Boolean);
+ for(const [k,v] of fields){
+  const item=make('div',null,'hm-detail-item');
+  item.append(make('dt',k),make('dd',v));
+  dl.append(item);
+ }
+ hmDialogBody.append(dl);
+ if(!hmDialog.open)hmDialog.showModal();
+ hmDialog.scrollTop=0;
+}
+
+function hmCellMatchesType(cell,filterType){
+ if(!cell)return false;
+ if(filterType==='all')return true;
+ if(filterType==='improve')return cell.type==='improve'||cell.type==='both';
+ if(filterType==='require')return cell.type==='require'||cell.type==='both';
+ if(filterType==='both')return cell.type==='both';
+ return true;
+}
+
+function renderHeatmap(){
+ const hmData=source.heatmap||{assessments:source.entries.map(e=>e.name),rows:[]};
+ const assessments=hmData.assessments||source.entries.map(e=>e.name);
+ if(!hmMounted){
+  hmMounted=true;
+  const controls=make('div',null,'hm-controls');
+  controls.id='hmControls';
+
+  const makeSelect=(labelText,key,options)=>{
+   const wrap=make('label',null,'hm-filter-field');
+   wrap.append(make('span',labelText));
+   const sel=make('select');
+   sel.dataset.hmFilter=key;
+   for(const [val,text] of options){
+    const o=document.createElement('option');o.value=val;o.textContent=text;sel.append(o);
+   }
+   sel.onchange=()=>{hmFilters[key]=sel.value;renderHeatmapTable();};
+   wrap.append(sel);
+   return wrap;
+  };
+
+  const appOpts=[['','全部器械'],...(typeof UNIFIED_APPS!=='undefined'?UNIFIED_APPS:APPS)];
+  const lvOpts=[['','全部难度'],...(typeof UNIFIED_LEVELS!=='undefined'?UNIFIED_LEVELS:['初级','中级','高级1','高级2']).map(x=>[x,x])];
+  const catOpts=[['','全部分类'],...CATS.map(([v])=>[v,v])];
+  const assessOpts=[['','全部评估'],...assessments.map(n=>[n,n])];
+  const relOpts=[
+   ['all','全部关联类型'],
+   ['improve','提升分数（含要求且提升）'],
+   ['require','要求分数（含要求且提升）'],
+   ['both','要求且提升']
+  ];
+
+  controls.append(
+   makeSelect('器械','apparatus',appOpts),
+   makeSelect('难度','level',lvOpts),
+   makeSelect('分类','category',catOpts),
+   makeSelect('评估','assessment',assessOpts),
+   makeSelect('关联类型','relationType',relOpts)
+  );
+
+  const legend=make('div',null,'hm-legend');
+  for(const [cls,text] of [['is-both','要求分数且提升分数'],['is-improve','提升分数'],['is-require','要求分数'],['is-none','无关联']]){
+   const item=make('span',null,'hm-legend-item');
+   const swatch=make('span',null,'hm-swatch '+cls);
+   swatch.setAttribute('aria-hidden','true');
+   item.append(swatch,document.createTextNode(text));
+   legend.append(item);
+  }
+
+  const host=make('div',null,'hm-table-wrap');
+  host.id='hmTableWrap';
+  heatmapPanel.replaceChildren(controls,legend,host);
+ }
+ renderHeatmapTable();
+}
+
+function renderHeatmapTable(){
+ const hmData=source.heatmap||{assessments:source.entries.map(e=>e.name),rows:[]};
+ const allAssessments=hmData.assessments||source.entries.map(e=>e.name);
+ const cols=hmFilters.assessment?[hmFilters.assessment]:allAssessments;
+ const host=document.getElementById('hmTableWrap');
+ if(!host)return;
+
+ const enrichedRows=(hmData.rows||[]).map(row=>{
+  const card=CARDS.find(a=>String(a.id)===String(row.actionId));
+  const savedItem=card?record(card.id):null;
+  const app=card?(savedItem?.apparatus||apparatusFor(card.id)):'';
+  const lv=card&&typeof libraryLevel==='function'?libraryLevel(card):(card?.suggestedLevel||'');
+  return {...row,card,savedItem,app,lv,exercise:row.exercise||card?.name||''};
+ });
+
+ const filteredRows=enrichedRows.filter(r=>{
+  if(hmFilters.apparatus&&r.app!==hmFilters.apparatus)return false;
+  if(hmFilters.level&&r.lv!==hmFilters.level)return false;
+  if(hmFilters.category&&r.card&&typeof matchesLibraryCategory==='function'&&!matchesLibraryCategory(r.card,r.savedItem,hmFilters.category))return false;
+  if(hmFilters.assessment||hmFilters.relationType!=='all'){
+   const hasMatch=cols.some(aName=>hmCellMatchesType(r.cells?.[aName],hmFilters.relationType));
+   if(!hasMatch)return false;
+  }
+  return true;
+ });
+
+ if(!filteredRows.length){
+  const empty=make('div',null,'hm-empty');
+  empty.append(make('p','当前筛选条件下暂无匹配的评估关联'));
+  const reset=make('button','重置筛选','hm-reset-btn');
+  reset.type='button';
+  reset.onclick=()=>{
+   Object.assign(hmFilters,{apparatus:'',level:'',category:'',assessment:'',relationType:'all'});
+   heatmapPanel.querySelectorAll('select[data-hm-filter]').forEach(s=>{s.value=s.dataset.hmFilter==='relationType'?'all':'';});
+   renderHeatmapTable();
+  };
+  empty.append(reset);
+  host.replaceChildren(empty);
+  return;
+ }
+
+ const table=make('table',null,'hm-table');
+ const thead=table.createTHead().insertRow();
+ const corner=make('th','Exercise','hm-corner');
+ corner.scope='col';
+ thead.append(corner);
+ for(const aName of cols){
+  const th=make('th',null,'hm-col-head');
+  th.scope='col';
+  const span=make('span',aName,'hm-col-label');
+  th.append(span);
+  thead.append(th);
+ }
+
+ const tbody=table.createTBody();
+ for(const row of filteredRows){
+  const tr=tbody.insertRow();
+  const th=make('th',row.exercise,'hm-row-head');
+  th.scope='row';
+  tr.append(th);
+  for(const aName of cols){
+   const td=tr.insertCell();
+   td.className='hm-cell-td';
+   const rawCell=row.cells?.[aName]||null;
+   const visibleCell=rawCell&&hmCellMatchesType(rawCell,hmFilters.relationType)?rawCell:null;
+   if(visibleCell){
+    const btn=make('button',null,'hm-cell is-'+visibleCell.type);
+    btn.type='button';
+    btn.setAttribute('aria-label',`${row.exercise} - ${aName}: ${hmTypeLabels[visibleCell.type]}`);
+    btn.onclick=()=>openHeatmapDetail(row,aName,visibleCell);
+    td.append(btn);
+   }else{
+    const blank=make('span',null,'hm-cell is-none');
+    blank.setAttribute('aria-hidden','true');
+    td.append(blank);
+   }
+  }
+ }
+ host.replaceChildren(table);
+}
+
 render();
-window.polestarAssessments={close(){detailOpen=false;syncDetailView();if(dialog.open)dialog.close();if(photoDialog.open)photoDialog.close();},preparePortable(clone){clone.querySelectorAll('#assessments,#assessmentCardDialog,#assessmentPhotoDialog,[data-tab=assessments]').forEach(n=>n.remove());}};
+window.polestarAssessments={close(){detailOpen=false;syncDetailView();if(dialog.open)dialog.close();if(photoDialog.open)photoDialog.close();if(hmDialog.open)hmDialog.close();},preparePortable(clone){clone.querySelectorAll('#assessments,#assessmentCardDialog,#assessmentPhotoDialog,#assessmentHeatmapDialog,[data-tab=assessments]').forEach(n=>n.remove());}};
 })();
 </script><style data-notes-build>#notesStudy{padding:20px 0 40px}.notes-top{display:flex;justify-content:space-between;align-items:center;gap:14px;flex-wrap:wrap;margin-bottom:18px}.notes-top h2{margin:0;font-size:24px}.notes-modes{display:flex;gap:6px}.notes-modes button[aria-pressed=true]{background:#fff2cc;border-color:#ffb525;color:#6c4200}.notes-filters{display:grid;grid-template-columns:1fr 1fr 2fr;gap:10px;margin-bottom:18px}.notes-filters input,.notes-filters select{width:100%;min-height:44px;font-size:16px;padding:10px;border:1px solid var(--line);border-radius:9px;background:#fff;min-width:0}.notes-layout{display:grid;grid-template-columns:250px minmax(0,1fr);gap:22px;align-items:start}.notes-list{border:1px solid var(--line);border-radius:12px;max-height:75vh;overflow:auto}.notes-list button{display:block;width:100%;text-align:left;padding:14px;border:0;border-bottom:1px solid var(--line);border-radius:0;min-height:62px;font-size:14px;overflow-wrap:anywhere;background:white}.notes-list button:last-child{border-bottom:0}.notes-list button[aria-current=true]{background:#fff8e9;border-left:3px solid #ffb525}.notes-list button span{display:block;font-size:12px;color:#777;margin-top:5px}.notes-detail{min-width:0;border:1px solid var(--line);border-radius:14px;padding:24px}.notes-detail h3{font-size:27px;line-height:1.3;margin:0 0 8px;overflow-wrap:anywhere}.notes-meta{display:flex;gap:8px;flex-wrap:wrap;color:#777;font-size:13px;margin:0 0 16px}.notes-meta span{padding:5px 9px;background:#fafafa;border-radius:6px}.notes-info{display:grid;grid-template-columns:1fr 1fr;gap:12px}.notes-block{border:1px solid var(--line);border-radius:10px;padding:16px;min-width:0}.notes-block[data-field=process],.notes-block[data-field=cues]{grid-column:1/-1}.notes-block h4{font-size:15px;margin:0 0 10px}.notes-block p{font-size:14px;line-height:1.85;white-space:pre-wrap;overflow-wrap:anywhere;margin:0}.notes-block p.missing{color:#999}.notes-block[data-field=precautions]{background:#fffbf4}.notes-source{margin-top:18px;border-top:1px solid var(--line);padding-top:16px}.notes-source summary{cursor:pointer;font-size:14px;min-height:34px}.notes-source-image{display:block;width:100%;padding:0;background:#fff;border:1px solid var(--line);margin-top:10px;cursor:zoom-in}.notes-source-image img{display:block;width:100%;height:auto}.notes-source pre{white-space:pre-wrap;font-size:13px;line-height:1.8;max-height:520px;overflow:auto}.notes-read-controls,.notes-quiz-controls{display:flex;gap:10px;flex-wrap:wrap;margin:18px 0}.notes-read-controls button,.notes-quiz-controls button{min-height:44px}.notes-question{border:1px solid var(--line);border-radius:12px;padding:18px;margin:14px 0;min-width:0}.notes-question legend{font-size:16px;font-weight:600;line-height:1.6;padding:0 5px;overflow-wrap:anywhere}.notes-question .notes-kind{font-size:12px;color:#8a5100;font-weight:400;margin-right:8px}.notes-answer-option{display:flex;gap:10px;align-items:flex-start;padding:12px;margin:8px 0;border:1px solid var(--line);border-radius:9px;line-height:1.7;font-size:14px;cursor:pointer}.notes-answer-option input{margin-top:6px;flex-shrink:0;accent-color:#eeb02e}.notes-answer-option.correct{border-color:#e6ae2e;background:#fff7de}.notes-answer-option.wrong{border-color:#cc6555;background:#fff2f0}.notes-fill{min-height:46px;width:100%;padding:12px;font-size:16px;border:1px solid var(--line);border-radius:9px}.notes-explanation{padding:14px;background:#fff9e9;border-radius:9px;margin:14px 0 0;font-size:14px;line-height:1.85;white-space:pre-wrap;overflow-wrap:anywhere}.notes-explanation[data-correct=false]{background:#fff2ef}.notes-question button{margin-top:10px;min-height:42px}.notes-exam-score{padding:22px;background:#fff5d5;border:1px solid #f2cc64;border-radius:12px;margin:18px 0;font-size:18px}.notes-exam-score strong{font-size:30px}.notes-quiet{font-size:13px;line-height:1.7;color:#777}.notes-empty{padding:28px;text-align:center;color:#777}.notes-questions-title{font-size:20px;margin-top:24px}.notes-local-status{min-height:20px;color:#777;font-size:12px}#notesImageDialog{width:min(1100px,calc(100% - 20px));padding:12px;max-height:94vh;overflow:auto}#notesImageDialog img{display:block;width:100%;height:auto;max-width:none}#notesImageDialog.zoom img{width:200%}#notesImageDialog .dialog-top{position:sticky;top:-12px;background:white;z-index:1}.web-guest #notesStudy{display:none!important}
 @media(max-width:700px){#notesStudy{padding-top:16px}.notes-top h2{font-size:21px}.notes-modes button{min-height:44px}.notes-filters{grid-template-columns:1fr 1fr}.notes-filters input{grid-column:1/-1}.notes-layout{display:block}.notes-list{max-height:210px;margin-bottom:16px}.notes-list button{min-height:56px;padding:12px 14px}.notes-detail{padding:16px}.notes-detail h3{font-size:23px}.notes-info{grid-template-columns:1fr}.notes-block{padding:14px}.notes-block[data-field]{grid-column:auto}.notes-question{padding:14px 10px}.notes-question legend{font-size:15px}.notes-answer-option{padding:10px;font-size:14px}.notes-read-controls button,.notes-quiz-controls button{flex:1;min-width:100px}.notes-source-image img{height:auto}.notes-exam-score strong{font-size:26px}}
@@ -9124,7 +10194,7 @@ window.polestarAssessments={close(){detailOpen=false;syncDetailView();if(dialog.
 }
 
 @media(min-width:901px){.notes-textbook-pages .textbook-reading-page.is-spread{width:100%}}
-</style><script data-notes-build id="notesDataset" type="application/json">{"url": "./assets/0bf5b74b5065ec4ad83e0593.json"}</script><script data-notes-build>(function(root,factory){if(typeof module==='object'&&module.exports)module.exports=factory();else root.PolestarNotesCore=factory();})(typeof globalThis!=='undefined'?globalThis:this,function(){
+</style><script data-notes-build id="notesDataset" type="application/json">{"url": "./assets/e1ae5720e4fe67f278de3917.json"}</script><script data-notes-build>(function(root,factory){if(typeof module==='object'&&module.exports)module.exports=factory();else root.PolestarNotesCore=factory();})(typeof globalThis!=='undefined'?globalThis:this,function(){
 'use strict';
 const normalize=value=>String(value??'').normalize('NFKC').toLowerCase().replace(/[–—]/g,'-').replace(/⁄/g,'/').replace(/(\d)\.(?=\d)/g,'$1\u0001').replace(/-(?=\d)/g,'\u0002').replace(/[\s，,。.!！?？:：;；、()（）\-]/g,'').replace(/\u0001/g,'.').replace(/\u0002/g,'-');
 function hasAnswer(question,value){return question.type==='fill'?!!String(value??'').trim():Array.isArray(value)&&value.length>0;}
@@ -9456,55 +10526,182 @@ function textbookLevel(entry){
 }
 function filtered(){const levels=selectedFilter('notesLevel'),apps=selectedFilter('notesApparatus');return core.filter(data.entries.filter(e=>(!levels.length||levels.includes(textbookLevel(e)))&&(!apps.length||apps.includes(e.apparatus))&&(!saved.review||saved.attempts[e.id]?.correct<saved.attempts[e.id]?.total)),{search:el('notesSearch').value});}
 function renderList(){localStatus();syncSearchClear();updatePickerLabel();positionNotesList();const list=el('notesList');list.replaceChildren();const entries=filtered();if(!entries.length){list.append(make('p','没有匹配的动作','notes-empty'));return;}for(const entry of entries){const button=make('button');button.type='button';const action=DATA.actions.find(a=>a.id===entry.actionId);if(action){const preview=make('div',undefined,'notes-thumb');preview.setAttribute('aria-label',entry.name+' 裁剪动作图');preview.append(artwork(action));button.append(preview);}const label=make('div',undefined,'notes-list-label');label.append(make('strong',studyEntryTitle(entry)));button.append(label);button.setAttribute('aria-current',String(entry.id===saved.current));const attempt=saved.attempts[entry.id];label.append(make('span',[textbookLevel(entry)||entry.level,appNames[entry.apparatus]||entry.apparatus,saved.read[entry.id]?'已读':'',attempt?`${attempt.correct}/${attempt.total} · 考过${saved.history[entry.id]?.length||1}次 · 错${attempt.total-attempt.correct}题`:''].filter(Boolean).join(' · ')));button.onclick=()=>{root.classList.remove('mobile-list-view');saved.current=entry.id;if(saved.review)saved.sessions[entry.id]={answers:{},checked:[],submitted:false};quizOpen=false;showMobileResults=false;if(picker.open)picker.close();persist();render();if(smallScreen.matches)el('notesDetail').scrollIntoView({block:'start',behavior:'smooth'});};list.append(button);}}
-function mountStudyTabs(entry, study){
- const content=make('div',undefined,'notes-study-content');
- const tabs=make('div',undefined,'notes-detail-tabs');
- tabs.setAttribute('role','tablist');
- tabs.setAttribute('aria-label','动作详情');
- const analysis=make('section',undefined,'notes-analysis-content');
- const note=analysisByAction.get(Number(entry.actionId));
- if(note){
-  analysis.append(make('p',note.source,'notes-quiet'));
-  for(const [title,body] of note.sections){
-   const section=make('section',undefined,'notes-analysis-section');
-   section.append(make('h4',title));
-   for(const paragraph of body.split('\n')) section.append(make('p',paragraph));
-   analysis.append(section);
-  }
- }else analysis.append(make('p','暂无课堂分析。','notes-empty'));
- const panels=[study,analysis];
- const buttons=['动作学习','课堂分析'].map((label,index)=>{
-  const button=make('button',label);
-  button.type='button';
-  button.id='notesDetailTab'+index;
-  button.setAttribute('role','tab');
-  panels[index].id='notesDetailPanel'+index;
-  panels[index].setAttribute('role','tabpanel');
-  panels[index].setAttribute('aria-labelledby',button.id);
-  panels[index].tabIndex=0;
-  button.setAttribute('aria-controls',panels[index].id);
-  button.onclick=()=>select(index);
-  button.onkeydown=event=>{
-   if(!['ArrowLeft','ArrowRight','Home','End'].includes(event.key))return;
-   event.preventDefault();
-   const next=event.key==='Home'?0:event.key==='End'?1:1-index;
-   select(next);
-   buttons[next].focus();
-  };
-  return button;
- });
- function select(index){
-  analysisEntryId=index===1?entry.id:null;
-  buttons.forEach((button,i)=>{
-   button.setAttribute('aria-selected',String(i===index));
-   button.tabIndex=i===index?0:-1;
-   panels[i].hidden=i!==index;
-  });
+function formatPassportText(text){
+ const frag=document.createDocumentFragment();
+ const re=/(【(?:老师明确|综合推导|待确认)】)/g;
+ let last=0,m;
+ while((m=re.exec(text))!==null){
+  if(m.index>last)frag.append(document.createTextNode(text.slice(last,m.index)));
+  const tag=m[1],span=make('span',tag,'passport-evidence-tag');
+  if(tag==='【老师明确】')span.dataset.kind='confirmed';
+  else if(tag==='【综合推导】')span.dataset.kind='derived';
+  else span.dataset.kind='pending';
+  frag.append(span);
+  last=m.index+tag.length;
  }
- select(analysisEntryId===entry.id?1:0);
- tabs.append(...buttons);
- content.append(tabs,...panels);
- return content;
+ if(last<text.length)frag.append(document.createTextNode(text.slice(last)));
+ return frag;
+}
+function renderPassportCard(entry,container){
+ const passport=data?.passports?.[String(entry.actionId)];
+ if(!passport)return;
+ const card=make('section',undefined,'passport-card');
+ card.id='actionPassportCard';
+ card.setAttribute('aria-label','北极星普拉提动作身份证');
+
+ const head=make('header',undefined,'passport-head');
+ const title=make('h3','北极星普拉提｜动作身份证','passport-title');
+ head.append(title);
+ const metaGrid=make('dl',undefined,'passport-meta-grid');
+ const metaItems=[
+  ['动作英文名称',passport.english],
+  ['动作中文名称',passport.chinese],
+  ['器械',passport.apparatus],
+  ['教材页码',passport.textbookPage],
+  ['课程日期',passport.courseDate],
+  ['难度',passport.difficulty],
+  ['分类',passport.category],
+  ['运动链',passport.chain],
+  ['抗阻',passport.resistance]
+ ];
+ for(const [label,val] of metaItems){
+  if(!val)continue;
+  const item=make('div',undefined,'passport-meta-item');
+  item.append(make('dt',label),make('dd',val));
+  metaGrid.append(item);
+ }
+ head.append(metaGrid);
+ card.append(head);
+
+ const addSection=(num,heading)=>{
+  const sec=make('section',undefined,'passport-section');
+  const h=make('h4',undefined,'passport-sec-title');
+  h.append(make('span',num,'passport-sec-num'),document.createTextNode('｜'+heading));
+  sec.append(h);
+  card.append(sec);
+  return sec;
+ };
+
+ // 01｜特征性运动模式
+ if(passport.pattern?.length){
+  const s1=addSection('01','特征性运动模式');
+  for(const line of passport.pattern){const p=make('p');p.append(formatPassportText(line));s1.append(p);}
+ }
+
+ // 02｜难度与分类依据
+ if(passport.difficultyBasis?.length||passport.categoryBasis?.length){
+  const s2=addSection('02','难度与分类依据');
+  if(passport.difficultyBasis?.length){
+   const b=make('div',undefined,'passport-subblock');
+   b.append(make('strong','【难度依据】'));
+   for(const line of passport.difficultyBasis){const p=make('p');p.append(formatPassportText(line));b.append(p);}
+   s2.append(b);
+  }
+  if(passport.categoryBasis?.length){
+   const b=make('div',undefined,'passport-subblock');
+   b.append(make('strong','【分类依据】'));
+   for(const line of passport.categoryBasis){const p=make('p');p.append(formatPassportText(line));b.append(p);}
+   s2.append(b);
+  }
+ }
+
+ // 03｜核心运动原则
+ if(passport.principles?.length){
+  const s3=addSection('03','核心运动原则');
+  const ul=make('ul',undefined,'passport-list');
+  for(const line of passport.principles){const li=make('li');li.append(formatPassportText(line));ul.append(li);}
+  s3.append(ul);
+ }
+
+ // 04｜相关联评估
+ if(passport.assessments?.length){
+  const s4=addSection('04','相关联评估');
+  const table=make('table',undefined,'passport-table');
+  const thead=table.createTHead().insertRow();
+  for(const col of ['评估名称','关联原因','要求或提升']){const th=make('th',col);th.scope='col';thead.append(th);}
+  const tbody=table.createTBody();
+  for(const rowData of passport.assessments){
+   const tr=tbody.insertRow();
+   ['评估名称','关联原因','要求或提升'].forEach((colLabel,idx)=>{
+    const td=tr.insertCell();
+    td.dataset.label=colLabel;
+    td.append(formatPassportText(rowData[idx]||''));
+   });
+  }
+  s4.append(table);
+ }
+
+ // 05｜直接升降阶
+ if(passport.progressions?.length||passport.progressionNote){
+  const s5=addSection('05','直接升降阶');
+  for(const route of (passport.progressions||[])){
+   const flow=make('div',undefined,'passport-flow');
+   route.forEach((step,idx)=>{
+    if(idx>0){
+     const arrow=make('div',undefined,'passport-flow-arrow');
+     arrow.append(make('span','↓','passport-arrow-glyph'),make('span',step.challenge||'进阶挑战','passport-arrow-label'));
+     flow.append(arrow);
+    }
+    const isCurrent=step.actionId&&String(step.actionId)===String(entry.actionId);
+    const hasLink=step.actionId&&!isCurrent&&(validIds.has(String(step.actionId))||validIds.has(Number(step.actionId)));
+    const node=hasLink?make('button',undefined,'passport-flow-node is-link'):make('div',undefined,'passport-flow-node');
+    if(hasLink){node.type='button';node.onclick=()=>window.polestarNotes.openAction(String(step.actionId));}
+    if(isCurrent)node.classList.add('is-current');
+    node.append(make('strong',step.name),make('span',step.level,'passport-flow-level'));
+    flow.append(node);
+   });
+   s5.append(flow);
+  }
+  if(passport.progressionNote){
+   const p=make('p',undefined,'passport-note');
+   p.append(formatPassportText(passport.progressionNote));
+   s5.append(p);
+  }
+ }
+
+ // 06｜同级及相关动作
+ if(passport.related?.length){
+  const s6=addSection('06','同级及相关动作');
+  const table=make('table',undefined,'passport-table');
+  const thead=table.createTHead().insertRow();
+  for(const col of ['动作名称及器械','关联逻辑','关键差异']){const th=make('th',col);th.scope='col';thead.append(th);}
+  const tbody=table.createTBody();
+  for(const rowData of passport.related){
+   const tr=tbody.insertRow();
+   ['动作名称及器械','关联逻辑','关键差异'].forEach((colLabel,idx)=>{
+    const td=tr.insertCell();
+    td.dataset.label=colLabel;
+    td.append(formatPassportText(rowData[idx]||''));
+   });
+  }
+  s6.append(table);
+ }
+
+ // 07｜难度调节与纠错
+ if(passport.adjustments?.length){
+  const s7=addSection('07','难度调节与纠错');
+  const ul=make('ul',undefined,'passport-list');
+  for(const line of passport.adjustments){const li=make('li');li.append(formatPassportText(line));ul.append(li);}
+  s7.append(ul);
+ }
+
+ // 08｜老师原话
+ const s8=addSection('08','老师原话');
+ if(passport.quotes?.length){
+  for(const q of passport.quotes){
+   const bq=make('blockquote',undefined,'passport-quote');
+   bq.append(make('p',q.text||''));
+   const cite=[q.timestamp,q.sourceRef].filter(Boolean).join(' · ');
+   if(cite)bq.append(make('footer',cite));
+   s8.append(bq);
+  }
+ }else if(passport.quoteStatus){
+  const p=make('p',undefined,'passport-quote-status');
+  p.append(formatPassportText(passport.quoteStatus));
+  s8.append(p);
+ }
+
+ container.append(card);
 }
 function render(){stopVariationAudio();stopSpeaking();load();if(!notesAssessmentEnabled){saved.mode='memory';saved.review=false;quizOpen=false;}if(equipmentOpen)renderEquipment();if(plansOpen){renderPlans();}el('notesReview').setAttribute('aria-pressed',String(saved.review));localStatus();renderList();el('notesExam').setAttribute('aria-pressed',String(saved.mode==='exam'));const article=el('notesDetail');article.dataset.mode=saved.mode;article.replaceChildren();
  const backToList=make('button','← 动作列表','notes-back-list');
@@ -9538,6 +10735,7 @@ function render(){stopVariationAudio();stopSpeaking();load();if(!notesAssessment
  if(saved.mode==='memory'){
   renderStudyMedia(entry,article);
   renderTextbookPages(entry,article);
+  renderPassportCard(entry,article);
   const grid=make('div',undefined,'notes-info'),category=make('section',undefined,'notes-block');
   category.dataset.field='pattern';
   category.append(make('h4','动作模式与分类'));
@@ -9557,7 +10755,7 @@ function render(){stopVariationAudio();stopSpeaking();load();if(!notesAssessment
     grid.append(relSec);
    }
   }
-  article.append(mountStudyTabs(entry,grid));
+  article.append(grid);
   const controls=make('div',undefined,'notes-read-controls');
   const read=make('button',saved.read[entry.id]?'✓ 已读':'标记已读');
   read.onclick=()=>{saved.read[entry.id]=true;planMark(entry.id,'read');persist();render();};
@@ -9615,9 +10813,6 @@ function highlightNotes(node,text,field,entry){
 function studyEntryTitle(entry){const action=DATA.actions.find(a=>a.id===entry.actionId);return action?allVariantTitle({...action,name:entry.name}):entry.name;}
 function catalogTitle(row){const action=DATA.actions.find(a=>a.id===row.actionId);if(!action)return row.name;const variant=row.id.endsWith('-climb')?actionVariantsFor(action).find(i=>/climb.*tree/i.test(i.name)):actionVariantFor(action);return actionTitleFor({...action,name:row.name},variant||null);}
 function renderCategory(entry,block){
- const categories=entry.suggestedCategories||[],suggestion=make('div',undefined,'notes-category');
- suggestion.append(make('p','参考1：'+(categories.length?categories.map(c=>c+' · '+(categoryNames[c]||c)).join(' / '):'待核对')+' · '+(entry.suggestedLevel||'待核对')+'（'+(entry.levelSourceLabel||entry.level)+'）','classification-reference-line'));
- const extra=make('div');if(window.PolestarReferences)window.PolestarReferences.render(extra,entry.supplementaryReferences||[],entry.actionId);suggestion.append(extra);
  const action=CARDS.find(item=>item.id===entry.actionId);
  const pairs=action?studyCore.classifications(record(action.id)).filter(pair=>pair.category||pair.level):[];
  const mine=make('div',undefined,'notes-own-classification');
@@ -9634,7 +10829,7 @@ function renderCategory(entry,block){
  for(const pair of pairs)tags.append(make('span',[pair.category&&[pair.category,categoryNames[pair.category]].filter(Boolean).join(' · '),pair.level].filter(Boolean).join(' · ')));
  if(!pairs.length)tags.append(make('span','未设置'));
  mine.append(tags);
- block.append(suggestion,mine);
+ block.append(mine);
 }
 function openRelatedEntry(entry){root.classList.remove('mobile-list-view');
  narration.stop();if(relatedPicker.open)relatedPicker.close();if(picker.open)picker.close();clearNotesFilters();saved.current=entry.id;quizOpen=false;persist();render();el('notesDetail').setAttribute('tabindex','-1');el('notesDetail').focus({preventScroll:true});el('notesDetail').scrollIntoView({block:'start',behavior:'smooth'});
@@ -9945,8 +11140,9 @@ window.polestarNotes={async openPracticeAction(actionId){closeEquipment();if(hos
  closeEquipment();
  if(hostedMode&&!window.polestarCloud?.active)return;
  await ensureData();load();
- const action=DATA.actions.find(a=>a.id===actionId),id=action?.identityAliasOf||actionId;
- const entry=data.entries.find(e=>e.actionId===id)||data.entries.find(e=>e.actionId===actionId);
+ const targetStr=String(actionId);
+ const action=DATA.actions.find(a=>String(a.id)===targetStr),id=String(action?.identityAliasOf||actionId);
+ const entry=data.entries.find(e=>String(e.actionId)===id)||data.entries.find(e=>String(e.actionId)===targetStr);
  if(!entry){toast('这个动作暂时没有学习笔记。');return;}
  if(opts&&Array.isArray(opts.queue))window.__studyQueue=opts.queue;
  saved.review=false;saved.mode='memory';tab('notesStudy');openRelatedEntry(entry);
