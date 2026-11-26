@@ -448,9 +448,9 @@ body.quiz-result-open{padding-bottom:calc(var(--app-nav-h) + 180px + var(--safe-
  .dialog-close-btn{width:40px!important;height:40px!important;min-width:40px!important;min-height:40px!important}
  /* 手机端：全部非媒体类弹窗变为真正贴底 Bottom Sheet（带拖拽条与 safe-area） */
  dialog:not(.media-lightbox):not(#viewer):not(#notesImageDialog):not(#assessmentPhotoDialog){
-  position:fixed!important;top:auto!important;right:0!important;bottom:0!important;left:0!important;margin:0!important;
+  position:fixed!important;top:auto!important;right:0!important;bottom:var(--dialog-bottom,0px)!important;left:0!important;margin:0!important;
   box-sizing:border-box!important;width:100%!important;max-width:100%!important;
-  max-height:min(88dvh,calc(var(--viewport-height,100dvh) - 14px))!important;
+  max-height:var(--dialog-max-height,min(88dvh,calc(var(--viewport-height,100dvh) - 14px)))!important;
   border-radius:26px 26px 0 0!important;border-left:0!important;border-right:0!important;border-bottom:0!important;
   box-shadow:0 -14px 48px rgba(15,23,21,.28),0 -2px 12px rgba(15,23,21,.1)!important;
   transform:translateY(38px);
@@ -856,7 +856,7 @@ body[data-active-tab="notesStudy"] .nav,body.assessment-detail-open .nav{display
  #matrixTable .matrix-entry{grid-template-columns:minmax(0,1fr) 40px;align-items:center}
  #matrixTable .matrix-tool.matrix-speak{min-height:40px!important;width:40px;border-radius:10px;margin:0}
 }
-</style><style>.category-suggestion{margin-top:12px;padding:10px 12px;background:#fff9e9;border-radius:8px;font-size:13px;line-height:1.65}.category-suggestion summary{cursor:pointer}.category-suggestion p{white-space:pre-wrap;color:#777;font-size:12px;margin:10px 0 0}</style><meta name="theme-color" content="#f6f5f0"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-status-bar-style" content="default"><link rel="manifest" href="./manifest.webmanifest"><link rel="icon" type="image/png" href="./icon-192.png"><link rel="apple-touch-icon" href="./icon-180.png"><meta name="polestar-build" content="478d8f202ac9"></head><body class="web-guest"><div class="wrap">
+</style><style>.category-suggestion{margin-top:12px;padding:10px 12px;background:#fff9e9;border-radius:8px;font-size:13px;line-height:1.65}.category-suggestion summary{cursor:pointer}.category-suggestion p{white-space:pre-wrap;color:#777;font-size:12px;margin:10px 0 0}</style><meta name="theme-color" content="#f6f5f0"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-status-bar-style" content="default"><link rel="manifest" href="./manifest.webmanifest"><link rel="icon" type="image/png" href="./icon-192.png"><link rel="apple-touch-icon" href="./icon-180.png"><meta name="polestar-build" content="24ecb9defdb6"></head><body class="web-guest"><div class="wrap">
 <header><div class="brand">普拉提动作库 <small>POLESTAR PILATES</small></div><div class="tools"><button type="button" id="variantToggle" class="variant-toggle" aria-pressed="true">显示变式</button><button id="soundToggle" class="sound-toggle" aria-label="静音" title="静音"></button><button id="saveGame" class="primary">存档</button><button id="loadGame">读档</button><button id="toolsToggle" aria-label="更多功能" aria-expanded="false">⋯</button><button id="portable" class="mobile-secondary">保存随身 HTML</button><button id="checkUpdate" class="mobile-secondary" hidden>检查更新</button><button id="helpOpen" class="mobile-secondary" aria-label="使用说明">?</button></div></header><div id="updateStatus" hidden role="status" aria-live="polite"><div class="inline"><strong id="updateMessage"></strong><span id="updateDetail"></span></div><progress id="updateProgress" max="100" aria-label="更新下载进度"></progress></div><p id="exportDestination" class="muted" style="font-size:11px;text-align:right;margin-top:6px" hidden></p>
 <div class="intro"><div><h1>动作练习</h1></div></div>
 <div id="folderBar" class="folder-bar" hidden><span id="folderHint">首次选择桌面的“普拉提动作库备份”文件夹，即可直接读写进度。</span><button id="chooseFolder">连接存档文件夹</button></div><div id="storageWarning" class="notice" hidden></div>
@@ -2829,7 +2829,20 @@ if(nativeMode){$('checkUpdate').hidden=false;$('checkUpdate').onclick=()=>apiFet
 $('chooseFolder').onclick=()=>connectLocalFolder(diskEnabled?'change':true);
 function closeTools(){document.querySelector('header').classList.remove('menu-open');$('toolsToggle').setAttribute('aria-expanded','false');}
 $('toolsToggle').onclick=()=>{const open=document.querySelector('header').classList.toggle('menu-open');$('toolsToggle').setAttribute('aria-expanded',String(open));};
-if(window.visualViewport){const checkKeyboard=()=>{document.documentElement.style.setProperty('--viewport-height',window.visualViewport.height+'px');document.body.classList.toggle('keyboard-open',window.innerHeight-window.visualViewport.height>150&&/INPUT|TEXTAREA|SELECT/.test(document.activeElement?.tagName));};checkKeyboard();window.visualViewport.addEventListener('resize',checkKeyboard);document.addEventListener('focusout',()=>setTimeout(checkKeyboard,100));}
+if(window.visualViewport){
+ const viewport=window.visualViewport;
+ const updateViewport=()=>{
+  const style=document.documentElement.style;
+  style.setProperty('--viewport-height',viewport.height+'px');
+  style.setProperty('--visual-viewport-bottom',Math.max(0,window.innerHeight-viewport.height-viewport.offsetTop)+'px');
+  document.body.classList.toggle('keyboard-open',window.innerHeight-viewport.height>150&&/INPUT|TEXTAREA|SELECT/.test(document.activeElement?.tagName));
+ };
+ updateViewport();
+ viewport.addEventListener('resize',updateViewport);
+ viewport.addEventListener('scroll',updateViewport);
+ window.addEventListener('resize',updateViewport);
+ document.addEventListener('focusout',()=>setTimeout(updateViewport,100));
+}
 if(hostedMode){$('portable').hidden=true;$('saveState').textContent='已保存在此设备';$('saveState').dataset.syncState='synced';document.querySelector('#help .help').innerHTML='<p>登录账号后，手机和电脑可同步学习进度。顶部“存档”保存独立的云端快照，“读档”选择恢复；读档前会自动备份。</p><p>“更多 → 下载离线资源”可保存全部教材图片和英文语音，完成后没网也能练习。云端存档需要联网。</p><p>iPhone 用 Safari 打开此网页，从分享菜单选择“添加到主屏幕”，即可从桌面图标全屏打开。浏览器可能要求先点击喇叭才能播放声音。</p><p>未登录时记录只保存在当前设备。登录不会自动导入本机记录；本人需要时在账号面板中选择导入。</p>';}
 // 统一为所有弹窗提供“点击外部遮罩关闭”与“关闭后焦点归还”（提交中或有未保存防误关保护）
 (()=>{
@@ -3432,9 +3445,9 @@ window.addEventListener('pagehide',()=>{if(!window.polestarCloud?.active&&diskEn
 .hm-detail-dialog::before{content:"";display:block;height:4px;flex:none;background:linear-gradient(90deg,#4c1d95 0%,#7c3aed 55%,#a78bfa 100%)}
 .hm-dialog-top{display:flex;align-items:center;justify-content:space-between;gap:12px;margin:0;padding:15px 18px 13px;background:#faf8ff;border-bottom:1px solid #e9e2f8;flex:none}
 .hm-eyebrow{color:#6d28d9!important}
-.hm-close-btn{background:#f3eefe!important;border-color:#ddd4f7!important;color:#3b1f78!important}
+.hm-close-btn{background:#f3eefe!important;border-color:#ddd4f7!important;color:#3b1f78!important;position:relative;z-index:1}
 .hm-close-btn:hover{background:#e7defc!important;color:#2e1065!important}
-.hm-detail-body{flex:1;min-height:0;overflow:auto;overscroll-behavior:contain;padding:16px 18px 18px;display:grid;gap:12px}
+.hm-detail-body{flex:1 1 auto;min-height:0;overflow:auto;overscroll-behavior:contain;-webkit-overflow-scrolling:touch;padding:16px 18px 18px;display:grid;gap:12px;align-content:start}
 .hm-pair-banner{padding:12px 14px;border-radius:14px;background:linear-gradient(135deg,#faf7ff 0%,#f3eefe 100%);border:1px solid #e2d8f8;display:grid;gap:10px}
 .hm-type-badge{display:inline-flex;align-items:center;gap:6px;width:fit-content;padding:4px 10px;border-radius:999px;font-size:12px;font-weight:700;letter-spacing:.01em}
 .hm-type-badge::before{content:"";width:7px;height:7px;border-radius:999px;background:currentColor}
@@ -3452,7 +3465,8 @@ window.addEventListener('pagehide',()=>{if(!window.polestarCloud?.active&&diskEn
 .hm-detail-item.is-quote{background:#f7f4fe;border:1px solid #e4dcf8;border-left:3px solid #7c3aed;border-radius:4px 12px 12px 4px}
 .hm-detail-item dt{font-size:11px;font-weight:700;letter-spacing:.02em;color:#6d5c94;margin:0 0 4px}
 .hm-detail-item dd{font-size:13.5px;line-height:1.62;color:#1f1a2e;margin:0;overflow-wrap:anywhere}
-.hm-detail-actions{position:sticky;bottom:-18px;display:flex;flex-wrap:wrap;gap:8px;margin:4px -18px -18px;padding:12px 18px max(14px,env(safe-area-inset-bottom));background:rgba(255,255,255,.95);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);border-top:1px solid #ece6f7}
+.hm-detail-actions{flex:none;display:flex;flex-wrap:wrap;gap:8px;padding:12px 18px max(14px,env(safe-area-inset-bottom));background:rgba(255,255,255,.95);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);border-top:1px solid #ece6f7}
+.hm-detail-actions:empty{display:none}
 .hm-detail-actions button{flex:1 1 130px;min-height:44px!important;border-radius:12px!important;font-size:13.5px!important;font-weight:650;border:1px solid #d7cff0;background:#faf8ff;color:#3b1f78}
 .hm-detail-actions button:hover{background:#efeafe;border-color:#a78bfa}
 .hm-detail-actions .hm-jump-primary{background:#5b21b6!important;border-color:#5b21b6!important;color:#fff!important;box-shadow:0 4px 12px rgba(91,33,182,.26)}
@@ -3463,7 +3477,7 @@ window.addEventListener('pagehide',()=>{if(!window.polestarCloud?.active&&diskEn
 .assessment-card-sheet[open]{display:flex;flex-direction:column}
 .assessment-card-top{display:flex;align-items:center;justify-content:space-between;gap:12px;margin:0;padding:15px 18px 13px;background:#faf9f5;border-bottom:1px solid rgba(31,41,38,.09);flex:none}
 .assessment-card-sheet .assessment-close{float:none!important;position:static!important}
-.assessment-card-body{flex:1;min-height:0;overflow:auto;overscroll-behavior:contain;padding:16px 18px 18px;display:grid;gap:14px}
+.assessment-card-body{flex:1 1 auto;min-height:0;overflow:auto;overscroll-behavior:contain;-webkit-overflow-scrolling:touch;padding:16px 18px 18px;display:grid;gap:14px}
 .assessment-card-hero h2{font-size:21px!important;font-weight:750;line-height:1.26;letter-spacing:-.015em;margin:0;padding:0!important;color:var(--ink,#1f2926)}
 .assessment-card-cn{margin:4px 0 0;font-size:14px;color:var(--muted,#6b7672)}
 .assessment-card-meta{display:flex;align-items:center;flex-wrap:wrap;gap:8px;margin-top:10px}
@@ -3477,6 +3491,14 @@ window.addEventListener('pagehide',()=>{if(!window.polestarCloud?.active&&diskEn
 
 .hm-controls-head{display:none}
 @media(max-width:768px){
+ dialog.hm-detail-dialog{
+  --hm-sheet-height:min(88dvh,calc(var(--viewport-height,100dvh) - 14px));
+  --dialog-bottom:var(--visual-viewport-bottom,0px);
+  --dialog-max-height:var(--hm-sheet-height);
+  height:var(--hm-sheet-height);min-height:var(--hm-sheet-height);
+ }
+ dialog.hm-detail-dialog::before{pointer-events:none}
+ .hm-close-btn{touch-action:manipulation}
  .hm-filter-toggle{display:inline-flex;align-items:center}
  .assessment-heatmap-panel:not(.hm-filters-open) .hm-controls{display:none}
  .assessment-heatmap-panel.hm-filters-open .hm-controls{display:grid;grid-template-columns:1fr 1fr;gap:9px;padding:14px;border-radius:18px;background:#fff;border:1px solid #d9cff2;box-shadow:0 16px 38px -12px rgba(45,19,92,.22);animation:polestarFilterDrop .2s cubic-bezier(.22,1,.36,1)}
@@ -9543,6 +9565,42 @@ window.addEventListener('pagehide',()=>{if(!window.polestarCloud?.active&&diskEn
             "modification": "",
             "quote": "课堂整理记录：提升 Roll Up、Hundred。",
             "courseDate": "2026-11-25（时间戳未核对）"
+          },
+          "Long Sit": {
+            "type": "both",
+            "reason": "课堂建议至少2分，并将 Long Sit 列为可提升项目",
+            "minScore": "建议至少2分",
+            "variant": "Climb a Tree",
+            "modification": "",
+            "quote": "课堂整理记录：Climb a Tree 的 Long Sit 建议至少2分；可提升 Long Sit。",
+            "courseDate": "2026-11-25（时间戳未核对）"
+          },
+          "Prone Knee Bend": {
+            "type": "improve",
+            "reason": "课堂将 Prone Knee Bend 列为该变式可提升项目",
+            "minScore": "",
+            "variant": "Climb a Tree",
+            "modification": "",
+            "quote": "课堂整理记录：Climb a Tree 提升 Long Sit、Prone Knee Bend、Roll Up、Prone Press Up、Hundred、Prone Shoulder Flexion。",
+            "courseDate": "2026-11-25（时间戳未核对）"
+          },
+          "Prone Shoulder Flexion": {
+            "type": "improve",
+            "reason": "课堂将 Prone Shoulder Flexion 列为该变式可提升项目",
+            "minScore": "",
+            "variant": "Climb a Tree",
+            "modification": "",
+            "quote": "课堂整理记录：Climb a Tree 提升 Long Sit、Prone Knee Bend、Roll Up、Prone Press Up、Hundred、Prone Shoulder Flexion。",
+            "courseDate": "2026-11-25（时间戳未核对）"
+          },
+          "Prone Press Up": {
+            "type": "both",
+            "reason": "课堂要求至少2分，并将 Prone Press Up 列为可提升项目",
+            "minScore": "至少2分",
+            "variant": "Climb a Tree",
+            "modification": "",
+            "quote": "课堂整理记录：Climb a Tree 要求 Prone Press Up 至少2分，且可提升该项。",
+            "courseDate": "2026-11-25（时间戳未核对）"
           }
         }
       },
@@ -9633,6 +9691,49 @@ window.addEventListener('pagehide',()=>{if(!window.polestarCloud?.active&&diskEn
         }
       },
       {
+        "actionId": 113,
+        "exercise": "Mermaid - Seated and Kneeling (Chair)",
+        "courseDate": "2026-11-26",
+        "cells": {
+          "Goal Post": {
+            "type": "both",
+            "reason": "3分有利于肩与胸廓整合；可改善肩部在冠状面的活动度",
+            "minScore": "",
+            "variant": "",
+            "modification": "不足3分时，上方手抱头或搭对侧肩",
+            "quote": "Goal Post：3分有利于肩与胸廓整合；不足3分时，上方手抱头或搭对侧肩。 Goal Post：老师明确提到可以改善肩部在冠状面的活动度。",
+            "courseDate": "2026-11-26 · 官方重点版"
+          },
+          "Roll Up": {
+            "type": "improve",
+            "reason": "通过其他平面的脊柱活动间接改善矢状面活动度",
+            "minScore": "",
+            "variant": "",
+            "modification": "",
+            "quote": "Roll Up、Prone Press Up：通过其他平面的脊柱活动间接改善矢状面活动度。",
+            "courseDate": "2026-11-26 · 官方重点版"
+          },
+          "Prone Press Up": {
+            "type": "improve",
+            "reason": "通过其他平面的脊柱活动间接改善矢状面活动度",
+            "minScore": "",
+            "variant": "",
+            "modification": "",
+            "quote": "Roll Up、Prone Press Up：通过其他平面的脊柱活动间接改善矢状面活动度。",
+            "courseDate": "2026-11-26 · 官方重点版"
+          },
+          "Prone Knee Bend": {
+            "type": "require",
+            "reason": "关联的是 Kneeling 变体的分数要求",
+            "minScore": "建议至少2分，1分不建议做该变体",
+            "variant": "Kneeling",
+            "modification": "",
+            "quote": "Prone Knee Bend：Kneeling变体建议至少2分，1分不建议做该变体。",
+            "courseDate": "2026-11-26 · 官方重点版"
+          }
+        }
+      },
+      {
         "actionId": 115,
         "exercise": "Standing Leg Pump",
         "courseDate": "历史课堂整理（P120）",
@@ -9654,6 +9755,22 @@ window.addEventListener('pagehide',()=>{if(!window.polestarCloud?.active&&diskEn
             "modification": "",
             "quote": "课堂整理记录：可帮助提升 Half Squat、Full Squat。",
             "courseDate": "教材 P120（时间戳未核对）"
+          }
+        }
+      },
+      {
+        "actionId": 116,
+        "exercise": "Lateral Flexion",
+        "courseDate": "2026-11-26",
+        "cells": {
+          "Side Lift": {
+            "type": "both",
+            "reason": "本动作要求 Side Lift 至少2分，也可帮助提升该项",
+            "minScore": "至少2分，1分不建议安排",
+            "variant": "",
+            "modification": "",
+            "quote": "Side Lift：至少2分，1分不建议安排。 【提升分数】Side Lift。",
+            "courseDate": "2026-11-26 · 官方重点版"
           }
         }
       },
@@ -9906,11 +10023,11 @@ window.addEventListener('pagehide',()=>{if(!window.polestarCloud?.active&&diskEn
           },
           "Prone Press Up": {
             "type": "both",
-            "reason": "LB Fold Up 大伸展版本既要求胸椎伸展能力，也能帮助提升",
-            "minScore": "LB Fold Up 大伸展 Prone Press Up 至少2分",
-            "variant": "LB Fold Up 大伸展版本",
-            "modification": "1 分时取消或修正",
-            "quote": "课堂整理记录：LB Fold Up 大伸展 Prone Press Up 至少2分，1分取消或修正；提升 LB 大伸展版本的 Prone Press Up。",
+            "reason": "LB Fold Up 大伸展和 Climb a Tree 均要求 Prone Press Up 至少2分，也可帮助提升该项",
+            "minScore": "两种变式均至少2分",
+            "variant": "LB Fold Up 大伸展版本、Climb a Tree",
+            "modification": "LB Fold Up 大伸展版本：1分时取消或修正",
+            "quote": "课堂整理记录：LB Fold Up 大伸展 Prone Press Up 至少2分，1分取消或修正；提升 LB 大伸展版本的 Prone Press Up。 同日 Climb a Tree 课堂整理记录：Prone Press Up 至少2分，且可提升该项。",
             "courseDate": "2026-11-25（时间戳未核对）"
           },
           "Roll Up": {
@@ -9929,6 +10046,33 @@ window.addEventListener('pagehide',()=>{if(!window.polestarCloud?.active&&diskEn
             "variant": "",
             "modification": "",
             "quote": "课堂整理记录：提升 Roll Up、Hundred。",
+            "courseDate": "2026-11-25（时间戳未核对）"
+          },
+          "Long Sit": {
+            "type": "both",
+            "reason": "课堂建议至少2分，并将 Long Sit 列为可提升项目",
+            "minScore": "建议至少2分",
+            "variant": "Climb a Tree",
+            "modification": "",
+            "quote": "课堂整理记录：Climb a Tree 的 Long Sit 建议至少2分；可提升 Long Sit。",
+            "courseDate": "2026-11-25（时间戳未核对）"
+          },
+          "Prone Knee Bend": {
+            "type": "improve",
+            "reason": "课堂将 Prone Knee Bend 列为该变式可提升项目",
+            "minScore": "",
+            "variant": "Climb a Tree",
+            "modification": "",
+            "quote": "课堂整理记录：Climb a Tree 提升 Long Sit、Prone Knee Bend、Roll Up、Prone Press Up、Hundred、Prone Shoulder Flexion。",
+            "courseDate": "2026-11-25（时间戳未核对）"
+          },
+          "Prone Shoulder Flexion": {
+            "type": "improve",
+            "reason": "课堂将 Prone Shoulder Flexion 列为该变式可提升项目",
+            "minScore": "",
+            "variant": "Climb a Tree",
+            "modification": "",
+            "quote": "课堂整理记录：Climb a Tree 提升 Long Sit、Prone Knee Bend、Roll Up、Prone Press Up、Hundred、Prone Shoulder Flexion。",
             "courseDate": "2026-11-25（时间戳未核对）"
           }
         }
@@ -10410,13 +10554,18 @@ const hmDialogTop=make('div',null,'dialog-top hm-dialog-top');
 const hmTitleGroup=make('div',null,'dialog-title-group');
 const hmEyebrow=make('span','关联矩阵 · 详情','dialog-eyebrow hm-eyebrow');
 const hmDialogTitle=make('strong','关联详情','dialog-heading');
+hmDialogTitle.id='assessmentHeatmapDialogTitle';
+hmDialog.setAttribute('aria-labelledby',hmDialogTitle.id);
 hmTitleGroup.append(hmEyebrow,hmDialogTitle);
 const hmDialogClose=make('button','×','dialog-close-btn hm-close-btn');
 hmDialogClose.type='button';hmDialogClose.setAttribute('aria-label','关闭关联详情');
-hmDialogClose.onclick=()=>hmDialog.close();
+hmDialogClose.onclick=event=>{event.stopPropagation();hmDialog.close();};
 hmDialogTop.append(hmTitleGroup,hmDialogClose);
 const hmDialogBody=make('div',null,'hm-detail-body');
-hmDialog.append(hmDialogTop,hmDialogBody);
+const hmDialogActions=make('div',null,'hm-detail-actions');
+hmDialog.append(hmDialogTop,hmDialogBody,hmDialogActions);
+// 保留同一元素上的通用遮罩关闭逻辑，阻止点击继续冒泡。
+hmDialog.addEventListener('click',event=>event.stopPropagation());
 document.body.append(hmDialog);
 
 const hmTypeLabels={both:'要求分数且提升分数',improve:'提升分数',require:'要求分数'};
@@ -10425,6 +10574,7 @@ let hmMounted=false;
 
 function openHeatmapDetail(row,assessmentName,cell){
  hmDialogBody.replaceChildren();
+ hmDialogActions.replaceChildren();
  hmDialogTitle.textContent=row.exercise+' × '+assessmentName;
  // 顶部配对摘要条 + 紫系关联类型徽章
  const pairCard=make('div',null,'hm-pair-banner');
@@ -10452,7 +10602,6 @@ function openHeatmapDetail(row,assessmentName,cell){
   dl.append(item);
  }
  hmDialogBody.append(dl);
- const jumpRow=make('div',null,'hm-detail-actions');
  if(row.actionId&&window.polestarNotes){
   const goAction=make('button','查看动作详情 →','hm-jump-primary');
   goAction.type='button';
@@ -10463,16 +10612,15 @@ function openHeatmapDetail(row,assessmentName,cell){
    catch(err){if(window.polestarNav?.peek()?.tabIndex===2)window.polestarNav.clear();toast(err?.message||'暂无法打开动作详情');}
    finally{goAction.disabled=false;}
   };
-  jumpRow.append(goAction);
+  hmDialogActions.append(goAction);
  }
  const targetAssessment=source.entries.find(e=>e.name.toLowerCase()===String(assessmentName||'').toLowerCase());
  if(targetAssessment){
   const goAssess=make('button','查看评估详情');
   goAssess.type='button';
   goAssess.onclick=()=>{hmDialog.close();openEntry(targetAssessment.id,{sourceTab:2,label:'关联矩阵'});};
-  jumpRow.append(goAssess);
+  hmDialogActions.append(goAssess);
  }
- if(jumpRow.children.length)hmDialogBody.append(jumpRow);
  if(!hmDialog.open)hmDialog.showModal();
  hmDialogBody.scrollTop=0;hmDialog.scrollTop=0;
 }
