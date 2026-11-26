@@ -55,7 +55,7 @@
   }catch(error){fail(error.message==='save'?'进度暂未保存，请稍后再试':error.message==='publishing'?'新版正在发布，请稍后再试':'暂时无法连接，请联网后重试');return false;}
  }
  function blocked(target){
-  if(document.querySelector('dialog[open]')||target.closest('button,a,input,textarea,select,[contenteditable=true]'))return true;
+  if(document.querySelector('dialog[open]')||target.closest('button,a,input,textarea,select,[contenteditable=true],.textbook-reading-scroll,.hm-table-wrap'))return true;
   for(let node=target;node&&node!==document.body&&node!==document.documentElement;node=node.parentElement){const css=getComputedStyle(node);if(/auto|scroll/.test(css.overflowY)&&node.scrollHeight>node.clientHeight+1)return true;}return false;
  }
  document.addEventListener('touchstart',event=>{if(busy||event.touches.length!==1||scrollY>1||!(event.target instanceof Element)||blocked(event.target)){start=null;return;}const touch=event.touches[0];start={x:touch.clientX,y:touch.clientY};pulling=false;armed=false;},{passive:true});
