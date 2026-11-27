@@ -856,7 +856,7 @@ body[data-active-tab="notesStudy"] .nav,body.assessment-detail-open .nav{display
  #matrixTable .matrix-entry{grid-template-columns:minmax(0,1fr) 40px;align-items:center}
  #matrixTable .matrix-tool.matrix-speak{min-height:40px!important;width:40px;border-radius:10px;margin:0}
 }
-</style><style>.category-suggestion{margin-top:12px;padding:10px 12px;background:#fff9e9;border-radius:8px;font-size:13px;line-height:1.65}.category-suggestion summary{cursor:pointer}.category-suggestion p{white-space:pre-wrap;color:#777;font-size:12px;margin:10px 0 0}</style><meta name="theme-color" content="#f6f5f0"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-status-bar-style" content="default"><link rel="manifest" href="./manifest.webmanifest"><link rel="icon" type="image/png" href="./icon-192.png"><link rel="apple-touch-icon" href="./icon-180.png"><meta name="polestar-build" content="c8e435026c5b"></head><body class="web-guest"><div class="wrap">
+</style><style>.category-suggestion{margin-top:12px;padding:10px 12px;background:#fff9e9;border-radius:8px;font-size:13px;line-height:1.65}.category-suggestion summary{cursor:pointer}.category-suggestion p{white-space:pre-wrap;color:#777;font-size:12px;margin:10px 0 0}</style><meta name="theme-color" content="#f6f5f0"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-status-bar-style" content="default"><link rel="manifest" href="./manifest.webmanifest"><link rel="icon" type="image/png" href="./icon-192.png"><link rel="apple-touch-icon" href="./icon-180.png"><meta name="polestar-build" content="32b0af58159e"></head><body class="web-guest"><div class="wrap">
 <header><div class="brand">普拉提动作库 <small>POLESTAR PILATES</small></div><div class="tools"><button type="button" id="variantToggle" class="variant-toggle" aria-pressed="true">显示变式</button><button id="soundToggle" class="sound-toggle" aria-label="静音" title="静音"></button><button id="saveGame" class="primary">存档</button><button id="loadGame">读档</button><button id="toolsToggle" aria-label="更多功能" aria-expanded="false">⋯</button><button id="portable" class="mobile-secondary">保存随身 HTML</button><button id="checkUpdate" class="mobile-secondary" hidden>检查更新</button><button id="helpOpen" class="mobile-secondary" aria-label="使用说明">?</button></div></header><div id="updateStatus" hidden role="status" aria-live="polite"><div class="inline"><strong id="updateMessage"></strong><span id="updateDetail"></span></div><progress id="updateProgress" max="100" aria-label="更新下载进度"></progress></div><p id="exportDestination" class="muted" style="font-size:11px;text-align:right;margin-top:6px" hidden></p>
 <div class="intro"><div><h1>动作练习</h1></div></div>
 <div id="folderBar" class="folder-bar" hidden><span id="folderHint">首次选择桌面的“普拉提动作库备份”文件夹，即可直接读写进度。</span><button id="chooseFolder">连接存档文件夹</button></div><div id="storageWarning" class="notice" hidden></div>
@@ -11087,6 +11087,88 @@ window.polestarAssessments={
 .notes-fold:not([open]) .notes-process-key{display:none}
 .notes-fold-content{padding-top:10px}
 .notes-fold>summary:focus-visible{outline:2px solid #8a5100;outline-offset:4px;border-radius:4px}
+
+/* 课堂笔记脑图 */
+#notesDetail .classroom-map{
+ --map-ink:#33205b;--map-muted:#624c80;--map-line:#d9cbea;
+ grid-column:1/-1!important;background:#f8f3fc!important;border-color:var(--map-line)!important;
+}
+#notesDetail .classroom-map>h4{color:var(--map-ink);margin-bottom:3px!important}
+.classroom-map-source{font-size:13px;line-height:1.5;color:var(--map-muted);overflow-wrap:anywhere}
+.classroom-map-tools{display:flex;align-items:center;justify-content:space-between;gap:8px;margin:7px 0;font-size:12px;color:var(--map-muted)}
+.classroom-map-controls{display:flex;gap:4px}
+#notesDetail .classroom-map button{font-family:inherit;cursor:pointer;touch-action:manipulation}
+#notesDetail .classroom-map button:focus-visible{outline:2px solid #6342aa;outline-offset:2px}
+#notesDetail .classroom-map-controls button,#notesDetail .classroom-map-reader-head button{
+ min-width:44px;min-height:44px;padding:0 8px;border:1px solid var(--map-line);
+ border-radius:10px;background:#fdfaff;color:var(--map-ink);font-size:13px;box-shadow:none;
+}
+#notesDetail .classroom-map-controls button:nth-child(-n+2){font-size:20px}
+#notesDetail .classroom-map-controls button:disabled{opacity:.48;cursor:default}
+.classroom-map-viewport{
+ position:relative;overflow:hidden;overflow:clip;isolation:isolate;
+ border:1px solid var(--map-line);border-radius:14px;touch-action:none;user-select:none;
+ background:radial-gradient(circle at center,#f8efff 3%,transparent 60%),radial-gradient(circle,#b397d680 1px,transparent 1px) 0 0/15px 15px,#eee4f8;
+}
+.classroom-map-viewport.is-zoomed{cursor:grab}
+.classroom-map-viewport.is-dragging,.classroom-map-viewport.is-dragging button{cursor:grabbing!important}
+.classroom-map-stage{
+ position:relative;display:grid;grid-template-columns:minmax(0,1fr) clamp(34px,14%,84px) minmax(0,1fr);
+ align-items:center;row-gap:6px;padding:12px;transform-origin:0 0;
+}
+.classroom-map-stage.is-wide{
+ grid-template-columns:minmax(0,1fr) minmax(142px,28%) minmax(0,1fr);
+ padding:20px 26px;gap:7px clamp(22px,6%,52px);
+}
+.classroom-map-lines{position:absolute;inset:0;width:100%;height:100%;pointer-events:none}
+.classroom-map-lines path{fill:none;stroke:var(--branch-stroke);stroke-width:1.6;stroke-linecap:round}
+.classroom-map [data-color="0"]{--branch-bg:#faf0ff;--branch-stroke:#a279c7;--branch-ink:#563277}
+.classroom-map [data-color="1"]{--branch-bg:#f0ecff;--branch-stroke:#8a78c1;--branch-ink:#48377e}
+.classroom-map [data-color="2"]{--branch-bg:#fff0fa;--branch-stroke:#b67ca8;--branch-ink:#733b66}
+.classroom-map [data-color="3"]{--branch-bg:#eeeafa;--branch-stroke:#8b82bd;--branch-ink:#473c76}
+.classroom-map-hub{
+ position:relative;justify-self:center;text-align:center;display:grid;align-content:center;gap:3px;min-height:44px;
+ width:max-content;max-width:min(100%,216px);padding:8px 12px;margin:3px 0;
+ border-radius:14px;background:#533485;color:#fff;box-shadow:0 4px 13px #4c30732b;
+ line-height:1.28;overflow-wrap:anywhere;
+}
+.classroom-map-hub strong{font-size:15px}
+.classroom-map-hub span{font-size:12px;color:#f3e8ff}
+#notesDetail .classroom-map-branch{
+ position:relative;min-width:0;min-height:44px;padding:5px 6px;
+ border:1px solid var(--branch-stroke);border-radius:11px;
+ background:var(--branch-bg);color:var(--branch-ink);font-size:13px;font-weight:600;
+ line-height:1.3;white-space:normal;overflow-wrap:anywhere;box-shadow:none;
+}
+#notesDetail .classroom-map-branch[aria-expanded="true"]{background:var(--branch-ink);border-color:var(--branch-ink);color:#fff}
+@media(hover:hover){
+ #notesDetail .classroom-map-branch[aria-expanded="false"]:hover{box-shadow:inset 0 0 0 1px var(--branch-stroke)}
+}
+.classroom-map-reader{
+ margin-top:12px;border:1px solid var(--map-line);border-radius:14px;background:#eee4f8;color:var(--map-ink);
+ scroll-margin:74px 0 94px;
+}
+.classroom-map-reader-head{
+ display:flex;align-items:center;justify-content:space-between;gap:12px;padding:7px 12px;
+ border-bottom:1px solid var(--map-line);
+}
+.classroom-map-reader-head h5{margin:0;font-size:16px;line-height:1.5;overflow-wrap:anywhere}
+.classroom-map-reader-body{
+ max-height:min(44vh,400px);max-height:min(44dvh,400px);overflow:auto;overscroll-behavior:contain;
+ padding:12px 14px 16px;scrollbar-color:#b59acf transparent;
+}
+#notesDetail .classroom-map-reader-body p{
+ margin:0;max-width:70ch;white-space:pre-wrap;overflow-wrap:anywhere;color:var(--map-ink);
+}
+@media(max-width:600px){
+ #notesDetail .classroom-map{padding:13px 10px!important}
+ .classroom-map-tools,.classroom-map-source,#notesDetail .classroom-map>h4{margin-inline:2px}
+}
+.notes-textbook-header{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap}
+.notes-textbook-header h4{margin:0}
+.notes-textbook-header button{min-height:44px;font-size:13px}
+.notes-textbook-header button[aria-pressed=true]{background:#fff2cd;border-color:#b97900;color:#6c4200}
+.notes-textbook-pages img.notes-textbook-enhanced{filter:url("#notesTextbookContrast") contrast(1.15)}
 .notes-textbook-header{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap}
 .notes-textbook-header h4{margin:0}
 .notes-textbook-header button{min-height:44px;font-size:13px}
@@ -11848,10 +11930,192 @@ function renderPassportCard(entry,container){
 
  container.append(card);
 }
-let detailHeroObserver=null,detailSpyObserver=null;
+let detailHeroObserver=null,detailSpyObserver=null,detailClassroomObserver=null;
 function cleanupDetailObservers(){
  if(detailHeroObserver){detailHeroObserver.disconnect();detailHeroObserver=null;}
  if(detailSpyObserver){detailSpyObserver.disconnect();detailSpyObserver=null;}
+ if(detailClassroomObserver){detailClassroomObserver.disconnect();detailClassroomObserver=null;}
+}
+function renderClassroomMap(entry,note){
+ const section=make('section',undefined,'notes-block classroom-map');
+ section.id='detailSecClassroom';
+ const tools=make('div',undefined,'classroom-map-tools');
+ const controls=make('div',undefined,'classroom-map-controls');
+ const viewport=make('div',undefined,'classroom-map-viewport');
+ const stage=make('div',undefined,'classroom-map-stage');
+ const hub=make('div',undefined,'classroom-map-hub');
+ if(entry.cn)hub.append(make('strong',entry.cn));
+ hub.append(make(entry.cn?'span':'strong',entry.name));
+ const svgElement=tag=>document.createElementNS('http://www.w3.org/2000/svg',tag);
+ const lines=svgElement('svg');
+ lines.setAttribute('aria-hidden','true');
+ lines.classList.add('classroom-map-lines');
+ const reader=make('section',undefined,'classroom-map-reader');
+ reader.id='classroomMapReader';
+ reader.hidden=true;
+ const heading=make('h5');
+ heading.id='classroomMapReaderTitle';
+ reader.setAttribute('aria-labelledby',heading.id);
+ const close=make('button','关闭');
+ close.type='button';
+ const readerHead=make('div',undefined,'classroom-map-reader-head');
+ const readerBody=make('div',undefined,'classroom-map-reader-body');
+ readerBody.tabIndex=0;
+ readerBody.setAttribute('role','region');
+ readerBody.setAttribute('aria-labelledby',heading.id);
+ const body=make('p');
+ readerHead.append(heading,close);
+ readerBody.append(body);
+ reader.append(readerHead,readerBody);
+
+ const branches=note.sections.map(([title,text],index)=>{
+  const button=make('button',title,'classroom-map-branch');
+  button.type='button';
+  button.dataset.color=index%4;
+  button.setAttribute('aria-controls',reader.id);
+  button.setAttribute('aria-expanded','false');
+  const line=svgElement('path');
+  line.dataset.color=button.dataset.color;
+  line.setAttribute('vector-effect','non-scaling-stroke');
+  lines.append(line);
+  button.onclick=()=>{
+   if(selected===button){close.click();return;}
+   selected?.setAttribute('aria-expanded','false');
+   selected=button;
+   button.setAttribute('aria-expanded','true');
+   heading.textContent=title;
+   body.textContent=text;
+   reader.hidden=false;
+   readerBody.scrollTop=0;
+   close.focus({preventScroll:true});
+   reader.scrollIntoView({block:'nearest'});
+  };
+  return {button,line};
+ });
+ let selected=null;
+ close.onclick=()=>{
+  const button=selected;
+  selected=null;
+  button.setAttribute('aria-expanded','false');
+  reader.hidden=true;
+  button.focus({preventScroll:true});
+  viewport.scrollIntoView({block:'nearest'});
+ };
+ reader.addEventListener('keydown',event=>{
+  if(event.key==='Escape'){event.stopPropagation();close.click();}
+ });
+
+ const minScale=1,maxScale=2.4;
+ let scale=1,x=0,y=0;
+ function control(text,label,action){
+  const button=make('button',text);
+  button.type='button';
+  button.setAttribute('aria-label',label);
+  button.onclick=action;
+  controls.append(button);
+  return button;
+ }
+ const zoomOut=control('−','缩小脑图',()=>zoomAt(scale/1.25));
+ const zoomIn=control('+','放大脑图',()=>zoomAt(scale*1.25));
+ control('复位','复位脑图',()=>{scale=1;x=0;y=0;paint();});
+ tools.append(make('span','点分支读原文'),controls);
+ stage.append(lines,hub,...branches.map(({button})=>button));
+ viewport.append(stage);
+ section.append(make('h4','课堂笔记'),make('div',note.source,'classroom-map-source'),tools,viewport,reader);
+
+ function paint(){
+  x=Math.max(viewport.clientWidth*(1-scale),Math.min(0,x));
+  y=Math.max(viewport.clientHeight*(1-scale),Math.min(0,y));
+  stage.style.transform=`translate(${x}px,${y}px) scale(${scale})`;
+  viewport.classList.toggle('is-zoomed',scale>1);
+  zoomOut.disabled=scale<=minScale;
+  zoomIn.disabled=scale>=maxScale;
+ }
+ function zoomAt(value,fromX=viewport.clientWidth/2,fromY=viewport.clientHeight/2,toX=fromX,toY=fromY){
+  const next=Math.max(minScale,Math.min(maxScale,value));
+  x=toX-(fromX-x)*next/scale;
+  y=toY-(fromY-y)*next/scale;
+  scale=next;
+  paint();
+ }
+ function layout(){
+  const wide=viewport.clientWidth>=540;
+  const rows=Math.ceil(branches.length/2);
+  const middle=Math.floor(rows/2)+1;
+  stage.classList.toggle('is-wide',wide);
+  hub.style.gridArea=wide?`1 / 2 / span ${rows} / 3`:`${middle} / 1 / auto / 4`;
+  branches.forEach(({button},index)=>{
+   const left=index<rows;
+   const row=index%rows+1;
+   button.style.gridArea=`${row+(!wide&&row>=middle?1:0)} / ${left?1:3}`;
+  });
+  const centerX=hub.offsetLeft+hub.offsetWidth/2;
+  const centerY=hub.offsetTop+hub.offsetHeight/2;
+  branches.forEach(({button,line},index)=>{
+   const left=index<rows;
+   const endX=button.offsetLeft+(left?button.offsetWidth:0);
+   const endY=button.offsetTop+button.offsetHeight/2;
+   const startX=wide?hub.offsetLeft+(left?0:hub.offsetWidth):centerX;
+   const startY=wide?centerY:endY<centerY?hub.offsetTop:hub.offsetTop+hub.offsetHeight;
+   const bendX=endX+(startX-endX)*.58;
+   line.setAttribute('d',`M ${startX} ${startY} C ${bendX} ${startY}, ${bendX} ${endY}, ${endX} ${endY}`);
+  });
+  paint();
+ }
+ detailClassroomObserver=new ResizeObserver(()=>{
+  requestAnimationFrame(()=>{
+   if(stage.isConnected&&viewport.clientWidth)layout();
+  });
+ });
+ detailClassroomObserver.observe(stage);
+
+ const pointers=new Map();
+ let moved=false;
+ function gesture(){
+  const [first,second]=pointers.values();
+  if(!second)return {x:first.clientX,y:first.clientY,distance:0};
+  return {
+   x:(first.clientX+second.clientX)/2,
+   y:(first.clientY+second.clientY)/2,
+   distance:Math.hypot(first.clientX-second.clientX,first.clientY-second.clientY)
+  };
+ }
+ viewport.addEventListener('pointerdown',event=>{
+  if(event.button!==0||pointers.size>=2)return;
+  moved=pointers.size>0;
+  pointers.set(event.pointerId,event);
+  event.target.setPointerCapture(event.pointerId);
+ });
+ viewport.addEventListener('pointermove',event=>{
+  if(!pointers.has(event.pointerId))return;
+  const from=gesture();
+  if(pointers.size===1&&!moved&&Math.hypot(event.clientX-from.x,event.clientY-from.y)<6)return;
+  pointers.set(event.pointerId,event);
+  const to=gesture();
+  moved=true;
+  viewport.classList.add('is-dragging');
+  const rect=viewport.getBoundingClientRect();
+  const ratio=from.distance&&to.distance?to.distance/from.distance:1;
+  zoomAt(scale*ratio,from.x-rect.left,from.y-rect.top,to.x-rect.left,to.y-rect.top);
+ });
+ for(const type of ['pointerup','pointercancel','lostpointercapture']){
+  viewport.addEventListener(type,event=>{
+   pointers.delete(event.pointerId);
+   if(!pointers.size)viewport.classList.remove('is-dragging');
+  });
+ }
+ viewport.addEventListener('click',event=>{
+  if(moved&&event.detail){event.stopPropagation();event.preventDefault();}
+ },true);
+ // 键盘移到画布边缘的分支时，仅调整图内位置。
+ viewport.addEventListener('focusin',({target})=>{
+  if(scale===1||!target.matches('.classroom-map-branch:focus-visible'))return;
+  const view=viewport.getBoundingClientRect(),node=target.getBoundingClientRect();
+  x+=Math.min(0,view.right-node.right-4)+Math.max(0,view.left-node.left+4);
+  y+=Math.min(0,view.bottom-node.bottom-4)+Math.max(0,view.top-node.top+4);
+  paint();
+ });
+ return section;
 }
 function render(){cleanupDetailObservers();stopVariationAudio();stopSpeaking();load();if(!notesAssessmentEnabled){saved.mode='memory';saved.review=false;quizOpen=false;}if(equipmentOpen)renderEquipment();if(plansOpen){renderPlans();}el('notesReview').setAttribute('aria-pressed',String(saved.review));localStatus();renderList();el('notesExam').setAttribute('aria-pressed',String(saved.mode==='exam'));const article=el('notesDetail');article.dataset.mode=saved.mode;article.replaceChildren();
  const entry=data.entries.find(e=>e.id===saved.current);if(!entry){article.append(make('p','请选择动作','notes-empty'));return;}
@@ -11910,15 +12174,7 @@ function render(){cleanupDetailObservers();stopVariationAudio();stopSpeaking();l
   personal.id='notesInlinePersonal';
   grid.append(personal);
   const classroomNote=analysisByAction.get(Number(entry.actionId));
-  if(classroomNote){
-   const section=make('section',undefined,'notes-block');section.id='detailSecClassroom';
-   section.append(make('h4','课堂笔记'),make('p',classroomNote.source,'notes-quiet'));
-   for(const [title,text] of classroomNote.sections){
-    const block=make('details',undefined,'notes-fold'),summary=make('summary',title),content=make('p',text);
-    content.style.whiteSpace='pre-wrap';block.append(summary,content);section.append(block);
-   }
-   grid.append(section);
-  }
+  if(classroomNote)grid.append(renderClassroomMap(entry,classroomNote));
   let relSec=null;
   if(typeof window.polestarRelationCards==='function'&&entry.actionId){
    const relCards=window.polestarRelationCards(entry.actionId,targetId=>{
@@ -12473,7 +12729,7 @@ for(const id of ['notesExam','notesReview','notesPlanMode'])el(id).addEventListe
   if(document.body.dataset.activeTab!=='notesStudy'||e.touches.length!==1||document.querySelector('dialog[open]'))return;
   const x=e.touches[0].clientX;
   if(x<28||x>window.innerWidth-28)return;
-  if(e.target.closest('.textbook-reading-scroll,.detail-jump-bar,table,button,a,input,select,textarea'))return;
+  if(e.target.closest('.textbook-reading-scroll,.detail-jump-bar,.classroom-map,table,button,a,input,select,textarea'))return;
   sx=x;sy=e.touches[0].clientY;tracking=true;
  },{passive:true});
  root.addEventListener('touchend',e=>{
