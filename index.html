@@ -856,7 +856,7 @@ body[data-active-tab="notesStudy"] .nav,body.assessment-detail-open .nav{display
  #matrixTable .matrix-entry{grid-template-columns:minmax(0,1fr) 40px;align-items:center}
  #matrixTable .matrix-tool.matrix-speak{min-height:40px!important;width:40px;border-radius:10px;margin:0}
 }
-</style><style>.category-suggestion{margin-top:12px;padding:10px 12px;background:#fff9e9;border-radius:8px;font-size:13px;line-height:1.65}.category-suggestion summary{cursor:pointer}.category-suggestion p{white-space:pre-wrap;color:#777;font-size:12px;margin:10px 0 0}</style><meta name="theme-color" content="#f6f5f0"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-status-bar-style" content="default"><link rel="manifest" href="./manifest.webmanifest"><link rel="icon" type="image/png" href="./icon-192.png"><link rel="apple-touch-icon" href="./icon-180.png"><meta name="polestar-build" content="a9a810f02fa6"></head><body class="web-guest"><div class="wrap">
+</style><style>.category-suggestion{margin-top:12px;padding:10px 12px;background:#fff9e9;border-radius:8px;font-size:13px;line-height:1.65}.category-suggestion summary{cursor:pointer}.category-suggestion p{white-space:pre-wrap;color:#777;font-size:12px;margin:10px 0 0}</style><meta name="theme-color" content="#f6f5f0"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-status-bar-style" content="default"><link rel="manifest" href="./manifest.webmanifest"><link rel="icon" type="image/png" href="./icon-192.png"><link rel="apple-touch-icon" href="./icon-180.png"><meta name="polestar-build" content="6fe9b3e2988f"></head><body class="web-guest"><div class="wrap">
 <header><div class="brand">普拉提动作库 <small>POLESTAR PILATES</small></div><div class="tools"><button type="button" id="variantToggle" class="variant-toggle" aria-pressed="true">显示变式</button><button id="soundToggle" class="sound-toggle" aria-label="静音" title="静音"></button><button id="saveGame" class="primary">存档</button><button id="loadGame">读档</button><button id="toolsToggle" aria-label="更多功能" aria-expanded="false">⋯</button><button id="portable" class="mobile-secondary">保存随身 HTML</button><button id="checkUpdate" class="mobile-secondary" hidden>检查更新</button><button id="helpOpen" class="mobile-secondary" aria-label="使用说明">?</button></div></header><div id="updateStatus" hidden role="status" aria-live="polite"><div class="inline"><strong id="updateMessage"></strong><span id="updateDetail"></span></div><progress id="updateProgress" max="100" aria-label="更新下载进度"></progress></div><p id="exportDestination" class="muted" style="font-size:11px;text-align:right;margin-top:6px" hidden></p>
 <div class="intro"><div><h1>动作练习</h1></div></div>
 <div id="folderBar" class="folder-bar" hidden><span id="folderHint">首次选择桌面的“普拉提动作库备份”文件夹，即可直接读写进度。</span><button id="chooseFolder">连接存档文件夹</button></div><div id="storageWarning" class="notice" hidden></div>
@@ -879,7 +879,7 @@ body[data-active-tab="notesStudy"] .nav,body.assessment-detail-open .nav{display
   </div>
   <div id="libraryLevelBar" class="library-chip-bar" role="group" aria-label="按级别多选筛选"></div>
   <div id="libraryAppBar" class="library-chip-bar" role="group" aria-label="按器械多选筛选"></div>
-  <div id="libraryStatusBar" class="library-status-bar"><span id="libraryStatusText" class="library-status-text" role="status"></span><button type="button" id="libraryResetInline" class="library-reset-inline" hidden>重置筛选</button></div>
+  <div id="libraryStatusBar" class="library-status-bar"><span id="libraryStatusText" class="library-status-text" role="status"></span><span class="library-status-actions"><button type="button" id="libraryClassroomFilter" class="library-classroom-toggle" aria-pressed="false" hidden>课堂笔记</button><button type="button" id="libraryResetInline" class="library-reset-inline" hidden>重置筛选</button></span></div>
  </div>
  <div class="library-browser">
   <nav id="libraryCategories" aria-label="动作分类多选"></nav>
@@ -1373,9 +1373,12 @@ function clearAutofilledSearch(){
  if(/@/.test(s.value)&&document.activeElement!==s)s.value='';
 }
 const librarySelectedCats=new Set(),librarySelectedLevels=new Set(),librarySelectedApps=new Set();
+let libraryOnlyClassroom=false;
+function hasClassroomNote(actionId){return !!window.polestarNotes?.hasClassroomNote?.(actionId);}
 function resetLibraryFilters(){
  if($('search'))$('search').value='';
  librarySelectedCats.clear();librarySelectedLevels.clear();librarySelectedApps.clear();
+ libraryOnlyClassroom=false;
  if(typeof syncAllLibraryFilterBars==='function')syncAllLibraryFilterBars();
  renderLibrary();
 }
@@ -1401,7 +1404,8 @@ function filteredCards(categoryOverride=null){
   return (!query||[action.name,action.cn].some(name=>name?.toLowerCase().includes(query)))
    &&(!cats.size||[...cats].some(cat=>matchesLibraryCategory(action,item,cat)))
    &&(!librarySelectedLevels.size||librarySelectedLevels.has(libraryLevel(action)))
-   &&(!librarySelectedApps.size||librarySelectedApps.has(item.apparatus||apparatusFor(action.id)));
+   &&(!librarySelectedApps.size||librarySelectedApps.has(item.apparatus||apparatusFor(action.id)))
+   &&(!libraryOnlyClassroom||hasClassroomNote(action.id));
  });
 }
 function syncLibraryCategoryCounts(){
@@ -1420,6 +1424,7 @@ function syncLibraryStatus(count){
  if(librarySelectedLevels.size)parts.push([...librarySelectedLevels].join('/'));
  if(librarySelectedApps.size)parts.push([...librarySelectedApps].map(k=>UNIFIED_APP_NAMES[k]||k).join('/'));
  if(librarySelectedCats.size)parts.push([...librarySelectedCats].join('/'));
+ if(libraryOnlyClassroom)parts.push('有课堂笔记');
  if(query)parts.push('「'+query+'」');
  const hasFilter=parts.length>0;
  if($('libraryStatusText'))$('libraryStatusText').textContent=hasFilter?`筛选出 ${count} 个动作 · ${parts.join(' · ')}`:`共 ${count} 个动作`;
@@ -1435,7 +1440,7 @@ function openFullImage(action,index=0){
  $('viewerPrev').disabled=index===0;$('viewerNext').disabled=index===action.images.length-1;
  if(!$('viewer').open)$('viewer').showModal();
 }
-function renderLibrary(){syncLibraryCategoryCounts();const list=filteredCards();syncLibraryStatus(list.length);$('libraryGrid').replaceChildren();if(!list.length){const box=document.createElement('div');box.className='empty-state-card';const p=document.createElement('p');p.textContent='当前筛选条件下暂无动作';const resetBtn=makeButton('重置全部筛选',resetLibraryFilters,'primary');box.append(p,resetBtn);$('libraryGrid').append(box);return;}const appLabel=k=>UNIFIED_APP_NAMES[k]||APPS.find(x=>x[0]===k)?.[1]||k;const queueIds=list.map(x=>x.id);for(const a of list){const r=record(a.id);const row=makeButton('',async()=>{if(row.disabled)return;row.disabled=true;row.classList.add('is-loading');const snap={from:'library',label:'动作库',actionId:a.id,lastActionId:a.id,scrollY:window.scrollY};try{if(window.polestarNotes){window.polestarNav.push(snap);await window.polestarNotes.openAction(a.id,{queue:queueIds});window.scrollTo({top:0,behavior:'instant'});}else edit(a.id);}catch(err){if(window.polestarNav.peek()?.actionId===a.id&&window.polestarNav.peek()?.from==='library')window.polestarNav.clear();toast(err?.message||'详情暂时无法载入，请重试。');}finally{row.disabled=false;row.classList.remove('is-loading');}},'library-row');row.dataset.actionId=a.id;const thumb=document.createElement('span');thumb.className='library-row-thumb';thumb.setAttribute('aria-hidden','true');thumb.append(artwork(a));const body=document.createElement('span');body.className='library-row-body';const title=document.createElement('span');title.className='library-row-title';title.textContent=actionTitleFor(a);const cn=document.createElement('span');cn.className='library-row-cn';cn.textContent=a.cn||'';const meta=document.createElement('span');meta.className='library-row-meta';const levelName=libraryLevel(a);const lv=document.createElement('span');lv.className='level-pill';lv.dataset.level=levelName;lv.innerHTML='<i class="level-dot" data-level="'+levelName+'" aria-hidden="true"></i>'+levelName;const app=document.createElement('span');app.textContent=appLabel(r.apparatus||apparatusFor(a.id));meta.append(lv,app);body.append(title,cn,meta);const arrow=document.createElement('span');arrow.className='library-row-arrow';arrow.setAttribute('aria-hidden','true');arrow.textContent='›';row.append(thumb,body,arrow);$('libraryGrid').append(row);}}
+function renderLibrary(){syncLibraryCategoryCounts();const list=filteredCards();syncLibraryStatus(list.length);$('libraryGrid').replaceChildren();if(!list.length){const box=document.createElement('div');box.className='empty-state-card';const p=document.createElement('p');p.textContent='当前筛选条件下暂无动作';const resetBtn=makeButton('重置全部筛选',resetLibraryFilters,'primary');box.append(p,resetBtn);$('libraryGrid').append(box);return;}const appLabel=k=>UNIFIED_APP_NAMES[k]||APPS.find(x=>x[0]===k)?.[1]||k;const queueIds=list.map(x=>x.id);for(const a of list){const r=record(a.id);const row=makeButton('',async()=>{if(row.disabled)return;row.disabled=true;row.classList.add('is-loading');const snap={from:'library',label:'动作库',actionId:a.id,lastActionId:a.id,scrollY:window.scrollY};try{if(window.polestarNotes){window.polestarNav.push(snap);await window.polestarNotes.openAction(a.id,{queue:queueIds});window.scrollTo({top:0,behavior:'instant'});}else edit(a.id);}catch(err){if(window.polestarNav.peek()?.actionId===a.id&&window.polestarNav.peek()?.from==='library')window.polestarNav.clear();toast(err?.message||'详情暂时无法载入，请重试。');}finally{row.disabled=false;row.classList.remove('is-loading');}},'library-row');row.dataset.actionId=a.id;const thumb=document.createElement('span');thumb.className='library-row-thumb';thumb.setAttribute('aria-hidden','true');thumb.append(artwork(a));const body=document.createElement('span');body.className='library-row-body';const title=document.createElement('span');title.className='library-row-title';title.textContent=actionTitleFor(a);const cn=document.createElement('span');cn.className='library-row-cn';cn.textContent=a.cn||'';const meta=document.createElement('span');meta.className='library-row-meta';const levelName=libraryLevel(a);const lv=document.createElement('span');lv.className='level-pill';lv.dataset.level=levelName;lv.innerHTML='<i class="level-dot" data-level="'+levelName+'" aria-hidden="true"></i>'+levelName;const app=document.createElement('span');app.textContent=appLabel(r.apparatus||apparatusFor(a.id));meta.append(lv,app);if(hasClassroomNote(a.id)){const noteBadge=document.createElement('span');noteBadge.className='library-classroom-pill';noteBadge.textContent='课堂笔记';meta.append(noteBadge);}body.append(title,cn,meta);const arrow=document.createElement('span');arrow.className='library-row-arrow';arrow.setAttribute('aria-hidden','true');arrow.textContent='›';row.append(thumb,body,arrow);$('libraryGrid').append(row);}}
 const matrixApparatus = new Set(), matrixLevels = new Set();
 let matrixDrag = null;
 function moveMatrixPair(source, category, level) {
@@ -2801,6 +2806,22 @@ if($('searchClear')){
   renderLibrary();
   $('search').focus();
  };
+}
+if($('libraryClassroomFilter')){
+ const syncClassroomFilter=()=>{
+  const btn=$('libraryClassroomFilter');
+  const total=CARDS.filter(a=>hasClassroomNote(a.id)).length;
+  btn.hidden=!total;
+  btn.setAttribute('aria-pressed',String(libraryOnlyClassroom));
+  btn.innerHTML='<i class="classroom-dot" aria-hidden="true"></i>课堂笔记 · '+total;
+ };
+ $('libraryClassroomFilter').onclick=()=>{
+  libraryOnlyClassroom=!libraryOnlyClassroom;
+  syncClassroomFilter();
+  renderLibrary();
+ };
+ libraryBarSyncers.push(syncClassroomFilter);
+ syncClassroomFilter();
 }
 if($('libraryResetInline')){
  $('libraryResetInline').onclick=resetLibraryFilters;
@@ -11172,7 +11193,27 @@ window.polestarAssessments={
 #notesDetail .classroom-map-reader-body p{
  margin:0;max-width:70ch;white-space:pre-wrap;overflow-wrap:anywhere;color:var(--map-ink);
 }
+.library-status-actions{display:inline-flex;align-items:center;gap:6px;flex:none}
+#library .library-classroom-toggle{
+ display:inline-flex;align-items:center;gap:5px;min-height:32px!important;padding:4px 11px!important;
+ border-radius:999px!important;font-size:12px!important;font-weight:600;line-height:1.2;
+ background:var(--surface,#fff);border:1px solid rgba(244,168,37,.46);color:var(--sun-dark,#7d4900);
+ white-space:nowrap;box-shadow:0 1px 2px rgba(24,33,30,.04);
+}
+#library .library-classroom-toggle .classroom-dot{width:7px;height:7px;border-radius:999px;background:var(--sun,#f4a825);flex:none}
+#library .library-classroom-toggle[aria-pressed="true"]{
+ background:var(--sun,#f4a825);border-color:var(--sun,#f4a825);color:#332000;font-weight:650;
+ box-shadow:0 2px 8px rgba(244,168,37,.28);
+}
+#library .library-classroom-toggle[aria-pressed="true"] .classroom-dot{background:#332000}
+#library .library-classroom-toggle[hidden]{display:none!important}
+.library-classroom-pill{
+ display:inline-flex;align-items:center;padding:2px 8px;border-radius:999px;
+ font-size:11.5px;font-weight:600;line-height:1.25;white-space:nowrap;
+ background:var(--sun-light,#fff6e2);color:var(--sun-dark,#7d4900);border:1px solid rgba(244,168,37,.38);
+}
 @media(max-width:600px){
+ #library .library-status-bar{flex-wrap:wrap;row-gap:6px}
  #notesDetail .classroom-map{padding:13px 10px!important}
  .classroom-map-tools,.classroom-map-source,#notesDetail .classroom-map>h4{margin-inline:2px}
 }
@@ -12796,6 +12837,8 @@ window.polestarNotes={async openPracticeAction(actionId){closeEquipment();if(hos
   }
  }
  try{await ensureData();if(!['notesStudy','learningPlans'].includes(document.body.dataset.activeTab))return;load();planStatus.replaceChildren();plansOpen=document.body.dataset.activeTab==='learningPlans';plansPanel.hidden=!plansOpen;if(plansOpen)renderPlans();else render();}catch(error){const article=target;article.replaceChildren();const backBtn=make('button','← 返回','detail-back-btn');backBtn.type='button';backBtn.onclick=()=>window.polestarNav?.back(()=>tab('library'));const errCard=make('div',undefined,'empty-state-card');errCard.append(make('p',error.message||'详情暂时未能载入'),make('button','重新载入','primary'));errCard.lastChild.onclick=()=>window.polestarNotes.onOpen();article.append(backBtn,errCard);}
-},onLeave(){cleanupDetailObservers();root.classList.add('mobile-list-view');showMobileResults=false;positionNotesList();notebookReturn=null;if(notebookDialog.open)notebookDialog.close();if(equipmentDetail.open)equipmentDetail.close();stopVariationAudio();narration.stop();if(planDialog.open)planDialog.close();if(relatedPicker.open)relatedPicker.close();if(picker.open)picker.close();},stopNarration(){stopVariationAudio();narration.stop();},narrationState(){return narration.state();},preparePortable(clone){clone.querySelectorAll('[data-notes-build],#notesStudy,#learningPlans,#notesImageDialog,#notesPickerDialog,#notesRelatedDialog,#notesPlanDialog,#equipmentExerciseDialog,#notebookDialog,[data-tab=notesStudy],[data-tab=learningPlans]').forEach(n=>n.remove());if(['notesStudy','learningPlans'].includes(clone.querySelector('body')?.dataset.activeTab))clone.querySelector('body').dataset.activeTab='play';},data:null,grade:core.grade};
+},onLeave(){cleanupDetailObservers();root.classList.add('mobile-list-view');showMobileResults=false;positionNotesList();notebookReturn=null;if(notebookDialog.open)notebookDialog.close();if(equipmentDetail.open)equipmentDetail.close();stopVariationAudio();narration.stop();if(planDialog.open)planDialog.close();if(relatedPicker.open)relatedPicker.close();if(picker.open)picker.close();},stopNarration(){stopVariationAudio();narration.stop();},narrationState(){return narration.state();},hasClassroomNote(actionId){return analysisByAction.has(Number(actionId));},classroomNoteCount(){return analysisByAction.size;},preparePortable(clone){clone.querySelectorAll('[data-notes-build],#notesStudy,#learningPlans,#notesImageDialog,#notesPickerDialog,#notesRelatedDialog,#notesPlanDialog,#equipmentExerciseDialog,#notebookDialog,[data-tab=notesStudy],[data-tab=learningPlans]').forEach(n=>n.remove());if(['notesStudy','learningPlans'].includes(clone.querySelector('body')?.dataset.activeTab))clone.querySelector('body').dataset.activeTab='play';},data:null,grade:core.grade};
+if(typeof syncAllLibraryFilterBars==='function')syncAllLibraryFilterBars();
+if(typeof renderLibrary==='function'&&!document.getElementById('library')?.hidden)renderLibrary();
 })();
 </script><script src="./web-app.js?v=daac7db806dd" defer></script></body></html>
