@@ -856,7 +856,7 @@ body[data-active-tab="notesStudy"] .nav,body.assessment-detail-open .nav{display
  #matrixTable .matrix-entry{grid-template-columns:minmax(0,1fr) 40px;align-items:center}
  #matrixTable .matrix-tool.matrix-speak{min-height:40px!important;width:40px;border-radius:10px;margin:0}
 }
-</style><style>.category-suggestion{margin-top:12px;padding:10px 12px;background:#fff9e9;border-radius:8px;font-size:13px;line-height:1.65}.category-suggestion summary{cursor:pointer}.category-suggestion p{white-space:pre-wrap;color:#777;font-size:12px;margin:10px 0 0}</style><meta name="theme-color" content="#f6f5f0"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-status-bar-style" content="default"><link rel="manifest" href="./manifest.webmanifest"><link rel="icon" type="image/png" href="./icon-192.png"><link rel="apple-touch-icon" href="./icon-180.png"><meta name="polestar-build" content="32b0af58159e"></head><body class="web-guest"><div class="wrap">
+</style><style>.category-suggestion{margin-top:12px;padding:10px 12px;background:#fff9e9;border-radius:8px;font-size:13px;line-height:1.65}.category-suggestion summary{cursor:pointer}.category-suggestion p{white-space:pre-wrap;color:#777;font-size:12px;margin:10px 0 0}</style><meta name="theme-color" content="#f6f5f0"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-status-bar-style" content="default"><link rel="manifest" href="./manifest.webmanifest"><link rel="icon" type="image/png" href="./icon-192.png"><link rel="apple-touch-icon" href="./icon-180.png"><meta name="polestar-build" content="a9a810f02fa6"></head><body class="web-guest"><div class="wrap">
 <header><div class="brand">普拉提动作库 <small>POLESTAR PILATES</small></div><div class="tools"><button type="button" id="variantToggle" class="variant-toggle" aria-pressed="true">显示变式</button><button id="soundToggle" class="sound-toggle" aria-label="静音" title="静音"></button><button id="saveGame" class="primary">存档</button><button id="loadGame">读档</button><button id="toolsToggle" aria-label="更多功能" aria-expanded="false">⋯</button><button id="portable" class="mobile-secondary">保存随身 HTML</button><button id="checkUpdate" class="mobile-secondary" hidden>检查更新</button><button id="helpOpen" class="mobile-secondary" aria-label="使用说明">?</button></div></header><div id="updateStatus" hidden role="status" aria-live="polite"><div class="inline"><strong id="updateMessage"></strong><span id="updateDetail"></span></div><progress id="updateProgress" max="100" aria-label="更新下载进度"></progress></div><p id="exportDestination" class="muted" style="font-size:11px;text-align:right;margin-top:6px" hidden></p>
 <div class="intro"><div><h1>动作练习</h1></div></div>
 <div id="folderBar" class="folder-bar" hidden><span id="folderHint">首次选择桌面的“普拉提动作库备份”文件夹，即可直接读写进度。</span><button id="chooseFolder">连接存档文件夹</button></div><div id="storageWarning" class="notice" hidden></div>
@@ -11090,25 +11090,31 @@ window.polestarAssessments={
 
 /* 课堂笔记脑图 */
 #notesDetail .classroom-map{
- --map-ink:#33205b;--map-muted:#624c80;--map-line:#d9cbea;
- grid-column:1/-1!important;background:#f8f3fc!important;border-color:var(--map-line)!important;
+ --map-ink:var(--ink,#1f2926);--map-muted:var(--muted,#6b7672);--map-line:var(--line-strong,rgba(31,41,38,.14));
+ grid-column:1/-1!important;
 }
 #notesDetail .classroom-map>h4{color:var(--map-ink);margin-bottom:3px!important}
 .classroom-map-source{font-size:13px;line-height:1.5;color:var(--map-muted);overflow-wrap:anywhere}
-.classroom-map-tools{display:flex;align-items:center;justify-content:space-between;gap:8px;margin:7px 0;font-size:12px;color:var(--map-muted)}
-.classroom-map-controls{display:flex;gap:4px}
+.classroom-map-tools{display:flex;align-items:center;justify-content:space-between;gap:8px;margin:8px 0;font-size:12px;color:var(--map-muted)}
+.classroom-map-controls{display:flex;gap:5px}
 #notesDetail .classroom-map button{font-family:inherit;cursor:pointer;touch-action:manipulation}
-#notesDetail .classroom-map button:focus-visible{outline:2px solid #6342aa;outline-offset:2px}
+#notesDetail .classroom-map button:focus-visible{outline:2px solid var(--sun,#f4a825);outline-offset:2px}
 #notesDetail .classroom-map-controls button,#notesDetail .classroom-map-reader-head button{
- min-width:44px;min-height:44px;padding:0 8px;border:1px solid var(--map-line);
- border-radius:10px;background:#fdfaff;color:var(--map-ink);font-size:13px;box-shadow:none;
+ min-width:44px;min-height:44px;padding:0 10px;border:1px solid var(--map-line);
+ border-radius:10px;background:#fff;color:var(--map-ink);font-size:13px;font-weight:500;
+ box-shadow:0 1px 2px rgba(24,33,30,.04);
 }
-#notesDetail .classroom-map-controls button:nth-child(-n+2){font-size:20px}
-#notesDetail .classroom-map-controls button:disabled{opacity:.48;cursor:default}
+#notesDetail .classroom-map-controls button:nth-child(-n+2){font-size:19px}
+#notesDetail .classroom-map-controls button:disabled{opacity:.44;cursor:default}
+@media(hover:hover){
+ #notesDetail .classroom-map-controls button:hover:not(:disabled),#notesDetail .classroom-map-reader-head button:hover{
+  background:var(--sun-light,#fff6e2);border-color:rgba(244,168,37,.5);color:var(--sun-dark,#7d4900);
+ }
+}
 .classroom-map-viewport{
  position:relative;overflow:hidden;overflow:clip;isolation:isolate;
- border:1px solid var(--map-line);border-radius:14px;touch-action:none;user-select:none;
- background:radial-gradient(circle at center,#f8efff 3%,transparent 60%),radial-gradient(circle,#b397d680 1px,transparent 1px) 0 0/15px 15px,#eee4f8;
+ border:1px solid rgba(31,41,38,.11);border-radius:14px;touch-action:none;user-select:none;
+ background:radial-gradient(circle at center,rgba(244,168,37,.08) 0%,transparent 62%),radial-gradient(circle,rgba(31,41,38,.12) 1px,transparent 1px) 0 0/16px 16px,#f6f4ee;
 }
 .classroom-map-viewport.is-zoomed{cursor:grab}
 .classroom-map-viewport.is-dragging,.classroom-map-viewport.is-dragging button{cursor:grabbing!important}
@@ -11121,41 +11127,47 @@ window.polestarAssessments={
  padding:20px 26px;gap:7px clamp(22px,6%,52px);
 }
 .classroom-map-lines{position:absolute;inset:0;width:100%;height:100%;pointer-events:none}
-.classroom-map-lines path{fill:none;stroke:var(--branch-stroke);stroke-width:1.6;stroke-linecap:round}
-.classroom-map [data-color="0"]{--branch-bg:#faf0ff;--branch-stroke:#a279c7;--branch-ink:#563277}
-.classroom-map [data-color="1"]{--branch-bg:#f0ecff;--branch-stroke:#8a78c1;--branch-ink:#48377e}
-.classroom-map [data-color="2"]{--branch-bg:#fff0fa;--branch-stroke:#b67ca8;--branch-ink:#733b66}
-.classroom-map [data-color="3"]{--branch-bg:#eeeafa;--branch-stroke:#8b82bd;--branch-ink:#473c76}
+.classroom-map-lines path{fill:none;stroke:var(--branch-stroke);stroke-width:1.75;stroke-opacity:.8;stroke-linecap:round}
+.classroom-map [data-color="0"]{--branch-bg:#fffaf0;--branch-stroke:#d9a959;--branch-ink:#6d4306}
+.classroom-map [data-color="1"]{--branch-bg:#f2f8f4;--branch-stroke:#79a894;--branch-ink:#235243}
+.classroom-map [data-color="2"]{--branch-bg:#f1f6fa;--branch-stroke:#7c9fb6;--branch-ink:#2a4c61}
+.classroom-map [data-color="3"]{--branch-bg:#fbf4ef;--branch-stroke:#c4977e;--branch-ink:#69412e}
 .classroom-map-hub{
  position:relative;justify-self:center;text-align:center;display:grid;align-content:center;gap:3px;min-height:44px;
- width:max-content;max-width:min(100%,216px);padding:8px 12px;margin:3px 0;
- border-radius:14px;background:#533485;color:#fff;box-shadow:0 4px 13px #4c30732b;
+ width:max-content;max-width:min(100%,216px);padding:9px 14px;margin:3px 0;
+ border-radius:14px;background:linear-gradient(135deg,#273e37,#1f2926);color:#fff;
+ border:1px solid rgba(255,255,255,.12);box-shadow:0 6px 16px rgba(31,41,38,.18);
  line-height:1.28;overflow-wrap:anywhere;
 }
-.classroom-map-hub strong{font-size:15px}
-.classroom-map-hub span{font-size:12px;color:#f3e8ff}
+.classroom-map-hub strong{font-size:15px;letter-spacing:-.1px}
+.classroom-map-hub span{font-size:12px;color:rgba(255,248,232,.86)}
 #notesDetail .classroom-map-branch{
- position:relative;min-width:0;min-height:44px;padding:5px 6px;
+ position:relative;min-width:0;min-height:44px;padding:6px 8px;
  border:1px solid var(--branch-stroke);border-radius:11px;
  background:var(--branch-bg);color:var(--branch-ink);font-size:13px;font-weight:600;
- line-height:1.3;white-space:normal;overflow-wrap:anywhere;box-shadow:none;
+ line-height:1.3;white-space:normal;overflow-wrap:anywhere;
+ box-shadow:0 1px 2px rgba(24,33,30,.05);
 }
-#notesDetail .classroom-map-branch[aria-expanded="true"]{background:var(--branch-ink);border-color:var(--branch-ink);color:#fff}
+#notesDetail .classroom-map-branch[aria-expanded="true"]{
+ background:var(--branch-ink);border-color:var(--branch-ink);color:#fff;
+ box-shadow:0 4px 12px rgba(31,41,38,.16);
+}
 @media(hover:hover){
- #notesDetail .classroom-map-branch[aria-expanded="false"]:hover{box-shadow:inset 0 0 0 1px var(--branch-stroke)}
+ #notesDetail .classroom-map-branch[aria-expanded="false"]:hover{box-shadow:inset 0 0 0 1px var(--branch-stroke),0 2px 6px rgba(24,33,30,.07)}
 }
 .classroom-map-reader{
- margin-top:12px;border:1px solid var(--map-line);border-radius:14px;background:#eee4f8;color:var(--map-ink);
- scroll-margin:74px 0 94px;
+ margin-top:12px;border:1px solid rgba(181,134,48,.22);border-top:2.5px solid rgba(244,168,37,.72);
+ border-radius:14px;background:#faf7f0;color:var(--map-ink);
+ scroll-margin:74px 0 94px;overflow:hidden;
 }
 .classroom-map-reader-head{
- display:flex;align-items:center;justify-content:space-between;gap:12px;padding:7px 12px;
- border-bottom:1px solid var(--map-line);
+ display:flex;align-items:center;justify-content:space-between;gap:12px;padding:8px 12px;
+ background:rgba(244,168,37,.08);border-bottom:1px solid rgba(31,41,38,.08);
 }
-.classroom-map-reader-head h5{margin:0;font-size:16px;line-height:1.5;overflow-wrap:anywhere}
+.classroom-map-reader-head h5{margin:0;font-size:15.5px;font-weight:650;line-height:1.5;color:var(--map-ink);overflow-wrap:anywhere}
 .classroom-map-reader-body{
  max-height:min(44vh,400px);max-height:min(44dvh,400px);overflow:auto;overscroll-behavior:contain;
- padding:12px 14px 16px;scrollbar-color:#b59acf transparent;
+ padding:12px 14px 16px;scrollbar-color:rgba(31,41,38,.22) transparent;
 }
 #notesDetail .classroom-map-reader-body p{
  margin:0;max-width:70ch;white-space:pre-wrap;overflow-wrap:anywhere;color:var(--map-ink);
@@ -11164,11 +11176,6 @@ window.polestarAssessments={
  #notesDetail .classroom-map{padding:13px 10px!important}
  .classroom-map-tools,.classroom-map-source,#notesDetail .classroom-map>h4{margin-inline:2px}
 }
-.notes-textbook-header{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap}
-.notes-textbook-header h4{margin:0}
-.notes-textbook-header button{min-height:44px;font-size:13px}
-.notes-textbook-header button[aria-pressed=true]{background:#fff2cd;border-color:#b97900;color:#6c4200}
-.notes-textbook-pages img.notes-textbook-enhanced{filter:url("#notesTextbookContrast") contrast(1.15)}
 .notes-textbook-header{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap}
 .notes-textbook-header h4{margin:0}
 .notes-textbook-header button{min-height:44px;font-size:13px}
