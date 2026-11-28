@@ -387,6 +387,30 @@ dialog.media-lightbox.assessment-photo-zoom img{width:190%!important;max-width:n
 dialog.media-lightbox #viewerArt,dialog.media-lightbox #notesArtwork{width:100%;max-width:840px;margin:auto;padding:16px;border-radius:14px;background:#fff;box-shadow:0 18px 48px rgba(0,0,0,.5)}
 dialog.media-lightbox #notesImageStatus{background:#23272c!important;color:#e4e7eb!important;border-bottom:1px solid rgba(255,255,255,.08)}
 
+
+/* 教材扫描图保留原比例，使用可滚动的实际尺寸以便平移到页脚。 */
+dialog.media-lightbox .lightbox-stage.scan-viewport{
+ display:block;position:relative;padding:0;overflow:auto;touch-action:none;overflow-anchor:none;
+}
+dialog.media-lightbox .scan-viewport img{
+ width:var(--scan-width,100%)!important;max-width:none!important;max-height:none!important;
+ margin:0 auto!important;border-radius:0;box-shadow:none;
+}
+.scan-viewport[data-magnified],.textbook-reading-scroll[data-magnified]{cursor:grab}
+.scan-zoom-controls{display:inline-flex;align-items:center;gap:4px;flex:none}
+.scan-zoom-controls button{min-width:36px}
+.textbook-reading-page{--scan-inline-base:100%}
+@media(max-width:900px){.textbook-reading-page.is-spread{--scan-inline-base:200%}}
+@media(max-width:700px){
+ .image-button #cardImage:not([hidden]){height:auto;max-height:65dvh;object-fit:contain}
+}
+#viewerControls .scan-zoom-controls{margin-left:auto}
+@media(max-width:380px){
+ #viewerControls{gap:4px;padding-inline:5px!important}
+ #viewerControls .viewer-pages{gap:3px}
+ #viewerControls .lightbox-pill{padding-inline:6px!important}
+}
+
 /* === 原型 2：分类与矩阵工作台（#matrixEdit）& 快捷移动微弹窗（#matrixMove） === */
 #matrixEdit{
  width:min(600px,calc(100vw - 28px))!important;max-height:88dvh!important;
@@ -856,7 +880,7 @@ body[data-active-tab="notesStudy"] .nav,body.assessment-detail-open .nav{display
  #matrixTable .matrix-entry{grid-template-columns:minmax(0,1fr) 40px;align-items:center}
  #matrixTable .matrix-tool.matrix-speak{min-height:40px!important;width:40px;border-radius:10px;margin:0}
 }
-</style><style>.category-suggestion{margin-top:12px;padding:10px 12px;background:#fff9e9;border-radius:8px;font-size:13px;line-height:1.65}.category-suggestion summary{cursor:pointer}.category-suggestion p{white-space:pre-wrap;color:#777;font-size:12px;margin:10px 0 0}</style><meta name="theme-color" content="#f6f5f0"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-status-bar-style" content="default"><link rel="manifest" href="./manifest.webmanifest"><link rel="icon" type="image/png" href="./icon-192.png"><link rel="apple-touch-icon" href="./icon-180.png"><meta name="polestar-build" content="3fce70f45c4d"></head><body class="web-guest"><div class="wrap">
+</style><style>.category-suggestion{margin-top:12px;padding:10px 12px;background:#fff9e9;border-radius:8px;font-size:13px;line-height:1.65}.category-suggestion summary{cursor:pointer}.category-suggestion p{white-space:pre-wrap;color:#777;font-size:12px;margin:10px 0 0}</style><meta name="theme-color" content="#f6f5f0"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-status-bar-style" content="default"><link rel="manifest" href="./manifest.webmanifest"><link rel="icon" type="image/png" href="./icon-192.png"><link rel="apple-touch-icon" href="./icon-180.png"><meta name="polestar-build" content="d708d49dba5e"></head><body class="web-guest"><div class="wrap">
 <header><div class="brand">普拉提动作库 <small>POLESTAR PILATES</small></div><div class="tools"><button type="button" id="variantToggle" class="variant-toggle" aria-pressed="true">显示变式</button><button id="soundToggle" class="sound-toggle" aria-label="静音" title="静音"></button><button id="saveGame" class="primary">存档</button><button id="loadGame">读档</button><button id="toolsToggle" aria-label="更多功能" aria-expanded="false">⋯</button><button id="portable" class="mobile-secondary">保存随身 HTML</button><button id="checkUpdate" class="mobile-secondary" hidden>检查更新</button><button id="helpOpen" class="mobile-secondary" aria-label="使用说明">?</button></div></header><div id="updateStatus" hidden role="status" aria-live="polite"><div class="inline"><strong id="updateMessage"></strong><span id="updateDetail"></span></div><progress id="updateProgress" max="100" aria-label="更新下载进度"></progress></div><p id="exportDestination" class="muted" style="font-size:11px;text-align:right;margin-top:6px" hidden></p>
 <div class="intro"><div><h1>动作练习</h1></div></div>
 <div id="folderBar" class="folder-bar" hidden><span id="folderHint">首次选择桌面的“普拉提动作库备份”文件夹，即可直接读写进度。</span><button id="chooseFolder">连接存档文件夹</button></div><div id="storageWarning" class="notice" hidden></div>
@@ -1430,8 +1454,130 @@ function syncLibraryStatus(count){
  if($('libraryStatusText'))$('libraryStatusText').textContent=hasFilter?`筛选出 ${count} 个动作 · ${parts.join(' · ')}`:`共 ${count} 个动作`;
  if($('libraryResetInline'))$('libraryResetInline').hidden=!hasFilter;
 }
+
+function createScanZoom(stage, content, plus, {inline=false,onZoom}={}){
+ const controls=document.createElement('span');
+ controls.className='scan-zoom-controls';
+ controls.setAttribute('role','group');
+ controls.setAttribute('aria-label','教材缩放');
+ plus.before(controls);
+ const button=(label,name)=>{
+  const node=plus.cloneNode(false);
+  node.removeAttribute('id');
+  node.type='button';node.textContent=label;node.setAttribute('aria-label',name);
+  return node;
+ };
+ const minus=button('−','缩小教材'), reset=button('100%','恢复默认大小');
+ plus.textContent='＋';plus.setAttribute('aria-label','放大教材');
+ controls.append(minus,reset,plus);
+ let scale=1,active=inline,drag=null,pinch=null,lastTap=null;
+ const max=6;
+ function size(){
+  if(inline){
+   content.style.width=scale===1?'':`calc(var(--scan-inline-base) * ${scale})`;
+   stage.style.maxHeight=scale===1?'':'70dvh';
+  }else{
+   const ratio=content.naturalWidth/content.naturalHeight;
+   const width=stage.clientWidth;
+   const base=matchMedia('(max-width:700px)').matches||!ratio?width:Math.min(width,stage.clientHeight*ratio);
+   if(base>0)stage.style.setProperty('--scan-width',base*scale+'px');
+  }
+  stage.toggleAttribute('data-magnified',active&&scale>1);
+  minus.disabled=reset.disabled=scale===1;plus.disabled=scale===max;
+  reset.textContent=Math.round(scale*100)+'%';
+ }
+ function change(next,x,y,dx=0,dy=0){
+  if(!active)return;
+  const rect=stage.getBoundingClientRect(), before=content.getBoundingClientRect();
+  x??=rect.left+stage.clientWidth/2;y??=rect.top+stage.clientHeight/2;
+  if(!before.width||!before.height)return;
+  const fx=(x-before.left)/before.width,fy=(y-before.top)/before.height;
+  scale=Math.min(max,Math.max(1,next));size();
+  const after=content.getBoundingClientRect();
+  stage.scrollBy(after.left+fx*after.width-x-dx,after.top+fy*after.height-y-dy);
+  if(scale>1)onZoom?.();
+ }
+ plus.onclick=()=>change(scale*1.5);
+ minus.onclick=()=>change(scale/1.5);
+ reset.onclick=()=>change(1);
+ stage.addEventListener('dblclick',e=>{if(!e.sourceCapabilities?.firesTouchEvents)change(scale>1?1:2.5,e.clientX,e.clientY);});
+ stage.addEventListener('wheel',e=>{
+  if(!active||(!e.ctrlKey&&!e.metaKey))return;
+  e.preventDefault();change(scale*Math.exp(-e.deltaY*.01),e.clientX,e.clientY);
+ },{passive:false});
+ stage.addEventListener('pointerdown',e=>{
+  if(!active||!['mouse','pen'].includes(e.pointerType)||e.button!==0)return;
+  drag={x:e.clientX,y:e.clientY};
+  stage.setPointerCapture(e.pointerId);
+ });
+ stage.addEventListener('pointermove',e=>{
+  if(!drag||!stage.hasPointerCapture(e.pointerId))return;
+  stage.scrollBy(drag.x-e.clientX,drag.y-e.clientY);
+  drag={x:e.clientX,y:e.clientY};
+ });
+ stage.addEventListener('lostpointercapture',()=>{drag=null;});
+ content.addEventListener('dragstart',e=>e.preventDefault());
+ const point=t=>({x:t.clientX,y:t.clientY});
+ function gesture(touches){
+  const a=point(touches[0]),b=point(touches[1]);
+  return {x:(a.x+b.x)/2,y:(a.y+b.y)/2,d:Math.hypot(a.x-b.x,a.y-b.y)};
+ }
+ let touch=null;
+ stage.addEventListener('touchstart',e=>{
+  if(!active)return;
+  if(e.touches.length===2){
+   pinch=gesture(e.touches);touch=null;lastTap=null;e.preventDefault();
+  }else if(e.touches.length===1){
+   touch={...point(e.touches[0]),moved:false};
+  }
+ },{passive:false});
+ stage.addEventListener('touchmove',e=>{
+  if(!active)return;
+  if(e.touches.length===2&&pinch){
+   const next=gesture(e.touches);
+   e.preventDefault();
+   if(pinch.d>0)change(scale*next.d/pinch.d,pinch.x,pinch.y,next.x-pinch.x,next.y-pinch.y);
+   pinch=next;
+  }else if(e.touches.length===1&&touch){
+   const next=point(e.touches[0]);
+   if(Math.hypot(next.x-touch.x,next.y-touch.y)>4)touch.moved=true;
+   if(!inline){
+    e.preventDefault();stage.scrollBy(touch.x-next.x,touch.y-next.y);
+    Object.assign(touch,next);
+   }
+  }
+ },{passive:false});
+ stage.addEventListener('touchend',e=>{
+  if(!active)return;
+  if(pinch){
+   pinch=null;touch=e.touches.length===1?{...point(e.touches[0]),moved:true}:null;
+   return;
+  }
+  if(!inline&&touch&&!touch.moved){
+   const tap={...point(e.changedTouches[0]),time:Date.now()};
+   if(lastTap&&tap.time-lastTap.time<320&&Math.hypot(tap.x-lastTap.x,tap.y-lastTap.y)<30){
+    e.preventDefault();change(scale>1?1:2.5,tap.x,tap.y);lastTap=null;
+   }else lastTap=tap;
+  }
+  touch=null;
+ },{passive:false});
+ stage.addEventListener('touchcancel',()=>{pinch=touch=lastTap=null;});
+ if(!inline){
+  stage.tabIndex=0;
+  stage.setAttribute('aria-label','教材图片，可双指或双击缩放，放大后拖动');
+  new ResizeObserver(()=>{if(active)size();}).observe(stage);
+  content.addEventListener('load',()=>{if(active)size();});
+ }
+ return (enabled=true)=>{
+  active=enabled;scale=1;pinch=touch=lastTap=null;
+  if(!inline)stage.classList.toggle('scan-viewport',enabled);
+  size();stage.scrollTo(0,0);
+ };
+}
 let fullImageAction=null,fullImageIndex=0;
-function resetViewerControls(){fullImageAction=null;$('viewerControls').hidden=true;$('viewer').classList.remove('is-zoomed');$('viewerZoom').textContent='＋';$('viewerZoom').setAttribute('aria-label','放大完整图片');}
+const resetFullScan=createScanZoom($('viewerImage').parentElement,$('viewerImage'),$('viewerZoom'));
+
+function resetViewerControls(){fullImageAction=null;$('viewerControls').hidden=true;resetFullScan(false);}
 function openFullImage(action,index=0){
  resetViewerControls();fullImageAction=action;fullImageIndex=index;const im=action.images[index];
  $('viewerArt').hidden=true;$('viewerImage').hidden=false;$('viewerImage').src=DATA.images[im.key];$('viewerImage').alt=action.name+' 完整教材图片';
@@ -1439,6 +1585,7 @@ function openFullImage(action,index=0){
  $('viewerControls').hidden=false;$('viewerPages').hidden=action.images.length<2;$('viewerPageCount').textContent=(index+1)+' / '+action.images.length;
  $('viewerPrev').disabled=index===0;$('viewerNext').disabled=index===action.images.length-1;
  if(!$('viewer').open)$('viewer').showModal();
+ resetFullScan();
 }
 function renderLibrary(){syncLibraryCategoryCounts();const list=filteredCards();syncLibraryStatus(list.length);$('libraryGrid').replaceChildren();if(!list.length){const box=document.createElement('div');box.className='empty-state-card';const p=document.createElement('p');p.textContent='当前筛选条件下暂无动作';const resetBtn=makeButton('重置全部筛选',resetLibraryFilters,'primary');box.append(p,resetBtn);$('libraryGrid').append(box);return;}const appLabel=k=>UNIFIED_APP_NAMES[k]||APPS.find(x=>x[0]===k)?.[1]||k;const queueIds=list.map(x=>x.id);for(const a of list){const r=record(a.id);const row=makeButton('',async()=>{if(row.disabled)return;row.disabled=true;row.classList.add('is-loading');const snap={from:'library',label:'动作库',actionId:a.id,lastActionId:a.id,scrollY:window.scrollY};try{if(window.polestarNotes){window.polestarNav.push(snap);await window.polestarNotes.openAction(a.id,{queue:queueIds});window.scrollTo({top:0,behavior:'instant'});}else edit(a.id);}catch(err){if(window.polestarNav.peek()?.actionId===a.id&&window.polestarNav.peek()?.from==='library')window.polestarNav.clear();toast(err?.message||'详情暂时无法载入，请重试。');}finally{row.disabled=false;row.classList.remove('is-loading');}},'library-row');row.dataset.actionId=a.id;const thumb=document.createElement('span');thumb.className='library-row-thumb';thumb.setAttribute('aria-hidden','true');thumb.append(artwork(a));const body=document.createElement('span');body.className='library-row-body';const title=document.createElement('span');title.className='library-row-title';title.textContent=actionTitleFor(a);const cn=document.createElement('span');cn.className='library-row-cn';cn.textContent=a.cn||'';const meta=document.createElement('span');meta.className='library-row-meta';const levelName=libraryLevel(a);const lv=document.createElement('span');lv.className='level-pill';lv.dataset.level=levelName;lv.innerHTML='<i class="level-dot" data-level="'+levelName+'" aria-hidden="true"></i>'+levelName;const app=document.createElement('span');app.textContent=appLabel(r.apparatus||apparatusFor(a.id));meta.append(lv,app);if(hasClassroomNote(a.id)){const noteBadge=document.createElement('span');noteBadge.className='library-classroom-pill';noteBadge.textContent='课堂笔记';meta.append(noteBadge);}body.append(title,cn,meta);const arrow=document.createElement('span');arrow.className='library-row-arrow';arrow.setAttribute('aria-hidden','true');arrow.textContent='›';row.append(thumb,body,arrow);$('libraryGrid').append(row);}}
 const matrixApparatus = new Set(), matrixLevels = new Set();
@@ -2849,7 +2996,7 @@ $('listenMode').onclick=()=>{practiceMode='listen';if(!practiceQuestion)newPract
 $('nameToggle').onclick=()=>setNameVisibility($('nameText').hidden);$('speakName').onclick=speakCurrentName;$('learnCurrentAction').onclick=async()=>{const button=$('learnCurrentAction'),id=state.current;button.disabled=true;window.polestarNav.push({from:'play',label:'整理动作',actionId:id,scrollY:window.scrollY});try{await window.polestarNotes.openAction(id);window.scrollTo({top:0,behavior:'instant'});}catch(error){if(window.polestarNav.peek()?.from==='play')window.polestarNav.clear();toast(error.message||'学习内容暂时无法载入，请重试。');}finally{button.disabled=false;}};
 $('xhsSearch').onclick=openXhsSearch;
 $('actionPage').onclick=()=>{cardPageMode='action';renderCardPage();};$('sourcePage').onclick=()=>{cardPageMode='source';renderCardPage();};
-$('imageOpen').onclick=()=>{const action=CARDS.find(a=>a.id===state.current);if(cardPageMode==='source'){openFullImage(action,imageIndex);return;}resetViewerControls();$('viewerImage').hidden=true;$('viewerArt').hidden=false;$('viewerArt').replaceChildren(artwork(action,imageIndex));$('viewerTitle').textContent='动作图片';$('viewer').showModal();};$('viewerClose').onclick=()=>$('viewer').close();$('viewerPrev').onclick=()=>{if(fullImageAction&&fullImageIndex>0)openFullImage(fullImageAction,fullImageIndex-1);};$('viewerNext').onclick=()=>{if(fullImageAction&&fullImageIndex<fullImageAction.images.length-1)openFullImage(fullImageAction,fullImageIndex+1);};$('viewerZoom').onclick=()=>{const zoomed=$('viewer').classList.toggle('is-zoomed');$('viewerZoom').textContent=zoomed?'−':'＋';$('viewerZoom').setAttribute('aria-label',zoomed?'适应窗口':'放大完整图片');};
+$('imageOpen').onclick=()=>{const action=CARDS.find(a=>a.id===state.current);if(cardPageMode==='source'){openFullImage(action,imageIndex);return;}resetViewerControls();$('viewerImage').hidden=true;$('viewerArt').hidden=false;$('viewerArt').replaceChildren(artwork(action,imageIndex));$('viewerTitle').textContent='动作图片';$('viewer').showModal();};$('viewerClose').onclick=()=>$('viewer').close();$('viewerPrev').onclick=()=>{if(fullImageAction&&fullImageIndex>0)openFullImage(fullImageAction,fullImageIndex-1);};$('viewerNext').onclick=()=>{if(fullImageAction&&fullImageIndex<fullImageAction.images.length-1)openFullImage(fullImageAction,fullImageIndex+1);};
 $('helpOpen').onclick=()=>$('help').showModal();$('helpClose').onclick=()=>$('help').close();
 $('resumeProgress').onclick=()=>{const a=record(state.current).status!=='done'?CARDS.find(a=>a.id===state.current):CARDS.find(a=>record(a.id).status!=='done');if(a)edit(a.id);else tab('library');};
 $('portable').onclick=exportPortable;
@@ -11745,6 +11892,9 @@ document.addEventListener('keydown',event=>{if(event.key==='Escape')for(const ui
 function clearNotesFilters(){for(const id of ['notesLevel','notesApparatus']){el(id).value='';syncMultiFilter(id);}el('notesSearch').value='';syncSearchClear();}
 
 let sourcePage=null,imageTimer;
+const resetNotesScan=createScanZoom(el('notesImage').parentElement,el('notesImage'),el('notesImageZoom'),{
+ onZoom:()=>{if(sourcePage&&el('notesImage').getAttribute('src')!==sourcePage.image)loadSourceImage(sourcePage,true);}
+});
 function loadSourceImage(page,original=false){
  clearTimeout(imageTimer);sourcePage=page;const image=el('notesImage'),status=el('notesImageStatus'),label=status.querySelector('span'),retry=el('notesImageRetry');status.hidden=false;label.textContent=original?'正在加载高清原图…':'正在加载笔记图片…';retry.hidden=true;
  const url=original?page.image:(page.preview||page.image);
@@ -12458,7 +12608,7 @@ function renderTextbookPages(entry,grid){
   el('notesImage').hidden=false;el('notesArtwork').hidden=true;el('notesArtwork').replaceChildren();
   loadSourceImage({image:DATA.images[im.key]});
   el('notesImage').alt=action.name+' · 《'+im.manual+'》';el('notesImageTitle').textContent=el('notesImage').alt;
-  viewer.classList.remove('zoom');el('notesImageZoom').textContent='放大';viewer.showModal();
+  viewer.showModal();resetNotesScan();
   viewer.querySelector('.notes-image-scroll').scrollTo(0,0);
  };
  actionsWrap.append(contrast,zoomBtn);
@@ -12474,14 +12624,19 @@ function renderTextbookPages(entry,grid){
  const page=make('div',undefined,'textbook-reading-page'),image=make('img');image.loading='lazy';image.decoding='async';image.classList.add('notes-textbook-enhanced');
  contrast.onclick=()=>{const active=image.classList.toggle('notes-textbook-enhanced');contrast.setAttribute('aria-pressed',String(active));contrast.textContent=active?'对比度已增强':'增强对比度';};
  leftHalfBtn.onclick=()=>{scroll.scrollTo({left:0,behavior:'smooth'});leftHalfBtn.setAttribute('aria-pressed','true');rightHalfBtn.setAttribute('aria-pressed','false');};
- rightHalfBtn.onclick=()=>{scroll.scrollTo({left:scroll.clientWidth,behavior:'smooth'});leftHalfBtn.setAttribute('aria-pressed','false');rightHalfBtn.setAttribute('aria-pressed','true');};
+ rightHalfBtn.onclick=()=>{scroll.scrollTo({left:page.offsetWidth/2,behavior:'smooth'});leftHalfBtn.setAttribute('aria-pressed','false');rightHalfBtn.setAttribute('aria-pressed','true');};
  scroll.addEventListener('scroll',()=>{
   if(spreadSwitch.hidden||!scroll.clientWidth)return;
-  const onRight=scroll.scrollLeft>scroll.clientWidth*0.45;
+  const onRight=scroll.scrollLeft>page.offsetWidth/2-scroll.clientWidth/2;
   leftHalfBtn.setAttribute('aria-pressed',String(!onRight));
   rightHalfBtn.setAttribute('aria-pressed',String(onRight));
  },{passive:true});
  page.append(image);scroll.append(page);section.append(tabs,spreadSwitch,label,imgStatus,scroll);
+ const inlinePlus=make('button','＋');
+ inlinePlus.type='button';
+ actionsWrap.append(inlinePlus);
+ const resetInlineScan=createScanZoom(scroll,page,inlinePlus,{inline:true});
+
  function show(index){
   currentIndex=index;
   const im=action.images[index];
@@ -12491,6 +12646,8 @@ function renderTextbookPages(entry,grid){
   scroll.style.setProperty('--textbook-spread-ratio',im.width/im.height);
   scroll.style.setProperty('--textbook-page-ratio',im.width/im.height/(spread?2:1));
   page.classList.toggle('is-spread',spread);
+  resetInlineScan();
+
   spreadSwitch.hidden=!spread;
   leftHalfBtn.setAttribute('aria-pressed','false');
   rightHalfBtn.setAttribute('aria-pressed','true');
@@ -12521,7 +12678,7 @@ function renderSource(entry,article){
  const source=make('section',undefined,'notes-source');
  for(const pageNumber of entry.pages){const page=data.pages[entry.book+'-'+pageNumber];if(!page)continue;
   const button=make('button','查看笔记原图 ⤢'+(entry.pages.length>1?' · 第 '+pageNumber+' 页':''),'notes-source-image');button.type='button';button.setAttribute('aria-label','放大'+page.source+'第'+pageNumber+'页');
-  button.onclick=()=>{el('notesImage').hidden=false;el('notesArtwork').hidden=true;el('notesArtwork').replaceChildren();loadSourceImage(page);el('notesImage').alt=page.source+' 第'+pageNumber+'页完整扫描';el('notesImageTitle').textContent=el('notesImage').alt;viewer.classList.remove('zoom');el('notesImageZoom').textContent='放大';viewer.showModal();viewer.querySelector('.notes-image-scroll').scrollTo(0,0);};source.append(button);
+  button.onclick=()=>{el('notesImage').hidden=false;el('notesArtwork').hidden=true;el('notesArtwork').replaceChildren();loadSourceImage(page);el('notesImage').alt=page.source+' 第'+pageNumber+'页完整扫描';el('notesImageTitle').textContent=el('notesImage').alt;viewer.showModal();resetNotesScan();viewer.querySelector('.notes-image-scroll').scrollTo(0,0);};source.append(button);
  }
  const action=DATA.actions.find(a=>a.id===entry.actionId);
  for(const [index,image] of (action?.images||[]).entries()){
@@ -12529,7 +12686,7 @@ function renderSource(entry,article){
   const pageLabel=image.printedPage?'教材 '+image.printedPage+' 页':'扫描页 '+image.scan;
   const label='《'+image.manual+'》 · '+pageLabel;
   const button=make('button','查看教材原页 ⤢ · '+label,'notes-textbook-image');button.type='button';button.dataset.imageKey=image.key;button.setAttribute('aria-label','查看 '+entry.name+' '+label);
-  button.onclick=()=>{el('notesImage').hidden=false;el('notesArtwork').hidden=true;el('notesArtwork').replaceChildren();loadSourceImage({image:url});el('notesImage').alt=entry.name+' · '+label+' 完整教材扫描';el('notesImageTitle').textContent=el('notesImage').alt;viewer.classList.remove('zoom');el('notesImageZoom').textContent='放大';viewer.showModal();viewer.querySelector('.notes-image-scroll').scrollTo(0,0);};source.append(button);
+  button.onclick=()=>{el('notesImage').hidden=false;el('notesArtwork').hidden=true;el('notesArtwork').replaceChildren();loadSourceImage({image:url});el('notesImage').alt=entry.name+' · '+label+' 完整教材扫描';el('notesImageTitle').textContent=el('notesImage').alt;viewer.showModal();resetNotesScan();viewer.querySelector('.notes-image-scroll').scrollTo(0,0);};source.append(button);
  }
  article.append(source);
 }
@@ -12552,7 +12709,7 @@ el('notesExam').onclick=()=>{if(!notesAssessmentEnabled)return;saved.review=fals
 for(const modeId of ['notesExam','notesReview'])el(modeId).addEventListener('click',()=>{plansOpen=false;root.classList.remove('plans-open');plansPanel.hidden=true;el('notesPlanMode').setAttribute('aria-pressed','false');});
 for(const id of ['notesLevel','notesApparatus','notesSearch'])el(id).addEventListener(id==='notesSearch'?'input':'change',()=>{if(multiFilters.has(id))syncMultiFilter(id);if(id==='notesSearch')showMobileResults=true;const list=filtered();if(list.length&&!list.some(e=>e.id===saved.current)){saved.current=list[0].id;quizOpen=false;persist();}renderList();if(list.length)render();else{narration.stop();el('notesDetail').replaceChildren(make('p','没有匹配的动作，请调整筛选。','notes-empty'));}});
 el('notesRelatedClose').onclick=()=>relatedPicker.close();
-el('notesImageClose').onclick=()=>viewer.close();el('notesImageZoom').onclick=()=>{viewer.classList.toggle('zoom');if(sourcePage&&viewer.classList.contains('zoom')&&el('notesImage').getAttribute('src')!==sourcePage.image)loadSourceImage(sourcePage,true);el('notesImageZoom').textContent=viewer.classList.contains('zoom')?'缩小':'放大';viewer.querySelector('.notes-image-scroll').scrollTo(0,0);};
+el('notesImageClose').onclick=()=>viewer.close();
 function updatePickerLabel(){if(!data||!saved)return;const entry=data.entries.find(e=>e.id===saved.current),entries=filtered();el('notesPickerName').textContent=entry?.name||'选择动作';el('notesPickerCount').textContent=(Math.max(0,entries.findIndex(e=>e.id===saved.current)+1))+' / '+entries.length;const picture=el('notesPickerPicture');picture.replaceChildren();const action=DATA.actions.find(a=>a.id===entry?.actionId);if(action)picture.append(artwork(action));picture.hidden=!action;}
 function positionNotesList(){
  const target=el(picker.open?'notesPickerList':'notesListHost');
